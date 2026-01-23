@@ -25,7 +25,17 @@ class ComponentsListener {
 
             try {
                 if (interaction.isButton()) {
-                    const component = client.collection.components.buttons.get(interaction.customId);
+                    let component = client.collection.components.buttons.get(interaction.customId);
+
+                    // If exact match not found, try prefix matching
+                    if (!component) {
+                        for (const [key, comp] of client.collection.components.buttons) {
+                            if (interaction.customId.startsWith(key)) {
+                                component = comp;
+                                break;
+                            }
+                        }
+                    }
 
                     if (!component) return;
 
@@ -41,7 +51,17 @@ class ComponentsListener {
                 }
 
                 if (interaction.isAnySelectMenu()) {
-                    const component = client.collection.components.selects.get(interaction.customId);
+                    let component = client.collection.components.selects.get(interaction.customId);
+
+                    // If exact match not found, try prefix matching
+                    if (!component) {
+                        for (const [key, comp] of client.collection.components.selects) {
+                            if (interaction.customId.startsWith(key)) {
+                                component = comp;
+                                break;
+                            }
+                        }
+                    }
 
                     if (!component) return;
 

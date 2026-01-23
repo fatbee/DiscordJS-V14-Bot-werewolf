@@ -6,6 +6,9 @@ const config = {
         enabled: false, // If true, the bot will register all application commands to a specific guild (not globally).
         guildId: 'Your bot development guild ID',
     },
+    werewolf: {
+        testMode: false, // If true, bot owner will always be assigned as 狼王 for testing purposes
+    },
     commands: {
         prefix: '?', // For message commands, prefix is required. This can be changed by a database.
         message_commands: true, // If true, the bot will allow users to use message (or prefix) commands.

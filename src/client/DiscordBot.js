@@ -52,7 +52,10 @@ class DiscordBot extends Client {
                 }]
             }
         });
-        
+
+        // Increase max listeners to prevent warning
+        this.setMaxListeners(20);
+
         new CommandsListener(this);
         new ComponentsListener(this);
     }
@@ -72,9 +75,14 @@ class DiscordBot extends Client {
 
         try {
             await this.login(process.env.CLIENT_TOKEN);
-            this.commands_handler.load();
-            this.components_handler.load();
-            this.events_handler.load();
+
+            // Only load handlers on first attempt to prevent duplicate event listeners
+            if (this.login_attempts === 0) {
+                this.commands_handler.load();
+                this.components_handler.load();
+                this.events_handler.load();
+            }
+
             this.startStatusRotation();
 
             warn('Attempting to register application commands... (this might take a while!)');
@@ -84,6 +92,13 @@ class DiscordBot extends Client {
             error('Failed to connect to the Discord bot, retrying...');
             error(err);
             this.login_attempts++;
+
+            // Limit retry attempts to prevent infinite loop
+            if (this.login_attempts >= 5) {
+                error('Maximum login attempts reached. Please check your bot token.');
+                process.exit(1);
+            }
+
             setTimeout(this.connect, 5000);
         }
     }
