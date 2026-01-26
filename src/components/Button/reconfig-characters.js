@@ -114,7 +114,13 @@ module.exports = new Component({
                         custom_id: `show-more-characters-${messageId}-${playerCount}`,
                         label: '更多角色 ▼',
                         style: 1 // Blue
-                    }]
+                    },
+                        {
+                            type: 2, // Button
+                            custom_id: `cancel-setup-${messageId}`,
+                            label: '❌ 取消遊戲',
+                            style: 4 // Red (Danger)
+                        }]
                 }
             ]
         });

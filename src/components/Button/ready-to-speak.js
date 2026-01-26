@@ -44,29 +44,42 @@ module.exports = new Component({
         }
 
         // Always show all three buttons for all players (to hide knight/werewolf identity)
-        const components = [{
-            type: 1,
-            components: [
-                {
-                    type: 2,
-                    custom_id: `werewolf-self-destruct-${messageId}`,
-                    label: '💣 自爆',
-                    style: 4 // Red/Danger
-                },
-                {
-                    type: 2,
-                    custom_id: `knight-duel-${messageId}`,
-                    label: '⚔️ 決鬥',
-                    style: 4 // Red/Danger
-                },
-                {
-                    type: 2,
-                    custom_id: `finish-speaking-${messageId}`,
-                    label: '✅ 完成發言',
-                    style: 3 // Green
-                }
-            ]
-        }];
+        const components = [
+            {
+                type: 1,
+                components: [
+                    {
+                        type: 2,
+                        custom_id: `werewolf-self-destruct-${messageId}`,
+                        label: '💣 自爆',
+                        style: 4 // Red/Danger
+                    },
+                    {
+                        type: 2,
+                        custom_id: `knight-duel-${messageId}`,
+                        label: '⚔️ 決鬥',
+                        style: 4 // Red/Danger
+                    },
+                    {
+                        type: 2,
+                        custom_id: `finish-speaking-${messageId}`,
+                        label: '✅ 完成發言',
+                        style: 3 // Green
+                    }
+                ]
+            },
+            {
+                type: 1,
+                components: [
+                    {
+                        type: 2,
+                        custom_id: `skip-speaker-${messageId}`,
+                        label: '⏭️ 跳過發言者',
+                        style: 2 // Gray
+                    }
+                ]
+            }
+        ];
 
         // Send message notifying first speaker
         const speakingMessage = await interaction.channel.send({

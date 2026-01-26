@@ -56,6 +56,12 @@ module.exports = new ApplicationCommand({
                             custom_id: 'start-game-button',
                             label: '開始遊戲',
                             style: 3 // Green button (Success style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'refresh-player-list-button',
+                            label: '🔄 刷新列表',
+                            style: 2 // Gray button (Secondary style)
                         }
                     ]
                 }

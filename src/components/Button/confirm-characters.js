@@ -27,10 +27,12 @@ module.exports = new Component({
         const characters = {
             '狼王': selections['狼王'] || 0,
             '狼人': selections['狼人'] || 0,
+            '隱狼': selections['隱狼'] || 0,
             '預言家': selections['預言家'] || 0,
             '女巫': selections['女巫'] || 0,
-            '獵人': selections['獵人'] || 0
-
+            '獵人': selections['獵人'] || 0,
+            '騎士': selections['騎士'] || 0,
+            '熊': selections['熊'] || 0
         };
 
         // Calculate total special characters

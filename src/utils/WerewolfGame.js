@@ -183,6 +183,7 @@ class WerewolfGame {
     /**
      * Initialize speaking order for the day
      * Uses the pre-shuffled speaking order from game setup, filtering out dead players
+     * Determines starting position and direction based on last night's deaths
      */
     static initializeSpeakingOrder(gameState) {
         const alivePlayers = this.getAlivePlayers(gameState);
@@ -190,13 +191,76 @@ class WerewolfGame {
 
         // Get the fixed speaking order from game state (set during game initialization)
         // Filter to only include alive players, maintaining the original order
+        let baseOrder = [];
         if (gameState.fixedSpeakingOrder && gameState.fixedSpeakingOrder.length > 0) {
-            gameState.speaking.order = gameState.fixedSpeakingOrder.filter(id => alivePlayerIds.has(id));
+            baseOrder = gameState.fixedSpeakingOrder.filter(id => alivePlayerIds.has(id));
         } else {
             // Fallback: if no fixed order exists, use alive players in their current order
-            gameState.speaking.order = alivePlayers.map(p => p.id);
+            baseOrder = alivePlayers.map(p => p.id);
         }
 
+        // Get last night's deaths (players who died this round)
+        const lastNightDeaths = Object.values(gameState.players).filter(p =>
+            !p.alive && p.deathRound === gameState.round
+        );
+
+        // Determine speaking order based on death count
+        let finalOrder = [];
+
+        if (lastNightDeaths.length === 1) {
+            // 1 person died: Start from the dead player's position, random direction
+            const deadPlayerId = lastNightDeaths[0].id;
+            const deadPlayerIndex = gameState.fixedSpeakingOrder.indexOf(deadPlayerId);
+
+            if (deadPlayerIndex !== -1) {
+                // Random direction: true = clockwise, false = counter-clockwise
+                const isClockwise = Math.random() < 0.5;
+
+                // Build order starting from dead player's position
+                const totalPlayers = gameState.fixedSpeakingOrder.length;
+                const tempOrder = [];
+
+                for (let i = 0; i < totalPlayers; i++) {
+                    let index;
+                    if (isClockwise) {
+                        // Clockwise: deadPlayerIndex, deadPlayerIndex+1, deadPlayerIndex+2, ...
+                        index = (deadPlayerIndex + i) % totalPlayers;
+                    } else {
+                        // Counter-clockwise: deadPlayerIndex, deadPlayerIndex-1, deadPlayerIndex-2, ...
+                        index = (deadPlayerIndex - i + totalPlayers) % totalPlayers;
+                    }
+                    const playerId = gameState.fixedSpeakingOrder[index];
+                    if (alivePlayerIds.has(playerId)) {
+                        tempOrder.push(playerId);
+                    }
+                }
+
+                finalOrder = tempOrder;
+            } else {
+                // Fallback: use base order
+                finalOrder = baseOrder;
+            }
+        } else {
+            // 0 deaths or 2+ deaths: Random starting position, random direction
+            const isClockwise = Math.random() < 0.5;
+            const startIndex = Math.floor(Math.random() * baseOrder.length);
+
+            // Build order from random start position
+            const tempOrder = [];
+            for (let i = 0; i < baseOrder.length; i++) {
+                let index;
+                if (isClockwise) {
+                    index = (startIndex + i) % baseOrder.length;
+                } else {
+                    index = (startIndex - i + baseOrder.length) % baseOrder.length;
+                }
+                tempOrder.push(baseOrder[index]);
+            }
+
+            finalOrder = tempOrder;
+        }
+
+        gameState.speaking.order = finalOrder;
         gameState.speaking.current = 0;
     }
 }

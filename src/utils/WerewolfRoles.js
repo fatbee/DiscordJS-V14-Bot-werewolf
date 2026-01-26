@@ -69,6 +69,14 @@ const ROLES = {
         dayAbility: 'duel', // Can duel during speaking phase
         emoji: '⚔️'
     },
+    '熊': {
+        name: '熊',
+        team: 'villager',
+        description: '黑夜結束時，若左右兩旁的玩家中有至少一個狼人（狼王/狼人/已激活的隱狼），則熊會咆哮',
+        nightAction: false,
+        passiveAbility: 'bear-roar', // Passive ability that triggers at dawn
+        emoji: '🐻'
+    },
     '村民': {
         name: '村民',
         team: 'villager',

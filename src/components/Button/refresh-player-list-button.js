@@ -7,7 +7,7 @@ const GameState = require("../../utils/GameState");
 GameState.initialize();
 
 module.exports = new Component({
-    customId: 'join-game-button',
+    customId: 'refresh-player-list-button',
     type: 'button',
     /**
      * 
@@ -19,49 +19,17 @@ module.exports = new Component({
 
         // Get player list from database
         const players = GameState.getPlayers(messageId);
-        const userId = interaction.user.id;
-
-        // Check if player already joined
-        if (players.has(userId)) {
-            return await interaction.reply({
-                content: '❌ 你已經加入遊戲了！',
-                flags: MessageFlags.Ephemeral
-            });
-        }
-
-        // Add player to the list
-        players.add(userId);
-
-        // Add "狼來了" role to the player
-        try {
-            // Find or create the "狼來了" role
-            let werewolfRole = interaction.guild.roles.cache.find(role => role.name === '狼來了');
-
-            if (!werewolfRole) {
-                // Create the role if it doesn't exist
-                werewolfRole = await interaction.guild.roles.create({
-                    name: '狼來了',
-                    color: 0xFF6B6B, // Red color
-                    reason: '狼人殺遊戲專用身份組'
-                });
-            }
-
-            // Add role to the member
-            const member = await interaction.guild.members.fetch(userId);
-            if (!member.roles.cache.has(werewolfRole.id)) {
-                await member.roles.add(werewolfRole);
-            }
-        } catch (error) {
-            console.error('Failed to add 狼來了 role:', error);
-            // Continue even if role assignment fails
-        }
 
         // Build player list display
         let playerListText = '';
-        let index = 1;
-        for (const playerId of players) {
-            playerListText += `${index}. <@${playerId}>\n`;
-            index++;
+        if (players.size === 0) {
+            playerListText = '_無玩家_';
+        } else {
+            let index = 1;
+            for (const playerId of players) {
+                playerListText += `${index}. <@${playerId}>\n`;
+                index++;
+            }
         }
 
         // Delete the old message
@@ -118,9 +86,10 @@ module.exports = new Component({
 
         // Reply to acknowledge (ephemeral)
         await interaction.reply({
-            content: '✅ 已加入遊戲！',
+            content: '✅ 已刷新列表！玩家列表已移到底部。',
             flags: MessageFlags.Ephemeral
         });
     }
 }).toJSON();
+
 

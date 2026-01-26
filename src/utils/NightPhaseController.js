@@ -137,9 +137,9 @@ class NightPhaseController {
         for (const player of alivePlayers) {
             const isTestPlayer = player.id.startsWith('test-');
 
-            // Find player's position in speaking order
-            const speakingOrderIndex = gameState.speaking.order.indexOf(player.id);
-            const orderNumber = speakingOrderIndex + 1;
+            // Find player's position in fixed speaking order
+            const speakingOrderIndex = gameState.fixedSpeakingOrder.indexOf(player.id);
+            const orderNumber = speakingOrderIndex !== -1 ? speakingOrderIndex + 1 : 0;
 
             if (isTestPlayer) {
                 const testNumber = player.id.split('-')[2];

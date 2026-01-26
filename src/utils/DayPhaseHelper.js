@@ -91,9 +91,74 @@ async function triggerDayPhase(client, channel, messageId, gameState) {
         }
     }
 
+    // Check for bear roar (熊's passive ability)
+    let bearRoarAnnouncement = '';
+    const bearPlayer = Object.values(gameState.players).find(p => p.role === '熊' && p.alive);
+
+    if (bearPlayer) {
+        // Find bear's position in speaking order
+        const bearIndex = speakingOrder.indexOf(bearPlayer.id);
+
+        if (bearIndex !== -1) {
+            // Find alive neighbors
+            let leftNeighbor = null;
+            let rightNeighbor = null;
+
+            // Find left neighbor (previous alive player)
+            for (let i = 1; i < speakingOrder.length; i++) {
+                const leftIndex = (bearIndex - i + speakingOrder.length) % speakingOrder.length;
+                const leftPlayerId = speakingOrder[leftIndex];
+                if (gameState.players[leftPlayerId]?.alive && leftPlayerId !== bearPlayer.id) {
+                    leftNeighbor = gameState.players[leftPlayerId];
+                    break;
+                }
+            }
+
+            // Find right neighbor (next alive player)
+            for (let i = 1; i < speakingOrder.length; i++) {
+                const rightIndex = (bearIndex + i) % speakingOrder.length;
+                const rightPlayerId = speakingOrder[rightIndex];
+                if (gameState.players[rightPlayerId]?.alive && rightPlayerId !== bearPlayer.id) {
+                    rightNeighbor = gameState.players[rightPlayerId];
+                    break;
+                }
+            }
+
+            // Check if hidden werewolf is activated
+            const otherWerewolves = Object.values(gameState.players).filter(p =>
+                (p.role === '狼王' || p.role === '狼人') && p.alive
+            );
+            const hiddenWerewolfActivated = otherWerewolves.length === 0;
+
+            // Check if either neighbor is a werewolf (狼王, 狼人, or activated 隱狼)
+            let hasWerewolfNeighbor = false;
+
+            if (leftNeighbor) {
+                if (leftNeighbor.role === '狼王' || leftNeighbor.role === '狼人') {
+                    hasWerewolfNeighbor = true;
+                } else if (leftNeighbor.role === '隱狼' && hiddenWerewolfActivated) {
+                    hasWerewolfNeighbor = true;
+                }
+            }
+
+            if (rightNeighbor) {
+                if (rightNeighbor.role === '狼王' || rightNeighbor.role === '狼人') {
+                    hasWerewolfNeighbor = true;
+                } else if (rightNeighbor.role === '隱狼' && hiddenWerewolfActivated) {
+                    hasWerewolfNeighbor = true;
+                }
+            }
+
+            // If there's a werewolf neighbor, bear roars
+            if (hasWerewolfNeighbor) {
+                bearRoarAnnouncement = '\n\n🐻 **昨夜，熊咆哮了！**';
+            }
+        }
+    }
+
     // Send day announcement
     await channel.send({
-        content: `☀️ **天亮了！第 ${gameState.round} 天**\n\n${deathAnnouncement}${playerCountSummary}${alivePlayersList}`,
+        content: `☀️ **天亮了！第 ${gameState.round} 天**\n\n${deathAnnouncement}${playerCountSummary}${alivePlayersList}${bearRoarAnnouncement}`,
     });
 
     // Check if any hunter/wolf king can shoot
