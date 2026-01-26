@@ -2,12 +2,10 @@ const { ButtonInteraction, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const GameState = require("../../utils/GameState");
-
-// Initialize game state
-GameState.initialize();
+const config = require("../../config");
 
 module.exports = new Component({
-    customId: 'join-game-button',
+    customId: 'cancel-setup',
     type: 'button',
     /**
      * 
@@ -15,61 +13,63 @@ module.exports = new Component({
      * @param {ButtonInteraction} interaction 
      */
     run: async (client, interaction) => {
-        const messageId = interaction.message.id;
-
+        // Extract messageId from custom_id
+        const messageId = interaction.customId.split('-').pop();
+        
         // Get player list from database
         const players = GameState.getPlayers(messageId);
-        const userId = interaction.user.id;
-
-        // Check if player already joined
-        if (players.has(userId)) {
+        
+        if (!players || players.size === 0) {
             return await interaction.reply({
-                content: '❌ 你已經加入遊戲了！',
+                content: '❌ 找不到遊戲數據！',
                 flags: MessageFlags.Ephemeral
             });
         }
 
-        // Add player to the list
-        players.add(userId);
+        // Only allow bot owner or admin to cancel
+        const userId = interaction.user.id;
+        const isOwner = userId === config.users.ownerId;
+        const isAdmin = interaction.memberPermissions?.has('Administrator');
 
-        // Add "狼來了" role to the player
-        try {
-            // Find or create the "狼來了" role
-            let werewolfRole = interaction.guild.roles.cache.find(role => role.name === '狼來了');
-
-            if (!werewolfRole) {
-                // Create the role if it doesn't exist
-                werewolfRole = await interaction.guild.roles.create({
-                    name: '狼來了',
-                    color: 0xFF6B6B, // Red color
-                    reason: '狼人殺遊戲專用身份組'
-                });
-            }
-
-            // Add role to the member
-            const member = await interaction.guild.members.fetch(userId);
-            if (!member.roles.cache.has(werewolfRole.id)) {
-                await member.roles.add(werewolfRole);
-            }
-        } catch (error) {
-            console.error('Failed to add 狼來了 role:', error);
-            // Continue even if role assignment fails
+        if (!isOwner && !isAdmin) {
+            return await interaction.reply({
+                content: '❌ 只有管理員或 Bot Owner 可以取消遊戲！',
+                flags: MessageFlags.Ephemeral
+            });
         }
 
         // Build player list display
         let playerListText = '';
         let index = 1;
         for (const playerId of players) {
-            playerListText += `${index}. <@${playerId}>\n`;
+            // Check if it's a test player
+            if (playerId.startsWith('test-')) {
+                const testNumber = playerId.split('-')[2];
+                playerListText += `${index}. 測試玩家 ${testNumber}\n`;
+            } else {
+                playerListText += `${index}. <@${playerId}>\n`;
+            }
             index++;
         }
 
-        // Delete the old message
-        await interaction.message.delete();
+        // Get speaking order from old message ID
+        const speakingOrder = GameState.getSpeakingOrder(messageId);
 
-        // Send new message to channel (appears at bottom)
+        // Delete character selections and game rules
+        client.database.delete(`game-characters-${messageId}`);
+        client.database.delete(`game-rules-${messageId}`);
+
+        // Update message to remove buttons
+        await interaction.update({
+            components: []
+        });
+
+        // Build test mode indicator
+        const testModeText = config.werewolf.testMode ? ' **(testmode: true)**' : '';
+
+        // Send message to return to registration phase
         const newMessage = await interaction.channel.send({
-            content: `準備開始遊戲！\n\n**玩家列表：** (${players.size} 人)\n${playerListText}`,
+            content: `❌ **遊戲設置已取消！${testModeText}**\n\n返回報名階段...\n\n**玩家列表：** (${players.size} 人)\n${playerListText}`,
             components: [
                 {
                     type: 1,
@@ -100,8 +100,7 @@ module.exports = new Component({
         // Save player list to new message ID
         GameState.savePlayers(newMessage.id, players);
 
-        // Transfer speaking order if it exists
-        const speakingOrder = GameState.getSpeakingOrder(messageId);
+        // Save speaking order to new message ID
         if (speakingOrder && speakingOrder.length > 0) {
             GameState.saveSpeakingOrder(newMessage.id, speakingOrder);
         }
@@ -109,12 +108,6 @@ module.exports = new Component({
         // Delete old data
         client.database.delete(`game-players-${messageId}`);
         client.database.delete(`game-speaking-order-${messageId}`);
-
-        // Reply to acknowledge (ephemeral)
-        await interaction.reply({
-            content: '✅ 已加入遊戲！',
-            flags: MessageFlags.Ephemeral
-        });
     }
 }).toJSON();
 

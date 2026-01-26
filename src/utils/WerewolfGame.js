@@ -19,6 +19,9 @@ class WerewolfGame {
             witchCanSaveSelfFirstNight: true
         };
 
+        // Get the pre-shuffled speaking order from database
+        const fixedSpeakingOrder = GameState.getSpeakingOrder(messageId);
+
         const gameState = {
             messageId: messageId,
             phase: 'night', // 'night' or 'day'
@@ -32,6 +35,7 @@ class WerewolfGame {
                 order: [],
                 current: -1
             },
+            fixedSpeakingOrder: fixedSpeakingOrder, // Store the fixed speaking order
             witchPotions: {}, // Track witch potion usage
             hunterAlive: true,
             gameRules: gameRules, // Store game rules in game state
@@ -63,7 +67,7 @@ class WerewolfGame {
 
         // Save to database
         database.set(`werewolf-game-${messageId}`, gameState);
-        
+
         return gameState;
     }
 
@@ -115,9 +119,22 @@ class WerewolfGame {
      * Get alive villagers (good guys)
      */
     static getAliveVillagers(gameState) {
-        return Object.values(gameState.players).filter(p => 
+        return Object.values(gameState.players).filter(p =>
             p.alive && p.role !== '狼王' && p.role !== '狼人'
         );
+    }
+
+    /**
+     * Get alive villagers by type (村民 vs 神職)
+     */
+    static getAliveVillagersByType(gameState) {
+        const alivePlayers = Object.values(gameState.players).filter(p => p.alive);
+        const villagers = alivePlayers.filter(p => p.role === '村民'); // 平民
+        const gods = alivePlayers.filter(p =>
+            p.role !== '狼王' && p.role !== '狼人' && p.role !== '村民'
+        ); // 神職 (預言家、女巫、獵人等)
+
+        return { villagers, gods };
     }
 
     /**
@@ -126,14 +143,25 @@ class WerewolfGame {
      */
     static checkWinCondition(gameState) {
         const aliveWerewolves = this.getAliveWerewolves(gameState);
-        const aliveVillagers = this.getAliveVillagers(gameState);
+        const { villagers, gods } = this.getAliveVillagersByType(gameState);
+        const totalGoodGuys = villagers.length + gods.length;
 
-        // Werewolves win if villagers <= werewolves
-        if (aliveVillagers.length <= aliveWerewolves.length) {
+        // 1. 狼人 >= 好人總數 (綁票) - 狼人勝利
+        if (aliveWerewolves.length >= totalGoodGuys) {
             return 'werewolf';
         }
 
-        // Villagers win if all werewolves are dead
+        // 2. 村民 = 0 (屠民) - 狼人勝利
+        if (villagers.length === 0 && totalGoodGuys > 0) {
+            return 'werewolf';
+        }
+
+        // 3. 神職 = 0 (屠神) - 狼人勝利
+        if (gods.length === 0 && totalGoodGuys > 0) {
+            return 'werewolf';
+        }
+
+        // 4. 狼人 = 0 - 好人勝利
         if (aliveWerewolves.length === 0) {
             return 'villager';
         }
@@ -154,18 +182,21 @@ class WerewolfGame {
 
     /**
      * Initialize speaking order for the day
+     * Uses the pre-shuffled speaking order from game setup, filtering out dead players
      */
     static initializeSpeakingOrder(gameState) {
         const alivePlayers = this.getAlivePlayers(gameState);
-        
-        // Shuffle alive players for speaking order
-        const shuffled = [...alivePlayers];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        const alivePlayerIds = new Set(alivePlayers.map(p => p.id));
+
+        // Get the fixed speaking order from game state (set during game initialization)
+        // Filter to only include alive players, maintaining the original order
+        if (gameState.fixedSpeakingOrder && gameState.fixedSpeakingOrder.length > 0) {
+            gameState.speaking.order = gameState.fixedSpeakingOrder.filter(id => alivePlayerIds.has(id));
+        } else {
+            // Fallback: if no fixed order exists, use alive players in their current order
+            gameState.speaking.order = alivePlayers.map(p => p.id);
         }
 
-        gameState.speaking.order = shuffled.map(p => p.id);
         gameState.speaking.current = 0;
     }
 }

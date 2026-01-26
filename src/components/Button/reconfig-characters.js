@@ -1,31 +1,48 @@
-const { ButtonInteraction } = require("discord.js");
+const { ButtonInteraction, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const GameState = require("../../utils/GameState");
-
-// Initialize game state
-GameState.initialize();
+const config = require("../../config");
 
 module.exports = new Component({
-    customId: 'show-less-characters',
+    customId: 'reconfig-characters',
     type: 'button',
     /**
-     *
-     * @param {DiscordBot} client
-     * @param {ButtonInteraction} interaction
+     * 
+     * @param {DiscordBot} client 
+     * @param {ButtonInteraction} interaction 
      */
     run: async (client, interaction) => {
-        // Extract messageId and playerCount from custom_id (format: show-less-characters-{messageId}-{playerCount})
+        // Extract messageId and playerCount from custom_id (format: reconfig-characters-{messageId}-{playerCount})
         const parts = interaction.customId.split('-');
         const playerCount = parseInt(parts.pop());
         const messageId = parts.pop();
 
         // Get player list from database
         const players = GameState.getPlayers(messageId);
+
+        if (!players || players.size === 0) {
+            return await interaction.reply({
+                content: '❌ 找不到玩家數據！',
+                flags: MessageFlags.Ephemeral
+            });
+        }
+
+        // Get the speaking order (already shuffled) for display
+        const speakingOrder = GameState.getSpeakingOrder(messageId);
+        const displayOrder = speakingOrder.length > 0 ? speakingOrder : Array.from(players);
+
+        // Build player list display
         let playerListText = '';
         let index = 1;
-        for (const playerId of players) {
-            playerListText += `${index}. <@${playerId}>\n`;
+        for (const playerId of displayOrder) {
+            // Check if it's a test player
+            if (playerId.startsWith('test-')) {
+                const testNumber = playerId.split('-')[2];
+                playerListText += `${index}. 測試玩家 ${testNumber}\n`;
+            } else {
+                playerListText += `${index}. <@${playerId}>\n`;
+            }
             index++;
         }
 
@@ -37,10 +54,13 @@ module.exports = new Component({
             components: []
         });
 
-        // Send new message to channel (appears at bottom)
+        // Build test mode indicator
+        const testModeText = config.werewolf.testMode ? ' **(testmode: true)**' : '';
+
+        // Send new message to channel (appears at bottom) with character selection menus
         // Page 1: Werewolf roles (狼王, 狼人, 隱狼) + button
         await interaction.channel.send({
-            content: `✅ 玩家數量: **${playerCount}** 人\n\n**玩家列表：**\n${playerListText}\n請選擇角色配置：`,
+            content: `🔄 **重新配置角色${testModeText}**\n\n**玩家列表：** (${playerCount} 人)\n${playerListText}\n請選擇角色配置：`,
             components: [
                 {
                     type: 1,

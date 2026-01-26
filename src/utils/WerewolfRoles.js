@@ -22,6 +22,15 @@ const ROLES = {
         nightActionType: 'werewolf-kill',
         emoji: '🐺'
     },
+    '隱狼': {
+        name: '隱狼',
+        team: 'werewolf',
+        description: '隱藏的狼人，不參與夜晚行動。狼王和狼人都死後才會被預言家查出，並開始夜晚殺人',
+        nightAction: false, // Only acts when all other werewolves are dead
+        nightActionType: 'hidden-werewolf-kill',
+        hidden: true, // Special property for hidden werewolf
+        emoji: '🌑🐺'
+    },
 
     // Villager Team (村民陣營)
     '女巫': {
@@ -51,6 +60,14 @@ const ROLES = {
         nightAction: false,
         deathAbility: 'shoot', // Can shoot when dying (except poisoned)
         emoji: '🔫'
+    },
+    '騎士': {
+        name: '騎士',
+        team: 'villager',
+        description: '在自己發言階段可以決鬥一名玩家。撞中狼人則狼人死亡並進入黑夜，撞錯則騎士死亡',
+        nightAction: false,
+        dayAbility: 'duel', // Can duel during speaking phase
+        emoji: '⚔️'
     },
     '村民': {
         name: '村民',

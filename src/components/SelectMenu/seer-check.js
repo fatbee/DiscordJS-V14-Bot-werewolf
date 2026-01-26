@@ -60,7 +60,24 @@ module.exports = new Component({
 
         // Check target's identity
         const targetRole = targetPlayer.role;
-        const isWerewolfTeam = isWerewolf(targetRole);
+        let isWerewolfTeam = isWerewolf(targetRole);
+
+        // Special case: Hidden Werewolf (隱狼)
+        // If target is 隱狼, check if all other werewolves (狼王, 狼人) are dead
+        if (targetRole === '隱狼') {
+            // Check if any 狼王 or 狼人 are still alive
+            const otherWerewolves = Object.values(gameState.players).filter(p =>
+                (p.role === '狼王' || p.role === '狼人') && p.alive
+            );
+
+            if (otherWerewolves.length === 0) {
+                // All other werewolves are dead - show as werewolf team
+                isWerewolfTeam = true;
+            } else {
+                // Other werewolves still alive - show as villager team (hidden)
+                isWerewolfTeam = false;
+            }
+        }
 
         // Save seer check action
         gameState.nightActions.seerCheck = targetId;

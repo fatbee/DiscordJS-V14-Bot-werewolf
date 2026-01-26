@@ -76,25 +76,40 @@ module.exports = new Component({
             p.id !== witchId && p.id !== victimId
         );
 
-        // Build target selection options
-        const targetOptions = alivePlayers.map(player => {
+        // Build target selection options with speaking order numbers
+        const targetOptions = [];
+        for (const player of alivePlayers) {
             const isTestPlayer = player.id.startsWith('test-');
+
+            // Find player's position in speaking order
+            const speakingOrderIndex = gameState.speaking.order.indexOf(player.id);
+            const orderNumber = speakingOrderIndex + 1;
+
             if (isTestPlayer) {
                 const testNumber = player.id.split('-')[2];
-                return {
-                    label: `測試玩家 ${testNumber}`,
+                targetOptions.push({
+                    label: `${orderNumber}號 - 測試玩家 ${testNumber}`,
                     value: player.id,
                     description: `毒死此玩家`
-                };
+                });
             } else {
-                return {
-                    label: `玩家 ${player.id}`,
+                // Try to get nickname (or username if no nickname)
+                let displayName = `玩家${orderNumber}`;
+                try {
+                    const member = await interaction.guild.members.fetch(player.id);
+                    displayName = member.displayName; // This returns nickname if set, otherwise username
+                } catch (error) {
+                    console.error(`Failed to fetch member ${player.id}:`, error);
+                }
+
+                targetOptions.push({
+                    label: `${orderNumber}號 - ${displayName}`,
                     value: player.id,
                     description: `毒死此玩家`,
                     emoji: '☠️'
-                };
+                });
             }
-        });
+        }
 
         if (targetOptions.length === 0) {
             return await interaction.reply({

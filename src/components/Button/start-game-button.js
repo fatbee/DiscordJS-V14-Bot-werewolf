@@ -60,19 +60,20 @@ module.exports = new Component({
         const testModeText = config.werewolf.testMode ? ' **(testmode: true)**' : '';
 
         // Send new message to channel (appears at bottom)
+        // Page 1: Werewolf roles (狼王, 狼人, 隱狼) + button to show more
         await interaction.channel.send({
             content: `✅ **準備開始遊戲！${testModeText}**\n\n**玩家列表：** (${playerCount} 人)\n${playerListText}\n請選擇角色配置：`,
             components: [
                 {
                     type: 1,
                     components: [{
-                        type: 3, // String Select Menu
+                        type: 3,
                         custom_id: `character-select-狼王-${messageId}-${playerCount}`,
                         placeholder: '狼王 0 個',
                         min_values: 0,
                         max_values: 1,
                         options: Array.from({ length: playerCount + 1 }, (_, i) => ({
-                            label: `狼王 ${i} 個`,
+                            label: `🐺👑 狼王 ${i} 個`,
                             value: `${i}`,
                             default: i === 0
                         }))
@@ -87,17 +88,31 @@ module.exports = new Component({
                         min_values: 0,
                         max_values: 1,
                         options: Array.from({ length: playerCount + 1 }, (_, i) => ({
-                            label: `狼人 ${i} 個`,
+                            label: `🐺 狼人 ${i} 個`,
                             value: `${i}`,
                             default: i === 0
                         }))
                     }]
                 },
-
                 {
                     type: 1,
                     components: [{
-                        type: 2, // Button
+                        type: 3,
+                        custom_id: `character-select-隱狼-${messageId}-${playerCount}`,
+                        placeholder: '隱狼 0 個',
+                        min_values: 0,
+                        max_values: 1,
+                        options: Array.from({ length: playerCount + 1 }, (_, i) => ({
+                            label: `🌑🐺 隱狼 ${i} 個`,
+                            value: `${i}`,
+                            default: i === 0
+                        }))
+                    }]
+                },
+                {
+                    type: 1,
+                    components: [{
+                        type: 2,
                         custom_id: `show-more-characters-${messageId}-${playerCount}`,
                         label: '更多角色 ▼',
                         style: 1 // Blue

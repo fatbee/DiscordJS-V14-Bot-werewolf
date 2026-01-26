@@ -64,8 +64,9 @@ class ComponentsHandler {
                     } else {
                         error('Invalid component type ' + module.__type__ + ' from component file ' + file);
                     }
-                } catch {
-                    error('Unable to load a component from the path: ' + 'src/component/' + directory + '/' + file);
+                } catch (err) {
+                    error('Unable to load a component from the path: ' + 'src/components/' + directory + '/' + file);
+                    error('Error details: ' + err.message);
                 }
             }
         }

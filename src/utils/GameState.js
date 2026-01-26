@@ -87,6 +87,47 @@ class GameState {
     }
 
     /**
+     * Get speaking order for a game message
+     * @param {string} messageId
+     * @returns {Array<string>}
+     */
+    static getSpeakingOrder(messageId) {
+        if (!global.speakingOrder) {
+            global.speakingOrder = new Map();
+        }
+
+        if (!global.speakingOrder.has(messageId)) {
+            // Try to load from database
+            const dbKey = `game-speaking-order-${messageId}`;
+            if (client.database.has(dbKey)) {
+                const order = client.database.get(dbKey);
+                global.speakingOrder.set(messageId, order);
+            } else {
+                global.speakingOrder.set(messageId, []);
+            }
+        }
+
+        return global.speakingOrder.get(messageId);
+    }
+
+    /**
+     * Save speaking order to database
+     * @param {string} messageId
+     * @param {Array<string>} order
+     */
+    static saveSpeakingOrder(messageId, order) {
+        if (!global.speakingOrder) {
+            global.speakingOrder = new Map();
+        }
+
+        global.speakingOrder.set(messageId, order);
+
+        // Save to database
+        const dbKey = `game-speaking-order-${messageId}`;
+        client.database.set(dbKey, order);
+    }
+
+    /**
      * Get game rules for a game message
      * @param {string} messageId
      * @returns {Object}
@@ -142,6 +183,9 @@ class GameState {
         if (global.characterSelections) {
             global.characterSelections.delete(messageId);
         }
+        if (global.speakingOrder) {
+            global.speakingOrder.delete(messageId);
+        }
         if (global.gameRules) {
             global.gameRules.delete(messageId);
         }
@@ -149,6 +193,7 @@ class GameState {
         // Delete from database
         client.database.delete(`game-players-${messageId}`);
         client.database.delete(`game-characters-${messageId}`);
+        client.database.delete(`game-speaking-order-${messageId}`);
         client.database.delete(`game-rules-${messageId}`);
     }
 
@@ -161,6 +206,9 @@ class GameState {
         }
         if (!global.characterSelections) {
             global.characterSelections = new Map();
+        }
+        if (!global.speakingOrder) {
+            global.speakingOrder = new Map();
         }
         if (!global.gameRules) {
             global.gameRules = new Map();

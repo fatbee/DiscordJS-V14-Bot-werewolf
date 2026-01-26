@@ -44,14 +44,14 @@ module.exports = new Component({
 
         // Get alive players
         const alivePlayers = WerewolfGame.getAlivePlayers(gameState);
-        
+
         // Build speaking order display
         let speakingOrderText = '';
         for (let i = 0; i < gameState.speaking.order.length; i++) {
             const playerId = gameState.speaking.order[i];
             const player = gameState.players[playerId];
             const isTestPlayer = playerId.startsWith('test-');
-            
+
             let playerDisplay;
             if (isTestPlayer) {
                 const testNumber = playerId.split('-')[2];
@@ -59,21 +59,20 @@ module.exports = new Component({
             } else {
                 playerDisplay = `<@${playerId}>`;
             }
-            
-            const isCurrent = i === 0;
-            speakingOrderText += `${i + 1}. ${playerDisplay}${isCurrent ? ' 👈 **當前發言**' : ''}\n`;
+
+            speakingOrderText += `${i + 1}. ${playerDisplay}\n`;
         }
 
-        // Send discussion start message
+        // Send discussion start message with "Ready to Speak" button
         await interaction.channel.send({
-            content: `💬 **討論階段開始！**\n\n存活玩家：${alivePlayers.length} 人\n\n**發言順序：**\n${speakingOrderText}\n請按順序發言，發言完畢後點擊下方按鈕。`,
+            content: `💬 **討論階段開始！**\n\n存活玩家：${alivePlayers.length} 人\n\n**發言順序：**\n${speakingOrderText}\n準備好後，請點擊下方按鈕開始發言。`,
             components: [{
                 type: 1,
                 components: [{
                     type: 2,
-                    custom_id: `finish-speaking-${messageId}`,
-                    label: '✅ 完成發言',
-                    style: 3 // Green
+                    custom_id: `ready-to-speak-${messageId}`,
+                    label: '🎤 準備發言',
+                    style: 1 // Blue
                 }]
             }]
         });

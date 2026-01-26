@@ -32,9 +32,6 @@ module.exports = new Component({
         // Remove player from the list
         players.delete(userId);
 
-        // Save to database
-        GameState.savePlayers(messageId, players);
-        
         // Build player list display
         let playerListText = '';
         if (players.size === 0) {
@@ -46,11 +43,57 @@ module.exports = new Component({
                 index++;
             }
         }
-        
-        // Update the message with new player list
-        await interaction.update({
+
+        // Delete the old message
+        await interaction.message.delete();
+
+        // Send new message to channel (appears at bottom)
+        const newMessage = await interaction.channel.send({
             content: `準備開始遊戲！\n\n**玩家列表：** (${players.size} 人)\n${playerListText}`,
-            components: interaction.message.components
+            components: [
+                {
+                    type: 1,
+                    components: [
+                        {
+                            type: 2, // Button
+                            custom_id: 'join-game-button',
+                            label: '加入遊戲',
+                            style: 1 // Blue button (Primary style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'leave-game-button',
+                            label: '離開遊戲',
+                            style: 2 // Gray button (Secondary style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'start-game-button',
+                            label: '開始遊戲',
+                            style: 3 // Green button (Success style)
+                        }
+                    ]
+                }
+            ]
+        });
+
+        // Save player list to new message ID
+        GameState.savePlayers(newMessage.id, players);
+
+        // Transfer speaking order if it exists
+        const speakingOrder = GameState.getSpeakingOrder(messageId);
+        if (speakingOrder && speakingOrder.length > 0) {
+            GameState.saveSpeakingOrder(newMessage.id, speakingOrder);
+        }
+
+        // Delete old data
+        client.database.delete(`game-players-${messageId}`);
+        client.database.delete(`game-speaking-order-${messageId}`);
+
+        // Reply to acknowledge (ephemeral)
+        await interaction.reply({
+            content: '✅ 已離開遊戲！',
+            flags: MessageFlags.Ephemeral
         });
     }
 }).toJSON();

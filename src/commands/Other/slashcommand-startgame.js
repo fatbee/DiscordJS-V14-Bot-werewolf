@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction } = require("discord.js");
+const { ChatInputCommandInteraction, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const ApplicationCommand = require("../../structure/ApplicationCommand");
 const GameState = require("../../utils/GameState");
@@ -22,6 +22,16 @@ module.exports = new ApplicationCommand({
      * @param {ChatInputCommandInteraction} interaction
      */
     run: async (client, interaction) => {
+        // Check if user has "狼來了" role
+        const hasWerewolfRole = interaction.member.roles.cache.some(role => role.name === '狼來了');
+
+        if (!hasWerewolfRole) {
+            return await interaction.reply({
+                content: '❌ 你需要擁有「狼來了」身份組才能使用此指令！\n請先點擊「加入遊戲」按鈕來獲得身份組。',
+                flags: MessageFlags.Ephemeral
+            });
+        }
+
         // Reply first
         await interaction.reply({
             content: `準備開始遊戲！\n\n**玩家列表：** (0 人)\n_無玩家_`,

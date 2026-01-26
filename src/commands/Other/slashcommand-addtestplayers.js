@@ -2,6 +2,7 @@ const { ChatInputCommandInteraction, ApplicationCommandOptionType, MessageFlags 
 const DiscordBot = require("../../client/DiscordBot");
 const ApplicationCommand = require("../../structure/ApplicationCommand");
 const GameState = require("../../utils/GameState");
+const config = require("../../config");
 
 module.exports = new ApplicationCommand({
     command: {
@@ -34,6 +35,17 @@ module.exports = new ApplicationCommand({
      * @param {ChatInputCommandInteraction} interaction
      */
     run: async (client, interaction) => {
+        // Check if user has "狼來了" role or is bot owner
+        const hasWerewolfRole = interaction.member.roles.cache.some(role => role.name === '狼來了');
+        const isOwner = interaction.user.id === config.users.ownerId;
+
+        if (!hasWerewolfRole && !isOwner) {
+            return await interaction.reply({
+                content: '❌ 你需要擁有「狼來了」身份組才能使用此指令！',
+                flags: MessageFlags.Ephemeral
+            });
+        }
+
         const count = interaction.options.getInteger('count');
         let messageId = interaction.options.getString('message_id');
 

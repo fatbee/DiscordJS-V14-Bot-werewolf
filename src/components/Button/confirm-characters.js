@@ -50,9 +50,26 @@ module.exports = new Component({
 
         // Get player list from database
         const players = GameState.getPlayers(messageId);
+
+        // Shuffle player order for speaking order (only if not already shuffled)
+        const speakingOrder = GameState.getSpeakingOrder(messageId);
+        if (!speakingOrder || speakingOrder.length === 0) {
+            // Convert Set to Array and shuffle
+            const playerArray = Array.from(players);
+            for (let i = playerArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [playerArray[i], playerArray[j]] = [playerArray[j], playerArray[i]];
+            }
+            // Save shuffled order to database
+            GameState.saveSpeakingOrder(messageId, playerArray);
+        }
+
+        // Get the shuffled speaking order for display
+        const displayOrder = GameState.getSpeakingOrder(messageId);
+
         let playerListText = '';
         let index = 1;
-        for (const playerId of players) {
+        for (const playerId of displayOrder) {
             // Check if it's a test player
             if (playerId.startsWith('test-')) {
                 const testNumber = playerId.split('-')[2];
@@ -96,12 +113,26 @@ module.exports = new Component({
             components: [
                 {
                     type: 1,
-                    components: [{
-                        type: 2, // Button
-                        custom_id: `begin-game-${messageId}`,
-                        label: '開始遊戲',
-                        style: 3 // Green (Success)
-                    }]
+                    components: [
+                        {
+                            type: 2, // Button
+                            custom_id: `begin-game-${messageId}`,
+                            label: '開始遊戲',
+                            style: 3 // Green (Success)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: `reconfig-characters-${messageId}-${playerCount}`,
+                            label: '更改角色配置',
+                            style: 1 // Blue (Primary)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: `cancel-setup-${messageId}`,
+                            label: '❌ 取消遊戲',
+                            style: 4 // Red (Danger)
+                        }
+                    ]
                 }
             ]
         });

@@ -38,6 +38,7 @@ module.exports = new Component({
         });
 
         // Send new message to channel (appears at bottom)
+        // Page 2: Villager roles (預言家, 女巫, 獵人, 騎士) + buttons
         await interaction.channel.send({
             content: `✅ 玩家數量: **${playerCount}** 人\n\n**玩家列表：**\n${playerListText}\n請選擇角色配置：`,
             components: [
@@ -50,7 +51,7 @@ module.exports = new Component({
                         min_values: 0,
                         max_values: 1,
                         options: Array.from({ length: playerCount + 1 }, (_, i) => ({
-                            label: `預言家 ${i} 個`,
+                            label: `🔮 預言家 ${i} 個`,
                             value: `${i}`,
                             default: i === (selections['預言家'] || 0)
                         }))
@@ -65,7 +66,7 @@ module.exports = new Component({
                         min_values: 0,
                         max_values: 1,
                         options: Array.from({ length: playerCount + 1 }, (_, i) => ({
-                            label: `女巫 ${i} 個`,
+                            label: `🧙 女巫 ${i} 個`,
                             value: `${i}`,
                             default: i === (selections['女巫'] || 0)
                         }))
@@ -80,13 +81,27 @@ module.exports = new Component({
                         min_values: 0,
                         max_values: 1,
                         options: Array.from({ length: playerCount + 1 }, (_, i) => ({
-                            label: `獵人 ${i} 個`,
+                            label: `🔫 獵人 ${i} 個`,
                             value: `${i}`,
                             default: i === (selections['獵人'] || 0)
                         }))
                     }]
                 },
-                
+                {
+                    type: 1,
+                    components: [{
+                        type: 3,
+                        custom_id: `character-select-騎士-${messageId}-${playerCount}`,
+                        placeholder: `騎士 ${selections['騎士'] || 0} 個`,
+                        min_values: 0,
+                        max_values: 1,
+                        options: Array.from({ length: playerCount + 1 }, (_, i) => ({
+                            label: `⚔️ 騎士 ${i} 個`,
+                            value: `${i}`,
+                            default: i === (selections['騎士'] || 0)
+                        }))
+                    }]
+                },
                 {
                     type: 1,
                     components: [
@@ -105,7 +120,7 @@ module.exports = new Component({
                         {
                             type: 2,
                             custom_id: `confirm-characters-${messageId}-${playerCount}`,
-                            label: '確認角色配置',
+                            label: '✅ 確認角色配置',
                             style: 3 // Green
                         }
                     ]

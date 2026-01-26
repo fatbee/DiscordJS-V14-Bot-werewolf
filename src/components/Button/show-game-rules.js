@@ -69,7 +69,6 @@ module.exports = new Component({
                         ]
                     }]
                 },
-                
                 {
                     type: 1,
                     components: [
