@@ -230,6 +230,10 @@ async function handleGameEnd(client, channel, messageId, gameState, winner) {
     const { getRoleDisplay } = require('./WerewolfRoles');
     const PlayerStats = require('./PlayerStats');
 
+    // Clear all "狼死人" roles when game ends
+    const { clearAllDeadRoles } = require('./DeadPlayerRole');
+    await clearAllDeadRoles(channel.guild);
+
     // Record game statistics for all players
     for (const [playerId, player] of Object.entries(gameState.players)) {
         // Skip test players

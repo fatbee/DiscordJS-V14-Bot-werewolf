@@ -74,6 +74,10 @@ module.exports = new ApplicationCommand({
             flags: MessageFlags.Ephemeral
         });
 
+        // Clear all "狼死人" roles when ending game
+        const { clearAllDeadRoles } = require('../../utils/DeadPlayerRole');
+        await clearAllDeadRoles(interaction.guild);
+
         // Clear all timers
         try {
             // Clear werewolf timers

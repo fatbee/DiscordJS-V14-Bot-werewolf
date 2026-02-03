@@ -48,9 +48,14 @@ class SpeakingTimer {
                 const timeRemaining = SPEAKING_TIME - timeElapsed;
                 const minutesRemaining = Math.floor(timeRemaining / 60);
 
-                await channel.send({
+                const reminderMessage = await channel.send({
                     content: `⏱️ ${speakerDisplay} 還有 **${minutesRemaining} 分鐘**發言時間`
                 });
+
+                // Auto-delete after 10 seconds
+                setTimeout(() => {
+                    reminderMessage.delete().catch(() => {});
+                }, 10000);
             }
 
             // Time's up - auto-advance to next speaker
@@ -58,9 +63,14 @@ class SpeakingTimer {
                 clearInterval(timerInterval);
                 global.speakingTimers.delete(messageId);
 
-                await channel.send({
+                const timeUpMessage = await channel.send({
                     content: `⏱️ ${speakerDisplay} **發言時間到！**\n\n自動進入下一位玩家...`
                 });
+
+                // Auto-delete after 10 seconds
+                setTimeout(() => {
+                    timeUpMessage.delete().catch(() => {});
+                }, 10000);
 
                 // Call the callback to advance to next speaker
                 if (onTimeUp) {

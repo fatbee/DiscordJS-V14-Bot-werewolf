@@ -69,7 +69,7 @@ module.exports = new Component({
             });
 
             // Send message with start PK voting button
-            await interaction.channel.send({
+            const gameMessage = await interaction.channel.send({
                 content: `✅ **所有PK玩家發言完畢！**\n\n準備開始PK投票階段。\n\n請點擊下方按鈕開始投票：`,
                 components: [{
                     type: 1,
@@ -81,6 +81,9 @@ module.exports = new Component({
                     }]
                 }]
             });
+
+            // Add reaction to the message
+            await gameMessage.react('✅');
             return;
         }
 
@@ -300,7 +303,7 @@ async function autoAdvanceToNextPKSpeaker(client, channel, messageId) {
         WerewolfGame.saveGame(messageId, gameState, client.database);
 
         // Send message with start PK voting button
-        await channel.send({
+        const gameMessage = await channel.send({
             content: `✅ **所有PK玩家發言完畢！**\n\n準備開始PK投票階段。\n\n請點擊下方按鈕開始投票：`,
             components: [{
                 type: 1,
@@ -312,6 +315,10 @@ async function autoAdvanceToNextPKSpeaker(client, channel, messageId) {
                 }]
             }]
         });
+
+        // Add reaction to the message
+        await gameMessage.react('✅');
+
         return;
     }
 

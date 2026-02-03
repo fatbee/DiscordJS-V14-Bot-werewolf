@@ -14,6 +14,10 @@ module.exports = new Component({
         // Extract messageId from custom_id (format: end-game-{messageId})
         const messageId = interaction.customId.split('-').pop();
 
+        // Clear all "狼死人" roles when ending game
+        const { clearAllDeadRoles } = require('../../utils/DeadPlayerRole');
+        await clearAllDeadRoles(interaction.guild);
+
         // Get werewolf channel ID from database
         const werewolfChannelId = client.database.get(`game-werewolf-channel-${messageId}`);
 

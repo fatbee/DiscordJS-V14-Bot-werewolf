@@ -291,7 +291,7 @@ module.exports = new Component({
             : `\n\n📨 **私訊發送結果：**\n✅ 全部成功：${successCount} 人`;
 
         // Send new message to channel (appears at bottom)
-        await interaction.channel.send({
+        const gameStartMessage = await interaction.channel.send({
             content: `🎮 **遊戲已開始！${testModeText}**\n\n✅ 角色私訊已發送\n${testPlayerCount > 0 ? `🤖 ${testPlayerCount} 位測試玩家\n` : ''}\n所有真實玩家請檢查私訊以查看你的角色！${roleDisplay}${rulesDisplay}${dmResultText}`,
             components: [
                 {
@@ -313,6 +313,9 @@ module.exports = new Component({
                 }
             ]
         });
+
+        // Add reaction to the message
+        await gameStartMessage.react('✅');
 
         // Clean up player, character, and game rules data, but keep channel ID and game state for gameplay
         client.database.delete(`game-players-${messageId}`);

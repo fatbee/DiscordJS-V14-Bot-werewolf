@@ -32,6 +32,10 @@ module.exports = new ApplicationCommand({
             });
         }
 
+        // Clear all "狼死人" roles before starting new game
+        const { clearAllDeadRoles } = require('../../utils/DeadPlayerRole');
+        await clearAllDeadRoles(interaction.guild);
+
         // Reply first
         await interaction.reply({
             content: `準備開始遊戲！\n\n**玩家列表：** (0 人)\n_無玩家_`,
