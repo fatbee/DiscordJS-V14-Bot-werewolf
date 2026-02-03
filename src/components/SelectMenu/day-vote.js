@@ -3,6 +3,7 @@ const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
 const { triggerShootAbility } = require("../../utils/HunterShootHelper");
+const PlayerStats = require("../../utils/PlayerStats");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -55,13 +56,36 @@ module.exports = new Component({
 
         // Get selected target
         const targetId = interaction.values[0];
-        const targetPlayer = gameState.players[targetId];
 
-        if (!targetPlayer || !targetPlayer.alive) {
-            return await interaction.reply({
-                content: '❌ 無效的目標！',
-                flags: MessageFlags.Ephemeral
-            });
+        // Handle clear vote option
+        if (targetId === 'clear-vote') {
+            // Remove user's vote
+            if (gameState.dayVotes && gameState.dayVotes[userId]) {
+                delete gameState.dayVotes[userId];
+                WerewolfGame.saveGame(messageId, gameState, client.database);
+
+                return await interaction.reply({
+                    content: '🔄 你的投票已清除！你可以重新選擇。',
+                    flags: MessageFlags.Ephemeral
+                });
+            } else {
+                return await interaction.reply({
+                    content: '❌ 你還沒有投票！',
+                    flags: MessageFlags.Ephemeral
+                });
+            }
+        }
+
+        // Validate target (skip validation for abstain)
+        if (targetId !== 'abstain') {
+            const targetPlayer = gameState.players[targetId];
+
+            if (!targetPlayer || !targetPlayer.alive) {
+                return await interaction.reply({
+                    content: '❌ 無效的目標！',
+                    flags: MessageFlags.Ephemeral
+                });
+            }
         }
 
         // Record vote
@@ -71,19 +95,31 @@ module.exports = new Component({
         gameState.dayVotes[userId] = targetId;
         WerewolfGame.saveGame(messageId, gameState, client.database);
 
+        // Record vote statistics (skip test players and abstentions)
+        if (!userId.startsWith('test-')) {
+            PlayerStats.recordVoteGiven(userId);
+        }
+        if (targetId !== 'abstain' && !targetId.startsWith('test-')) {
+            PlayerStats.recordVoteReceived(targetId);
+        }
+
         // Build target display
-        const isTestPlayer = targetId.startsWith('test-');
         let targetDisplay;
-        if (isTestPlayer) {
-            const testNumber = targetId.split('-')[2];
-            targetDisplay = `測試玩家 ${testNumber}`;
+        if (targetId === 'abstain') {
+            targetDisplay = '棄票';
         } else {
-            targetDisplay = `<@${targetId}>`;
+            const isTestPlayer = targetId.startsWith('test-');
+            if (isTestPlayer) {
+                const testNumber = targetId.split('-')[2];
+                targetDisplay = `測試玩家 ${testNumber}`;
+            } else {
+                targetDisplay = `<@${targetId}>`;
+            }
         }
 
         // Send confirmation
         await interaction.reply({
-            content: `✅ 你投票給：${targetDisplay}`,
+            content: targetId === 'abstain' ? `✅ 你選擇了：${targetDisplay}` : `✅ 你投票給：${targetDisplay}`,
             flags: MessageFlags.Ephemeral
         });
 
@@ -264,9 +300,31 @@ async function processVotingResults(client, channel, messageId, gameState) {
     delete gameState.pkRound;
     delete gameState.pkPlayers;
 
-    // Announce voting results with timer
+    // Kill the exiled player FIRST
+    const deathList = [{
+        playerId: exiledPlayerId,
+        reason: '被放逐'
+    }];
+    WerewolfGame.killPlayer(gameState, exiledPlayerId, '被放逐', channel.guild);
+    WerewolfGame.saveGame(messageId, gameState, client.database);
+
+    // Check win condition BEFORE last words
+    const winner = WerewolfGame.checkWinCondition(gameState);
+
+    // If game is over, announce result and end game
+    if (winner) {
+        await channel.send({
+            content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票`
+        });
+
+        const { handleGameEnd } = require('../../utils/DayPhaseHelper');
+        await handleGameEnd(client, channel, messageId, gameState, winner);
+        return;
+    }
+
+    // Game continues, show last words
     const lastWordsMessage = await channel.send({
-        content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：60 秒**`,
+        content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：180 秒**`,
         components: [{
             type: 1,
             components: [{
@@ -278,19 +336,12 @@ async function processVotingResults(client, channel, messageId, gameState) {
         }]
     });
 
-    // Kill the exiled player
-    const deathList = [{
-        playerId: exiledPlayerId,
-        reason: '被放逐'
-    }];
-    WerewolfGame.killPlayer(gameState, exiledPlayerId, '被放逐');
-
-    // Store death list for later use
+    // Store death list for later use (for hunter/wolf king shoot)
     gameState.pendingExileShoot = deathList;
     WerewolfGame.saveGame(messageId, gameState, client.database);
 
-    // Start 60 second timer for last words
-    let timeLeft = 60;
+    // Start 180 second timer for last words
+    let timeLeft = 180;
     const timerInterval = setInterval(async () => {
         timeLeft -= 1;
         if (timeLeft > 0) {
@@ -304,7 +355,7 @@ async function processVotingResults(client, channel, messageId, gameState) {
         }
     }, 1000);
 
-    // Set timeout to auto-finish last words after 60 seconds
+    // Set timeout to auto-finish last words after 180 seconds
     const timeoutId = setTimeout(async () => {
         clearInterval(timerInterval);
 
@@ -327,7 +378,7 @@ async function processVotingResults(client, channel, messageId, gameState) {
             // Get pending exile shoot data
             const pendingDeathList = currentGameState.pendingExileShoot || [];
             delete currentGameState.pendingExileShoot;
-            WerewolfGame.saveGame(messageId, client.database);
+            WerewolfGame.saveGame(messageId, currentGameState, client.database);
 
             // Check if exiled player is hunter/wolf king and can shoot
             const { triggerShootAbility } = require('../../utils/HunterShootHelper');

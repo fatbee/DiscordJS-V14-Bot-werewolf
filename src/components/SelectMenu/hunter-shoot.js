@@ -3,6 +3,7 @@ const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
 const { processNextShooter } = require("../../utils/HunterShootHelper");
+const PlayerStats = require("../../utils/PlayerStats");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -73,13 +74,44 @@ module.exports = new Component({
             targetDisplay = `<@${targetId}>`;
         }
 
-        // Kill the target (被射殺，沒有遺言)
-        WerewolfGame.killPlayer(gameState, targetId, '被射殺');
+        // Store the selection (don't kill yet, wait for timer)
+        gameState.hunterShootTarget = {
+            shooterIndex: shooterIndex,
+            targetId: targetId
+        };
         WerewolfGame.saveGame(messageId, gameState, client.database);
 
-        // Update message to show result
-        await interaction.update({
-            content: `${interaction.message.content}\n\n✅ **已射殺：${targetDisplay}**\n\n💀 ${targetDisplay} 被射殺，沒有遺言。`,
+        // Reply to shooter (ephemeral)
+        await interaction.reply({
+            content: `✅ 你已選擇射殺：${targetDisplay}\n\n⏱️ 你可以在計時器結束前更改選擇`,
+            flags: MessageFlags.Ephemeral
+        });
+
+        // Cancel timer and process immediately
+        const timerKey = `${messageId}-${shooterIndex}`;
+        if (global.hunterShootTimers && global.hunterShootTimers.has(timerKey)) {
+            const timers = global.hunterShootTimers.get(timerKey);
+            if (timers.interval) clearInterval(timers.interval);
+            if (timers.timeout) clearTimeout(timers.timeout);
+            global.hunterShootTimers.delete(timerKey);
+        }
+
+        // Kill the target (被射殺，沒有遺言)
+        WerewolfGame.killPlayer(gameState, targetId, '被射殺', interaction.guild);
+        WerewolfGame.saveGame(messageId, gameState, client.database);
+
+        // Record hunter shoot statistics (skip test players)
+        if (!shooter.playerId.startsWith('test-')) {
+            if (shooterPlayer.role === '獵人') {
+                PlayerStats.recordHunterShoot(shooter.playerId);
+            } else if (shooterPlayer.role === '狼王') {
+                PlayerStats.recordWolfKingShoot(shooter.playerId);
+            }
+        }
+
+        // Update main message to show result
+        await interaction.message.edit({
+            content: `${interaction.message.content.split('\n\n⏱️')[0]}\n\n✅ **已射殺：${targetDisplay}**\n\n💀 ${targetDisplay} 被射殺，沒有遺言。`,
             components: []
         });
 

@@ -123,8 +123,9 @@ class NightPhaseController {
         }
 
         // Seer is alive, send action menu
-        const alivePlayers = WerewolfGame.getAlivePlayers(gameState).filter(p => p.id !== seerPlayer.id);
-        
+        // Show all alive players (including seer)
+        const alivePlayers = WerewolfGame.getAlivePlayers(gameState);
+
         if (alivePlayers.length === 0) {
             gameState.nightActions.seerCheck = 'skip';
             WerewolfGame.saveGame(messageId, gameState, client.database);
@@ -146,7 +147,8 @@ class NightPhaseController {
                 targetOptions.push({
                     label: `${orderNumber}號 - 測試玩家 ${testNumber}`,
                     value: player.id,
-                    description: `查驗此玩家的身份`
+                    description: `查驗此玩家的身份`,
+                    orderNumber: orderNumber
                 });
             } else {
                 // Try to get nickname (or username if no nickname)
@@ -162,10 +164,14 @@ class NightPhaseController {
                     label: `${orderNumber}號 - ${displayName}`,
                     value: player.id,
                     description: `查驗此玩家的身份`,
-                    emoji: '🔍'
+                    emoji: '🔍',
+                    orderNumber: orderNumber
                 });
             }
         }
+
+        // Sort by order number (1, 2, 3, ...)
+        targetOptions.sort((a, b) => a.orderNumber - b.orderNumber);
 
         const testModeText = config.werewolf.testMode ? '\n\n🎮 **測試模式**' : '';
         const seerMessage = await channel.send({
@@ -212,19 +218,40 @@ class NightPhaseController {
 
         const witchIsAlive = witchPlayer.alive;
 
-        // If witch is dead, show action phase but skip
+        // If witch is dead, show action phase with buttons (to hide witch's death) but skip
         if (!witchIsAlive) {
+            const testModeText = config.werewolf.testMode ? '\n\n🎮 **測試模式**' : '';
+
+            // Show buttons even though witch is dead (to prevent revealing witch's status)
+            const components = [];
+            const buttons = [];
+            buttons.push({
+                type: 2,
+                custom_id: `witch-antidote-${messageId}`,
+                label: '💊 查看那位玩家被殺了',
+                style: 3 // Green
+            });
+            buttons.push({
+                type: 2,
+                custom_id: `witch-poison-${messageId}`,
+                label: '☠️ 使用毒藥',
+                style: 4 // Red
+            });
+            components.push({ type: 1, components: buttons });
+
             const skipMessage = await channel.send({
-                content: `🧙‍♀️ **女巫請睜眼！**\n\n⏱️ **剩餘時間：25 秒**`
+                content: `🧙‍♀️ **女巫請睜眼！**\n\n女巫請選擇你的行動：${testModeText}\n\n⏱️ **剩餘時間：25 秒**`,
+                components: components
             });
 
             NightActionTimer.startTimer(
                 skipMessage,
-                `🧙‍♀️ **女巫請睜眼！**`,
+                `🧙‍♀️ **女巫請睜眼！**\n\n女巫請選擇你的行動：${testModeText}`,
                 25,
                 async () => {
                     await skipMessage.edit({
-                        content: `🧙‍♀️ **女巫已完成行動**\n\n✅ 女巫請閉眼...`
+                        content: `🧙‍♀️ **女巫已完成行動**\n\n✅ 女巫請閉眼...`,
+                        components: []
                     });
                     await onComplete();
                 },
@@ -237,24 +264,62 @@ class NightPhaseController {
         const werewolfKillTarget = gameState.nightActions.werewolfKill;
         const witchId = witchPlayer.id;
 
+        // Send DM to witch with victim information
+        const isTestWitch = witchId.startsWith('test-');
+        if (!isTestWitch) {
+            try {
+                const witchUser = await client.users.fetch(witchId);
+
+                // Build potion status
+                const hasAntidote = gameState.witchPotions[witchId]?.antidote;
+                const hasPoison = gameState.witchPotions[witchId]?.poison;
+                const potionStatus = `💊 解藥：${hasAntidote ? '✅ 可用' : '❌ 已使用'}\n☠️ 毒藥：${hasPoison ? '✅ 可用' : '❌ 已使用'}`;
+
+                // Only show victim if antidote is still available
+                let dmContent;
+                if (hasAntidote) {
+                    // Build victim display
+                    let victimDisplay = '無人';
+                    if (werewolfKillTarget) {
+                        const isTestPlayer = werewolfKillTarget.startsWith('test-');
+                        if (isTestPlayer) {
+                            const testNumber = werewolfKillTarget.split('-')[2];
+                            victimDisplay = `測試玩家 ${testNumber}`;
+                        } else {
+                            victimDisplay = `<@${werewolfKillTarget}>`;
+                        }
+                    }
+                    dmContent = `🧙‍♀️ **女巫階段**\n\n今晚被狼人殺死的是：${victimDisplay}\n\n${potionStatus}\n\n請在主頻道選擇你的行動。`;
+                } else {
+                    // Antidote already used, don't show victim
+                    dmContent = `🧙‍♀️ **女巫階段**\n\n${potionStatus}\n\n請在主頻道選擇你的行動。`;
+                }
+
+                await witchUser.send({
+                    content: dmContent
+                });
+            } catch (error) {
+                console.error(`Failed to send DM to witch:`, error);
+            }
+        }
+
         const components = [];
         const testModeText = config.werewolf.testMode ? '\n\n🎮 **測試模式**' : '';
 
-        // Add action buttons (always show both buttons, even if potions are used)
+        // Add action buttons (always show all 3 buttons to prevent guessing)
         const buttons = [];
         buttons.push({
             type: 2,
             custom_id: `witch-antidote-${messageId}`,
-            label: '💊 使用解藥',
-            style: 3
+            label: '💊 查看那位玩家被殺了',
+            style: 3 // Green
         });
         buttons.push({
             type: 2,
             custom_id: `witch-poison-${messageId}`,
             label: '☠️ 使用毒藥',
-            style: 4
+            style: 4 // Red
         });
-
         components.push({ type: 1, components: buttons });
 
         const witchMessage = await channel.send({

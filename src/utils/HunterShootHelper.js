@@ -113,7 +113,8 @@ async function processNextShooter(client, channel, messageId, gameState, shooter
             targetOptions.push({
                 label: `${orderNumber}號 - 測試玩家 ${testNumber}`,
                 value: player.id,
-                description: '射殺此玩家'
+                description: '射殺此玩家',
+                orderNumber: orderNumber
             });
         } else {
             // Try to get nickname (or username if no nickname)
@@ -129,14 +130,18 @@ async function processNextShooter(client, channel, messageId, gameState, shooter
                 label: `${orderNumber}號 - ${displayName}`,
                 value: player.id,
                 description: '射殺此玩家',
-                emoji: '🎯'
+                emoji: '🎯',
+                orderNumber: orderNumber
             });
         }
     }
-    
-    // Send shoot selection message
-    await channel.send({
-        content: `**${shooterDisplay} 發動技能！**\n\n請選擇要射殺的玩家：`,
+
+    // Sort by order number (1, 2, 3, ...)
+    targetOptions.sort((a, b) => a.orderNumber - b.orderNumber);
+
+    // Send shoot selection message with timer
+    const shootMessage = await channel.send({
+        content: `**${shooterDisplay} 發動技能！**\n\n請選擇要射殺的玩家：\n\n⏱️ **剩餘時間：30 秒**`,
         components: [{
             type: 1,
             components: [{
@@ -149,7 +154,7 @@ async function processNextShooter(client, channel, messageId, gameState, shooter
             }]
         }]
     });
-    
+
     // Store shooter info in game state for the select menu handler
     if (!gameState.pendingShooters) {
         gameState.pendingShooters = [];
@@ -158,6 +163,60 @@ async function processNextShooter(client, channel, messageId, gameState, shooter
     gameState.currentShooterIndex = index;
     gameState.shootOnComplete = onComplete ? 'stored' : null;
     WerewolfGame.saveGame(messageId, gameState, client.database);
+
+    // Start 30 second timer
+    let timeLeft = 30;
+    const timerInterval = setInterval(async () => {
+        timeLeft -= 1;
+        if (timeLeft > 0) {
+            try {
+                await shootMessage.edit({
+                    content: `**${shooterDisplay} 發動技能！**\n\n請選擇要射殺的玩家：\n\n⏱️ **剩餘時間：${timeLeft} 秒**`,
+                    components: shootMessage.components
+                });
+            } catch (error) {
+                clearInterval(timerInterval);
+            }
+        }
+    }, 1000);
+
+    // Store timer globally for cancellation
+    if (!global.hunterShootTimers) global.hunterShootTimers = new Map();
+    const timerKey = `${messageId}-${index}`;
+    global.hunterShootTimers.set(timerKey, { interval: timerInterval, timeout: null });
+
+    // Set timeout for when timer expires
+    const timeoutId = setTimeout(async () => {
+        clearInterval(timerInterval);
+        if (global.hunterShootTimers) global.hunterShootTimers.delete(timerKey);
+
+        // Reload game state
+        const currentGameState = WerewolfGame.getGame(messageId, client.database);
+
+        // Check if shooter made a selection
+        if (!currentGameState.hunterShootTarget || currentGameState.hunterShootTarget.shooterIndex !== index) {
+            // No selection made, skip this shooter
+            await shootMessage.edit({
+                content: `**${shooterDisplay} 發動技能！**\n\n⏱️ **時間到！未選擇目標，跳過開槍。**`,
+                components: []
+            });
+
+            // Process next shooter
+            const nextIndex = index + 1;
+            if (nextIndex < shooters.length) {
+                await processNextShooter(client, channel, messageId, currentGameState, shooters, nextIndex, onComplete);
+            } else {
+                // All shooters processed
+                if (onComplete) await onComplete();
+            }
+        }
+        // If selection was made, it's already processed by the select menu handler
+    }, 30000);
+
+    // Store timeout ID
+    if (global.hunterShootTimers.has(timerKey)) {
+        global.hunterShootTimers.get(timerKey).timeout = timeoutId;
+    }
 }
 
 module.exports = {

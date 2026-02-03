@@ -19,22 +19,13 @@ module.exports = new Component({
         // Get current character selections from database
         const selections = client.database.get(`game-characters-${messageId}`) || {};
 
-        // Get player list
-        const players = client.database.get(`game-players-${messageId}`) || new Set();
-        let playerListText = '';
-        let index = 1;
-        for (const playerId of players) {
-            playerListText += `${index}. <@${playerId}>\n`;
-            index++;
-        }
-
         // Delete old message
         await interaction.message.delete();
 
         // Send new message to channel (appears at bottom)
         // Page 3: Additional roles (女巫, 獵人, 騎士) + buttons
         await interaction.channel.send({
-            content: `✅ 玩家數量: **${playerCount}** 人\n\n**玩家列表：**\n${playerListText}\n請選擇角色配置：`,
+            content: `✅ 玩家數量: **${playerCount}** 人\n\n請選擇角色配置：`,
             components: [
                 {
                     type: 1,

@@ -21,6 +21,9 @@ module.exports = new Component({
         const players = GameState.getPlayers(messageId);
         const userId = interaction.user.id;
 
+        console.log(`[DEBUG] join-game: userId=${userId}, messageId=${messageId}, players.size BEFORE=${players.size}`);
+        console.log(`[DEBUG] join-game: players BEFORE=`, Array.from(players));
+
         // Check if player already joined
         if (players.has(userId)) {
             return await interaction.reply({
@@ -31,6 +34,9 @@ module.exports = new Component({
 
         // Add player to the list
         players.add(userId);
+
+        console.log(`[DEBUG] join-game: players.size AFTER=${players.size}`);
+        console.log(`[DEBUG] join-game: players AFTER=`, Array.from(players));
 
         // Add "狼來了" role to the player
         try {
@@ -97,6 +103,12 @@ module.exports = new Component({
                             custom_id: 'refresh-player-list-button',
                             label: '🔄 刷新列表',
                             style: 2 // Gray button (Secondary style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'kick-afk-player',
+                            label: '👢 踢AFK',
+                            style: 4 // Red button (Danger style)
                         }
                     ]
                 }
@@ -106,15 +118,20 @@ module.exports = new Component({
         // Save player list to new message ID
         GameState.savePlayers(newMessage.id, players);
 
+        console.log(`[DEBUG] join-game: Saved players to newMessage.id=${newMessage.id}, players.size=${players.size}`);
+
         // Transfer speaking order if it exists
         const speakingOrder = GameState.getSpeakingOrder(messageId);
         if (speakingOrder && speakingOrder.length > 0) {
             GameState.saveSpeakingOrder(newMessage.id, speakingOrder);
+            console.log(`[DEBUG] join-game: Transferred speaking order, length=${speakingOrder.length}`);
         }
 
         // Delete old data
         client.database.delete(`game-players-${messageId}`);
         client.database.delete(`game-speaking-order-${messageId}`);
+
+        console.log(`[DEBUG] join-game: Deleted old data for messageId=${messageId}`);
 
         // Reply to acknowledge (ephemeral)
         await interaction.reply({

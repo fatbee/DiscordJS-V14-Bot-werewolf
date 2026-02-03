@@ -53,11 +53,16 @@ module.exports = new Component({
         // Get player list from database
         const players = GameState.getPlayers(messageId);
 
+        // Debug: Log player count
+        console.log(`[DEBUG] confirm-characters: messageId=${messageId}, players.size=${players.size}, playerCount=${playerCount}`);
+        console.log(`[DEBUG] confirm-characters: players=`, Array.from(players));
+
         // Shuffle player order for speaking order (only if not already shuffled)
         const speakingOrder = GameState.getSpeakingOrder(messageId);
         if (!speakingOrder || speakingOrder.length === 0) {
             // Convert Set to Array and shuffle
             const playerArray = Array.from(players);
+            console.log(`[DEBUG] confirm-characters: Creating new speaking order, playerArray.length=${playerArray.length}`);
             for (let i = playerArray.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [playerArray[i], playerArray[j]] = [playerArray[j], playerArray[i]];
@@ -68,6 +73,7 @@ module.exports = new Component({
 
         // Get the shuffled speaking order for display
         const displayOrder = GameState.getSpeakingOrder(messageId);
+        console.log(`[DEBUG] confirm-characters: displayOrder.length=${displayOrder.length}`, displayOrder);
 
         let playerListText = '';
         let index = 1;
@@ -95,7 +101,7 @@ module.exports = new Component({
         const witchCanSaveSelfFirstNight = gameRules.witchCanSaveSelfFirstNight !== false; // Default to true
 
         // Build game rules display
-        const rulesDisplay = `\n**遊戲規則：**\n女巫第一夜自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
+        const rulesDisplay = `\n**遊戲規則：**\n女巫能否自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
 
         // Save the final character selections to database (including villagers)
         characters['村民'] = villagerCount;

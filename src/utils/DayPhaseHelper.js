@@ -32,7 +32,7 @@ async function triggerDayPhase(client, channel, messageId, gameState) {
 
     // Process deaths
     for (const death of deathList) {
-        WerewolfGame.killPlayer(gameState, death.playerId, death.reason);
+        WerewolfGame.killPlayer(gameState, death.playerId, death.reason, channel.guild);
     }
 
     // Update game phase to day
@@ -74,7 +74,7 @@ async function triggerDayPhase(client, channel, messageId, gameState) {
 
     // Build alive players list in speaking order
     const speakingOrder = client.database.get(`game-speaking-order-${messageId}`) || [];
-    let alivePlayersList = '\n\n👥 **存活玩家（發言順序）：**\n';
+    let alivePlayersList = '\n\n👥 **存活玩家：**\n';
 
     for (const playerId of speakingOrder) {
         const player = gameState.players[playerId];
@@ -88,6 +88,32 @@ async function triggerDayPhase(client, channel, messageId, gameState) {
                 playerDisplay = `<@${playerId}>`;
             }
             alivePlayersList += `• ${playerDisplay}\n`;
+        }
+    }
+
+    // Build dead players list (in speaking order)
+    let deadPlayersList = '';
+    const deadPlayers = [];
+
+    for (const playerId of speakingOrder) {
+        const player = gameState.players[playerId];
+        if (player && !player.alive) {
+            deadPlayers.push(playerId);
+        }
+    }
+
+    if (deadPlayers.length > 0) {
+        deadPlayersList = '\n\n✝️ **死亡玩家：**\n';
+        for (const playerId of deadPlayers) {
+            const isTestPlayer = playerId.startsWith('test-');
+            let playerDisplay;
+            if (isTestPlayer) {
+                const testNumber = playerId.split('-')[2];
+                playerDisplay = `測試玩家 ${testNumber}`;
+            } else {
+                playerDisplay = `<@${playerId}>`;
+            }
+            deadPlayersList += `• ${playerDisplay}\n`;
         }
     }
 
@@ -158,7 +184,7 @@ async function triggerDayPhase(client, channel, messageId, gameState) {
 
     // Send day announcement
     await channel.send({
-        content: `☀️ **天亮了！第 ${gameState.round} 天**\n\n${deathAnnouncement}${playerCountSummary}${alivePlayersList}${bearRoarAnnouncement}`,
+        content: `☀️ **天亮了！第 ${gameState.round} 天**\n\n${deathAnnouncement}${playerCountSummary}${alivePlayersList}${deadPlayersList}${bearRoarAnnouncement}`,
     });
 
     // Check if any hunter/wolf king can shoot
@@ -202,6 +228,30 @@ async function triggerDiscussionPhase(client, channel, messageId, gameState) {
  */
 async function handleGameEnd(client, channel, messageId, gameState, winner) {
     const { getRoleDisplay } = require('./WerewolfRoles');
+    const PlayerStats = require('./PlayerStats');
+
+    // Record game statistics for all players
+    for (const [playerId, player] of Object.entries(gameState.players)) {
+        // Skip test players
+        if (playerId.startsWith('test-')) {
+            continue;
+        }
+
+        // Determine if player won
+        const playerRole = player.role;
+        const isWerewolf = ['狼王', '狼人', '隱狼'].includes(playerRole);
+        const playerWon = (isWerewolf && winner === 'werewolf') || (!isWerewolf && winner === 'villager');
+
+        // Record game completion
+        PlayerStats.recordGame(
+            playerId,
+            playerRole,
+            playerWon,
+            winner,
+            player.alive,
+            player.deathReason || null
+        );
+    }
 
     // Build final results
     let resultsText = '**最終結果：**\n\n';

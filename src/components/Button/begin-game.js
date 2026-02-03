@@ -16,7 +16,11 @@ module.exports = new Component({
     run: async (client, interaction) => {
         // Extract message ID from custom_id
         const messageId = interaction.customId.split('-').pop();
-        
+
+        // Clear all "狼死人" roles before starting new game
+        const { clearAllDeadRoles } = require('../../utils/DeadPlayerRole');
+        await clearAllDeadRoles(interaction.guild);
+
         // Get player list and character selections from database
         const players = GameState.getPlayers(messageId);
         const selections = GameState.getCharacterSelections(messageId);
@@ -56,18 +60,18 @@ module.exports = new Component({
         const playerArray = Array.from(players);
         const roleAssignments = {};
 
-        // TEST MODE: Always assign bot owner as 狼王 if test mode is enabled
+        // TEST MODE: Always assign bot owner as 女巫 if test mode is enabled
         if (config.werewolf.testMode) {
             const ownerInGame = playerArray.includes(config.users.ownerId);
-            const hasWolfKing = rolePool.includes('狼王');
+            const hasWitch = rolePool.includes('女巫');
 
-            if (ownerInGame && hasWolfKing) {
-                // Find 狼王 in rolePool and assign to owner
-                const wolfKingIndex = rolePool.indexOf('狼王');
-                roleAssignments[config.users.ownerId] = '狼王';
+            if (ownerInGame && hasWitch) {
+                // Find 女巫 in rolePool and assign to owner
+                const witchIndex = rolePool.indexOf('女巫');
+                roleAssignments[config.users.ownerId] = '女巫';
 
-                // Remove 狼王 from rolePool
-                rolePool.splice(wolfKingIndex, 1);
+                // Remove 女巫 from rolePool
+                rolePool.splice(witchIndex, 1);
 
                 // Remove owner from playerArray for normal assignment
                 const ownerIndex = playerArray.indexOf(config.users.ownerId);
@@ -150,7 +154,7 @@ module.exports = new Component({
                             const testNumber = playerId.split('-')[2];
 
                             // Build DM message for test player
-                            let dmContent = `🎮 **狼人殺遊戲開始！** (測試玩家 ${testNumber})\n\n角色：**${role}**\n\n請保密你的角色，遊戲即將開始！`;
+                            let dmContent = `(測試玩家 ${testNumber})\n角色：**${role}**\n\n請保密你的角色，遊戲即將開始！`;
 
                             // Add werewolf team info for werewolf players (狼王, 狼人)
                             // Note: 狼王 and 狼人 do NOT know about 隱狼
@@ -195,7 +199,7 @@ module.exports = new Component({
 
                             // Add witch rule info for witch
                             if (role === '女巫') {
-                                dmContent += `\n\n📜 **遊戲規則：**\n女巫第一夜自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
+                                dmContent += `\n\n📜 **遊戲規則：**\n女巫能否自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
                             }
 
                             await owner.send({
@@ -213,7 +217,7 @@ module.exports = new Component({
                     const user = await client.users.fetch(playerId);
 
                     // Build DM message
-                    let dmContent = `🎮 **狼人殺遊戲開始！**\n\n你的角色是：**${role}**\n\n請保密你的角色，遊戲即將開始！`;
+                    let dmContent = `你的角色是：**${role}**\n請保密你的角色，遊戲即將開始！`;
 
                     // Add werewolf team info for werewolf players (狼王, 狼人)
                     // Note: 狼王 and 狼人 do NOT know about 隱狼
@@ -258,7 +262,7 @@ module.exports = new Component({
 
                     // Add witch rule info for witch
                     if (role === '女巫') {
-                        dmContent += `\n\n📜 **遊戲規則：**\n女巫第一夜自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
+                        dmContent += `\n\n📜 **遊戲規則：**\n女巫能否自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
                     }
 
                     await user.send({
@@ -279,7 +283,7 @@ module.exports = new Component({
         const testModeText = config.werewolf.testMode ? ' **(testmode: true)**' : '';
 
         // Build game rules display
-        const rulesDisplay = `\n\n**遊戲規則：**\n女巫第一夜自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
+        const rulesDisplay = `\n\n**遊戲規則：**\n女巫能否自救：${witchCanSaveSelfFirstNight ? '✅ 允許' : '❌ 禁止'}`;
 
         // Build DM sending result
         const dmResultText = failCount > 0
@@ -289,23 +293,25 @@ module.exports = new Component({
         // Send new message to channel (appears at bottom)
         await interaction.channel.send({
             content: `🎮 **遊戲已開始！${testModeText}**\n\n✅ 角色私訊已發送\n${testPlayerCount > 0 ? `🤖 ${testPlayerCount} 位測試玩家\n` : ''}\n所有真實玩家請檢查私訊以查看你的角色！${roleDisplay}${rulesDisplay}${dmResultText}`,
-            components: [{
-                type: 1,
-                components: [
-                    {
-                        type: 2,
-                        custom_id: `start-night-${messageId}`,
-                        label: '🌙 開始第一夜',
-                        style: 1 // Blue
-                    },
-                    {
-                        type: 2,
-                        custom_id: `cancel-game-${messageId}`,
-                        label: '❌ 取消遊戲',
-                        style: 4 // Red (Danger)
-                    }
-                ]
-            }]
+            components: [
+                {
+                    type: 1,
+                    components: [
+                        {
+                            type: 2,
+                            custom_id: `start-night-${messageId}`,
+                            label: '🌙 開始第一夜',
+                            style: 1 // Blue
+                        },
+                        {
+                            type: 2,
+                            custom_id: `view-my-role-${messageId}`,
+                            label: '🎭 查看我的角色',
+                            style: 2 // Gray
+                        }
+                    ]
+                }
+            ]
         });
 
         // Clean up player, character, and game rules data, but keep channel ID and game state for gameplay

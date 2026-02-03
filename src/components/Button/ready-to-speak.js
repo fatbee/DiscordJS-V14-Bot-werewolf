@@ -43,30 +43,41 @@ module.exports = new Component({
             firstSpeakerDisplay = `<@${firstSpeakerId}>`;
         }
 
-        // Always show all three buttons for all players (to hide knight/werewolf identity)
+        // Check if there's a knight in the game (alive or dead)
+        const hasKnight = Object.values(gameState.players).some(p => p.role === '騎士');
+
+        // Build action buttons (first row)
+        const actionButtons = [
+            {
+                type: 2,
+                custom_id: `werewolf-self-destruct-${messageId}`,
+                label: '💣 自爆',
+                style: 4 // Red/Danger
+            }
+        ];
+
+        // Only show duel button if there's a knight in the game
+        if (hasKnight) {
+            actionButtons.push({
+                type: 2,
+                custom_id: `knight-duel-${messageId}`,
+                label: '⚔️ 決鬥',
+                style: 4 // Red/Danger
+            });
+        }
+
+        // Add finish speaking button
+        actionButtons.push({
+            type: 2,
+            custom_id: `finish-speaking-${messageId}`,
+            label: '✅ 完成發言',
+            style: 3 // Green
+        });
+
         const components = [
             {
                 type: 1,
-                components: [
-                    {
-                        type: 2,
-                        custom_id: `werewolf-self-destruct-${messageId}`,
-                        label: '💣 自爆',
-                        style: 4 // Red/Danger
-                    },
-                    {
-                        type: 2,
-                        custom_id: `knight-duel-${messageId}`,
-                        label: '⚔️ 決鬥',
-                        style: 4 // Red/Danger
-                    },
-                    {
-                        type: 2,
-                        custom_id: `finish-speaking-${messageId}`,
-                        label: '✅ 完成發言',
-                        style: 3 // Green
-                    }
-                ]
+                components: actionButtons
             },
             {
                 type: 1,
@@ -76,14 +87,35 @@ module.exports = new Component({
                         custom_id: `skip-speaker-${messageId}`,
                         label: '⏭️ 跳過發言者',
                         style: 2 // Gray
+                    },
+                    {
+                        type: 2,
+                        custom_id: `pause-speaking-timer-${messageId}`,
+                        label: '⏸️ 暫停計時器',
+                        style: 2 // Gray
                     }
                 ]
             }
         ];
 
-        // Send message notifying first speaker
+        // Send DM to first speaker
+        const isTestSpeaker = firstSpeakerId.startsWith('test-');
+        if (!isTestSpeaker) {
+            try {
+                const speakerUser = await client.users.fetch(firstSpeakerId);
+                await speakerUser.send({
+                    content: `🎤 **輪到你發言了！**\n\n現在是你的發言時間，請在主頻道發言。\n\n⏱️ 發言時間：**5 分鐘**\n發言完畢後，請點擊「✅ 完成發言」按鈕。`
+                });
+            } catch (error) {
+                console.error(`Failed to send DM to speaker ${firstSpeakerId}:`, error);
+            }
+        }
+
+        // Send message notifying first speaker (with mention for real players)
+        const mentionText = isTestSpeaker ? '' : `<@${firstSpeakerId}> `;
+
         const speakingMessage = await interaction.channel.send({
-            content: `🎤 **現在輪到：${firstSpeakerDisplay} 發言**\n\n⏱️ 發言時間：**3 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
+            content: `🎤 ${mentionText}**現在輪到：${firstSpeakerDisplay} 發言**\n\n⏱️ 發言時間：**5 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
             components: components
         });
 

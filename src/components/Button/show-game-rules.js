@@ -48,21 +48,21 @@ module.exports = new Component({
                     components: [{
                         type: 3,
                         custom_id: `game-rule-select-witchCanSaveSelfFirstNight-${messageId}-${playerCount}`,
-                        placeholder: `女巫第一夜自救：${gameRules.witchCanSaveSelfFirstNight ? '允許' : '禁止'}`,
+                        placeholder: `女巫能否自救：${gameRules.witchCanSaveSelfFirstNight ? '允許' : '禁止'}`,
                         min_values: 1,
                         max_values: 1,
                         options: [
                             {
-                                label: '允許女巫第一夜自救',
+                                label: '允許女巫自救',
                                 value: 'true',
-                                description: '女巫可以在第一夜使用解藥救自己',
+                                description: '女巫可以使用解藥救自己',
                                 emoji: '✅',
                                 default: gameRules.witchCanSaveSelfFirstNight === true
                             },
                             {
-                                label: '禁止女巫第一夜自救',
+                                label: '禁止女巫自救',
                                 value: 'false',
-                                description: '女巫不能在第一夜使用解藥救自己',
+                                description: '女巫不能使用解藥救自己',
                                 emoji: '❌',
                                 default: gameRules.witchCanSaveSelfFirstNight === false
                             }

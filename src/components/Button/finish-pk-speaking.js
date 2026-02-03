@@ -102,21 +102,56 @@ module.exports = new Component({
         WerewolfGame.saveGame(messageId, gameState, client.database);
 
         // Update message to remove button
-        await interaction.update({
-            components: []
-        });
+        // Delete old PK speaking message
+        try {
+            await interaction.message.delete();
+        } catch (error) {
+            console.error('Failed to delete old PK speaking message:', error);
+        }
 
-        // Send message notifying next PK speaker
+        // Acknowledge the interaction
+        await interaction.deferUpdate().catch(() => {});
+
+        // Send DM to next PK speaker
+        const isTestSpeaker = nextSpeakerId.startsWith('test-');
+        if (!isTestSpeaker) {
+            try {
+                const speakerUser = await client.users.fetch(nextSpeakerId);
+                await speakerUser.send({
+                    content: `🎤 **輪到你PK發言了！**\n\n現在是你的PK發言時間，請在主頻道發言。\n\n⏱️ 發言時間：**5 分鐘**\n發言完畢後，請點擊「✅ 完成PK發言」按鈕。`
+                });
+            } catch (error) {
+                console.error(`Failed to send DM to PK speaker ${nextSpeakerId}:`, error);
+            }
+        }
+
+        // Send message notifying next PK speaker (with mention for real players)
+        const mentionText = isTestSpeaker ? '' : `<@${nextSpeakerId}> `;
+
         await interaction.channel.send({
-            content: `🎤 **PK發言 - 現在輪到：${nextSpeakerDisplay}**\n\n⏱️ 發言時間：**3 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
+            content: `🎤 ${mentionText}**PK發言 - 現在輪到：${nextSpeakerDisplay}**\n\n⏱️ 發言時間：**5 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
             components: [{
                 type: 1,
-                components: [{
-                    type: 2,
-                    custom_id: `finish-pk-speaking-${messageId}`,
-                    label: '✅ 完成PK發言',
-                    style: 3 // Green
-                }]
+                components: [
+                    {
+                        type: 2,
+                        custom_id: `finish-pk-speaking-${messageId}`,
+                        label: '✅ 完成PK發言',
+                        style: 3 // Green
+                    },
+                    {
+                        type: 2,
+                        custom_id: `skip-speaker-${messageId}`,
+                        label: '⏭️ 跳過發言者',
+                        style: 2 // Gray
+                    },
+                    {
+                        type: 2,
+                        custom_id: `pause-speaking-timer-${messageId}`,
+                        label: '⏸️ 暫停計時器',
+                        style: 2 // Gray
+                    }
+                ]
             }]
         });
 
@@ -297,17 +332,46 @@ async function autoAdvanceToNextPKSpeaker(client, channel, messageId) {
     // Save game state
     WerewolfGame.saveGame(messageId, gameState, client.database);
 
-    // Send message notifying next PK speaker
+    // Send DM to next PK speaker
+    const isTestSpeaker = nextSpeakerId.startsWith('test-');
+    if (!isTestSpeaker) {
+        try {
+            const speakerUser = await client.users.fetch(nextSpeakerId);
+            await speakerUser.send({
+                content: `🎤 **輪到你PK發言了！**\n\n現在是你的PK發言時間，請在主頻道發言。\n\n⏱️ 發言時間：**5 分鐘**\n發言完畢後，請點擊「✅ 完成PK發言」按鈕。`
+            });
+        } catch (error) {
+            console.error(`Failed to send DM to PK speaker ${nextSpeakerId}:`, error);
+        }
+    }
+
+    // Send message notifying next PK speaker (with mention for real players)
+    const mentionText = isTestSpeaker ? '' : `<@${nextSpeakerId}> `;
+
     await channel.send({
-        content: `🎤 **PK發言 - 現在輪到：${nextSpeakerDisplay}**\n\n⏱️ 發言時間：**3 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
+        content: `🎤 ${mentionText}**PK發言 - 現在輪到：${nextSpeakerDisplay}**\n\n⏱️ 發言時間：**5 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
         components: [{
             type: 1,
-            components: [{
-                type: 2,
-                custom_id: `finish-pk-speaking-${messageId}`,
-                label: '✅ 完成PK發言',
-                style: 3 // Green
-            }]
+            components: [
+                {
+                    type: 2,
+                    custom_id: `finish-pk-speaking-${messageId}`,
+                    label: '✅ 完成PK發言',
+                    style: 3 // Green
+                },
+                {
+                    type: 2,
+                    custom_id: `skip-speaker-${messageId}`,
+                    label: '⏭️ 跳過發言者',
+                    style: 2 // Gray
+                },
+                {
+                    type: 2,
+                    custom_id: `pause-speaking-timer-${messageId}`,
+                    label: '⏸️ 暫停計時器',
+                    style: 2 // Gray
+                }
+            ]
         }]
     });
 

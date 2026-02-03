@@ -37,20 +37,6 @@ module.exports = new Component({
             GameState.saveCharacterSelections(messageId, {});
         }
 
-        // Build player list display
-        let playerListText = '';
-        let index = 1;
-        for (const playerId of players) {
-            // Check if it's a test player
-            if (playerId.startsWith('test-')) {
-                const testNumber = playerId.split('-')[2];
-                playerListText += `${index}. 測試玩家 ${testNumber}\n`;
-            } else {
-                playerListText += `${index}. <@${playerId}>\n`;
-            }
-            index++;
-        }
-
         // Remove buttons from original message
         await interaction.update({
             components: []
@@ -62,7 +48,7 @@ module.exports = new Component({
         // Send new message to channel (appears at bottom)
         // Page 1: Werewolf roles (狼王, 狼人, 隱狼) + button to show more
         await interaction.channel.send({
-            content: `✅ **準備開始遊戲！${testModeText}**\n\n**玩家列表：** (${playerCount} 人)\n${playerListText}\n請選擇角色配置：`,
+            content: `✅ **準備開始遊戲！${testModeText}**\n\n玩家數量: **${playerCount}** 人\n\n請選擇角色配置：`,
             components: [
                 {
                     type: 1,

@@ -65,6 +65,12 @@ module.exports = new Component({
                             custom_id: 'refresh-player-list-button',
                             label: '🔄 刷新列表',
                             style: 2 // Gray button (Secondary style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'kick-afk-player',
+                            label: '👢 踢AFK',
+                            style: 4 // Red button (Danger style)
                         }
                     ]
                 }

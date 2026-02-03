@@ -75,17 +75,40 @@ module.exports = new Component({
             speakerDisplay = `<@${firstSpeakerId}>`;
         }
 
-        // Send message notifying first PK speaker
+        // Send DM to first PK speaker
+        const isTestSpeaker = firstSpeakerId.startsWith('test-');
+        if (!isTestSpeaker) {
+            try {
+                const speakerUser = await client.users.fetch(firstSpeakerId);
+                await speakerUser.send({
+                    content: `🎤 **輪到你PK發言了！**\n\n現在是你的PK發言時間，請在主頻道發言。\n\n⏱️ 發言時間：**5 分鐘**\n發言完畢後，請點擊「✅ 完成PK發言」按鈕。`
+                });
+            } catch (error) {
+                console.error(`Failed to send DM to PK speaker ${firstSpeakerId}:`, error);
+            }
+        }
+
+        // Send message notifying first PK speaker (with mention for real players)
+        const mentionText = isTestSpeaker ? '' : `<@${firstSpeakerId}> `;
+
         await interaction.channel.send({
-            content: `🎤 **PK發言 - 現在輪到：${speakerDisplay}**\n\n⏱️ 發言時間：**3 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
+            content: `🎤 ${mentionText}**PK發言 - 現在輪到：${speakerDisplay}**\n\n⏱️ 發言時間：**5 分鐘**\n每 1 分鐘會提醒一次\n\n發言完畢後，請點擊下方按鈕。`,
             components: [{
                 type: 1,
-                components: [{
-                    type: 2,
-                    custom_id: `finish-pk-speaking-${messageId}`,
-                    label: '✅ 完成PK發言',
-                    style: 3 // Green
-                }]
+                components: [
+                    {
+                        type: 2,
+                        custom_id: `finish-pk-speaking-${messageId}`,
+                        label: '✅ 完成PK發言',
+                        style: 3 // Green
+                    },
+                    {
+                        type: 2,
+                        custom_id: `skip-speaker-${messageId}`,
+                        label: '⏭️ 跳過發言者',
+                        style: 2 // Gray
+                    }
+                ]
             }]
         });
 

@@ -55,7 +55,7 @@ module.exports = new Component({
             if (player.id === currentSpeakerId) continue; // Skip self
 
             const isTestPlayer = player.id.startsWith('test-');
-            
+
             // Find player's position in speaking order
             const speakingOrderIndex = gameState.speaking.order.indexOf(player.id);
             const orderNumber = speakingOrderIndex + 1;
@@ -65,7 +65,8 @@ module.exports = new Component({
                 targetOptions.push({
                     label: `${orderNumber}號 - 測試玩家 ${testNumber}`,
                     value: player.id,
-                    description: config.werewolf.testMode ? `角色：${player.role}` : `選擇此玩家`
+                    description: config.werewolf.testMode ? `角色：${player.role}` : `選擇此玩家`,
+                    orderNumber: orderNumber
                 });
             } else {
                 // Try to get nickname
@@ -81,10 +82,14 @@ module.exports = new Component({
                     label: `${orderNumber}號 - ${displayName}`,
                     value: player.id,
                     description: config.werewolf.testMode ? `角色：${player.role}` : `選擇此玩家`,
-                    emoji: '👤'
+                    emoji: '👤',
+                    orderNumber: orderNumber
                 });
             }
         }
+
+        // Sort by order number (1, 2, 3, ...)
+        targetOptions.sort((a, b) => a.orderNumber - b.orderNumber);
 
         // Reply with target selection
         await interaction.reply({

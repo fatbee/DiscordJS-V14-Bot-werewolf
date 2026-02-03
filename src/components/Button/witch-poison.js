@@ -44,21 +44,26 @@ module.exports = new Component({
         // Use witch player's ID for potion check (or owner's ID if in test mode)
         const witchId = isOwner && witchPlayer ? witchPlayer.id : userId;
 
-        // Build victim display for error messages
-        const victimId = gameState.nightActions.werewolfKill;
-        let victimDisplay;
-        const isTestPlayer = victimId.startsWith('test-');
-        if (isTestPlayer) {
-            const testNumber = victimId.split('-')[2];
-            victimDisplay = `測試玩家 ${testNumber}`;
-        } else {
-            victimDisplay = `<@${victimId}>`;
+        // Check if witch has antidote available
+        const hasAntidote = gameState.witchPotions[witchId]?.antidote;
+
+        // Build victim display for error messages (only if antidote is available)
+        let victimDisplay = '';
+        if (hasAntidote) {
+            const victimId = gameState.nightActions.werewolfKill;
+            const isTestPlayer = victimId.startsWith('test-');
+            if (isTestPlayer) {
+                const testNumber = victimId.split('-')[2];
+                victimDisplay = `\n\n今晚被狼人殺死的是：測試玩家 ${testNumber}`;
+            } else {
+                victimDisplay = `\n\n今晚被狼人殺死的是：<@${victimId}>`;
+            }
         }
 
         // Check if witch already used antidote this night
         if (gameState.nightActions.witchAction === 'antidote') {
             return await interaction.reply({
-                content: `❌ **你已經使用了解藥，不能再使用毒藥！**\n\n今晚被狼人殺死的是：${victimDisplay}`,
+                content: `❌ **你已經使用了解藥，不能再使用毒藥！**${victimDisplay}`,
                 flags: MessageFlags.Ephemeral
             });
         }
@@ -66,14 +71,14 @@ module.exports = new Component({
         // Check if witch has poison
         if (!gameState.witchPotions[witchId]?.poison) {
             return await interaction.reply({
-                content: `❌ **女巫已經使用過毒藥了！**\n\n今晚被狼人殺死的是：${victimDisplay}`,
+                content: `❌ **女巫已經使用過毒藥了！**${victimDisplay}`,
                 flags: MessageFlags.Ephemeral
             });
         }
 
-        // Get alive players (excluding witch and werewolf kill victim)
+        // Get alive players (excluding witch only, include werewolf kill victim)
         const alivePlayers = WerewolfGame.getAlivePlayers(gameState).filter(p =>
-            p.id !== witchId && p.id !== victimId
+            p.id !== witchId
         );
 
         // Build target selection options with speaking order numbers
@@ -113,14 +118,19 @@ module.exports = new Component({
 
         if (targetOptions.length === 0) {
             return await interaction.reply({
-                content: `❌ **沒有可以毒殺的目標！**\n\n今晚被狼人殺死的是：${victimDisplay}`,
+                content: `❌ **沒有可以毒殺的目標！**${victimDisplay}`,
                 flags: MessageFlags.Ephemeral
             });
         }
 
         // Show poison selection via ephemeral reply (only witch can see)
+        // Only show victim if antidote is still available
+        const poisonContent = hasAntidote
+            ? `☠️ **選擇要毒殺的目標：**${victimDisplay}\n\n請從下方選單選擇一名玩家：\n\n⏱️ 你可以在計時器結束前更改選擇`
+            : `☠️ **選擇要毒殺的目標：**\n\n請從下方選單選擇一名玩家：\n\n⏱️ 你可以在計時器結束前更改選擇`;
+
         await interaction.reply({
-            content: `☠️ **選擇要毒殺的目標：**\n\n今晚被狼人殺死的是：${victimDisplay}\n\n請從下方選單選擇一名玩家：\n\n⏱️ 你可以在計時器結束前更改選擇`,
+            content: poisonContent,
             components: [{
                 type: 1,
                 components: [{

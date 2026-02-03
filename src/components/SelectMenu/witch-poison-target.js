@@ -2,6 +2,7 @@ const { StringSelectMenuInteraction, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
+const PlayerStats = require("../../utils/PlayerStats");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -69,6 +70,11 @@ module.exports = new Component({
         gameState.witchPotions[witchId].poison = false; // Mark poison as used
 
         WerewolfGame.saveGame(messageId, gameState, client.database);
+
+        // Record witch poison statistics (skip test players)
+        if (!userId.startsWith('test-')) {
+            PlayerStats.recordWitchPoison(userId);
+        }
 
         // Build target display
         const isTestPlayer = targetId.startsWith('test-');

@@ -2,6 +2,7 @@ const { StringSelectMenuInteraction, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
+const PlayerStats = require("../../utils/PlayerStats");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -75,6 +76,11 @@ module.exports = new Component({
             }
 
             WerewolfGame.saveGame(messageId, gameState, client.database);
+
+            // Record witch save statistics (skip test players)
+            if (!userId.startsWith('test-')) {
+                PlayerStats.recordWitchSave(userId);
+            }
 
             // Send confirmation to witch via ephemeral reply (show who was saved)
             const overrideMessage = previousAction === 'poison' ? '\n\n⚠️ 你之前選擇的毒藥已被取消' : '';

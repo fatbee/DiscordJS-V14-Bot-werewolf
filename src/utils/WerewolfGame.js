@@ -22,6 +22,10 @@ class WerewolfGame {
         // Get the pre-shuffled speaking order from database
         const fixedSpeakingOrder = GameState.getSpeakingOrder(messageId);
 
+        console.log(`[DEBUG] initializeGame: messageId=${messageId}`);
+        console.log(`[DEBUG] initializeGame: fixedSpeakingOrder=`, fixedSpeakingOrder);
+        console.log(`[DEBUG] initializeGame: roleAssignments=`, roleAssignments);
+
         const gameState = {
             messageId: messageId,
             phase: 'night', // 'night' or 'day'
@@ -107,11 +111,11 @@ class WerewolfGame {
     }
 
     /**
-     * Get alive werewolves (狼王 + 狼人)
+     * Get alive werewolves (狼王 + 狼人 + 隱狼)
      */
     static getAliveWerewolves(gameState) {
-        return Object.values(gameState.players).filter(p => 
-            p.alive && (p.role === '狼王' || p.role === '狼人')
+        return Object.values(gameState.players).filter(p =>
+            p.alive && (p.role === '狼王' || p.role === '狼人' || p.role === '隱狼')
         );
     }
 
@@ -120,7 +124,7 @@ class WerewolfGame {
      */
     static getAliveVillagers(gameState) {
         return Object.values(gameState.players).filter(p =>
-            p.alive && p.role !== '狼王' && p.role !== '狼人'
+            p.alive && p.role !== '狼王' && p.role !== '狼人' && p.role !== '隱狼'
         );
     }
 
@@ -131,7 +135,7 @@ class WerewolfGame {
         const alivePlayers = Object.values(gameState.players).filter(p => p.alive);
         const villagers = alivePlayers.filter(p => p.role === '村民'); // 平民
         const gods = alivePlayers.filter(p =>
-            p.role !== '狼王' && p.role !== '狼人' && p.role !== '村民'
+            p.role !== '狼王' && p.role !== '狼人' && p.role !== '隱狼' && p.role !== '村民'
         ); // 神職 (預言家、女巫、獵人等)
 
         return { villagers, gods };
@@ -172,11 +176,19 @@ class WerewolfGame {
     /**
      * Kill a player
      */
-    static killPlayer(gameState, playerId, reason) {
+    static killPlayer(gameState, playerId, reason, guild = null) {
         if (gameState.players[playerId]) {
             gameState.players[playerId].alive = false;
             gameState.players[playerId].deathRound = gameState.round;
             gameState.players[playerId].deathReason = reason;
+
+            // Add "狼死人" role to dead player (if guild is provided)
+            if (guild) {
+                const { addDeadRole } = require('./DeadPlayerRole');
+                addDeadRole(guild, playerId).catch(err => {
+                    console.error(`Failed to add dead role to ${playerId}:`, err);
+                });
+            }
         }
     }
 
@@ -189,14 +201,20 @@ class WerewolfGame {
         const alivePlayers = this.getAlivePlayers(gameState);
         const alivePlayerIds = new Set(alivePlayers.map(p => p.id));
 
+        console.log(`[DEBUG] initializeSpeakingOrder: alivePlayers.length=${alivePlayers.length}`);
+        console.log(`[DEBUG] initializeSpeakingOrder: alivePlayerIds=`, Array.from(alivePlayerIds));
+        console.log(`[DEBUG] initializeSpeakingOrder: fixedSpeakingOrder=`, gameState.fixedSpeakingOrder);
+
         // Get the fixed speaking order from game state (set during game initialization)
         // Filter to only include alive players, maintaining the original order
         let baseOrder = [];
         if (gameState.fixedSpeakingOrder && gameState.fixedSpeakingOrder.length > 0) {
             baseOrder = gameState.fixedSpeakingOrder.filter(id => alivePlayerIds.has(id));
+            console.log(`[DEBUG] initializeSpeakingOrder: baseOrder (from fixedSpeakingOrder)=`, baseOrder);
         } else {
             // Fallback: if no fixed order exists, use alive players in their current order
             baseOrder = alivePlayers.map(p => p.id);
+            console.log(`[DEBUG] initializeSpeakingOrder: baseOrder (fallback)=`, baseOrder);
         }
 
         // Get last night's deaths (players who died this round)

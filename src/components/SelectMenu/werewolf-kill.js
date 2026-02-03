@@ -83,18 +83,40 @@ module.exports = new Component({
                 try {
                     const werewolfUser = await client.users.fetch(werewolf.id);
 
-                    // Build voter display
+                    // Build voter display with nickname
                     const voterIsTestPlayer = userId.startsWith('test-');
                     let voterDisplay;
                     if (voterIsTestPlayer) {
                         const voterTestNumber = userId.split('-')[2];
                         voterDisplay = `測試玩家 ${voterTestNumber}`;
                     } else {
-                        voterDisplay = `<@${userId}>`;
+                        // Try to get voter's nickname
+                        try {
+                            const voterMember = await interaction.guild.members.fetch(userId);
+                            voterDisplay = voterMember.displayName;
+                        } catch (error) {
+                            console.error(`Failed to fetch voter member ${userId}:`, error);
+                            voterDisplay = `<@${userId}>`;
+                        }
+                    }
+
+                    // Build target display with nickname
+                    let targetDisplayForDM;
+                    if (isTestPlayer) {
+                        targetDisplayForDM = targetDisplay; // Already formatted as "測試玩家 X"
+                    } else {
+                        // Try to get target's nickname
+                        try {
+                            const targetMember = await interaction.guild.members.fetch(targetId);
+                            targetDisplayForDM = targetMember.displayName;
+                        } catch (error) {
+                            console.error(`Failed to fetch target member ${targetId}:`, error);
+                            targetDisplayForDM = targetDisplay; // Fallback to mention
+                        }
                     }
 
                     await werewolfUser.send({
-                        content: `🐺 **狼人投票通知**\n\n${voterDisplay} 投票給了：${targetDisplay}`
+                        content: `🐺 **狼人投票通知**\n\n${voterDisplay} 投票給了：${targetDisplayForDM}`
                     });
                 } catch (error) {
                     console.error(`Failed to send DM to werewolf ${werewolf.id}:`, error);

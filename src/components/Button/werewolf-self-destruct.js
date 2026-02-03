@@ -91,7 +91,7 @@ module.exports = new Component({
             playerId: currentSpeakerId,
             reason: '自爆'
         }];
-        WerewolfGame.killPlayer(gameState, currentSpeakerId, '自爆');
+        WerewolfGame.killPlayer(gameState, currentSpeakerId, '自爆', interaction.guild);
         WerewolfGame.saveGame(messageId, gameState, client.database);
 
         // If wolf king, trigger shoot ability

@@ -18,34 +18,6 @@ module.exports = new Component({
         const playerCount = parseInt(parts.pop());
         const messageId = parts.pop();
 
-        // Get player list from database
-        const players = GameState.getPlayers(messageId);
-
-        if (!players || players.size === 0) {
-            return await interaction.reply({
-                content: '❌ 找不到玩家數據！',
-                flags: MessageFlags.Ephemeral
-            });
-        }
-
-        // Get the speaking order (already shuffled) for display
-        const speakingOrder = GameState.getSpeakingOrder(messageId);
-        const displayOrder = speakingOrder.length > 0 ? speakingOrder : Array.from(players);
-
-        // Build player list display
-        let playerListText = '';
-        let index = 1;
-        for (const playerId of displayOrder) {
-            // Check if it's a test player
-            if (playerId.startsWith('test-')) {
-                const testNumber = playerId.split('-')[2];
-                playerListText += `${index}. 測試玩家 ${testNumber}\n`;
-            } else {
-                playerListText += `${index}. <@${playerId}>\n`;
-            }
-            index++;
-        }
-
         // Get current selections from database
         const selections = GameState.getCharacterSelections(messageId);
 
@@ -60,7 +32,7 @@ module.exports = new Component({
         // Send new message to channel (appears at bottom) with character selection menus
         // Page 1: Werewolf roles (狼王, 狼人, 隱狼) + button
         await interaction.channel.send({
-            content: `🔄 **重新配置角色${testModeText}**\n\n**玩家列表：** (${playerCount} 人)\n${playerListText}\n請選擇角色配置：`,
+            content: `🔄 **重新配置角色${testModeText}**\n\n玩家數量: **${playerCount}** 人\n\n請選擇角色配置：`,
             components: [
                 {
                     type: 1,

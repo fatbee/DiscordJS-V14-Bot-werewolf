@@ -12,7 +12,7 @@ class SpeakingTimer {
      * @param {Function} onTimeUp - Callback when time is up (auto-advance to next speaker)
      */
     static startTimer(channel, messageId, speakerId, gameState, onTimeUp) {
-        const SPEAKING_TIME = 180; // 3 minutes in seconds
+        const SPEAKING_TIME = 300; // 5 minutes in seconds
         const REMINDER_INTERVAL = 60; // Remind every 60 seconds
 
         let timeElapsed = 0;
@@ -29,13 +29,19 @@ class SpeakingTimer {
 
         // Create timer interval (check every 1 second for accuracy)
         const timerInterval = setInterval(async () => {
-            timeElapsed++;
-
             // Check if timer should be cancelled (e.g., speaker finished early)
             if (!global.speakingTimers || !global.speakingTimers.has(messageId)) {
                 clearInterval(timerInterval);
                 return;
             }
+
+            // Check if timer is paused
+            const timerInfo = global.speakingTimers.get(messageId);
+            if (timerInfo.paused) {
+                return; // Don't increment time while paused
+            }
+
+            timeElapsed++;
 
             // Normal time reminders (every 60 seconds)
             if (timeElapsed % REMINDER_INTERVAL === 0 && timeElapsed < SPEAKING_TIME) {
@@ -71,10 +77,13 @@ class SpeakingTimer {
         global.speakingTimers.set(messageId, {
             interval: timerInterval,
             speakerId: speakerId,
-            startTime: Date.now()
+            startTime: Date.now(),
+            paused: false,
+            pausedAt: null,
+            totalPausedTime: 0
         });
     }
-    
+
     /**
      * Cancel the current speaking timer
      * @param {string} messageId - Game message ID
@@ -86,7 +95,56 @@ class SpeakingTimer {
             global.speakingTimers.delete(messageId);
         }
     }
-    
+
+    /**
+     * Pause the current speaking timer
+     * @param {string} messageId - Game message ID
+     * @returns {boolean} True if paused successfully
+     */
+    static pauseTimer(messageId) {
+        if (global.speakingTimers && global.speakingTimers.has(messageId)) {
+            const timer = global.speakingTimers.get(messageId);
+            if (!timer.paused) {
+                timer.paused = true;
+                timer.pausedAt = Date.now();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Resume the current speaking timer
+     * @param {string} messageId - Game message ID
+     * @returns {boolean} True if resumed successfully
+     */
+    static resumeTimer(messageId) {
+        if (global.speakingTimers && global.speakingTimers.has(messageId)) {
+            const timer = global.speakingTimers.get(messageId);
+            if (timer.paused && timer.pausedAt) {
+                const pauseDuration = Date.now() - timer.pausedAt;
+                timer.totalPausedTime += pauseDuration;
+                timer.paused = false;
+                timer.pausedAt = null;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if timer is paused
+     * @param {string} messageId - Game message ID
+     * @returns {boolean} True if paused
+     */
+    static isPaused(messageId) {
+        if (global.speakingTimers && global.speakingTimers.has(messageId)) {
+            const timer = global.speakingTimers.get(messageId);
+            return timer.paused || false;
+        }
+        return false;
+    }
+
     /**
      * Get current timer info
      * @param {string} messageId - Game message ID

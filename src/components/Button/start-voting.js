@@ -2,6 +2,7 @@ const { ButtonInteraction, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
+const { hasHostPermission } = require("../../utils/WerewolfPermissions");
 
 module.exports = new Component({
     customId: 'start-voting',
@@ -21,6 +22,14 @@ module.exports = new Component({
         if (!gameState) {
             return await interaction.reply({
                 content: '❌ 找不到遊戲數據！',
+                flags: MessageFlags.Ephemeral
+            });
+        }
+
+        // Check if user has host permission (bot owner, admin, or 狼GM role)
+        if (!hasHostPermission(interaction)) {
+            return await interaction.reply({
+                content: '❌ 只有主持人、管理員或擁有「狼GM」身份組可以開始投票！',
                 flags: MessageFlags.Ephemeral
             });
         }
@@ -87,6 +96,14 @@ async function startVoting(client, interaction, messageId, gameState) {
         value: 'abstain',
         description: '選擇不投票給任何人',
         emoji: '🚫'
+    });
+
+    // Add clear vote option
+    voteOptions.push({
+        label: '清除投票',
+        value: 'clear-vote',
+        description: '清除你的投票，重新選擇',
+        emoji: '🔄'
     });
 
     // Send voting message

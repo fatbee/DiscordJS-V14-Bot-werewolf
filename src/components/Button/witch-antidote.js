@@ -65,14 +65,13 @@ module.exports = new Component({
             victimDisplay = `<@${victimId}>`;
         }
 
-        // Check if it's first night and witch is the victim and rule forbids self-save
-        const isFirstNight = gameState.round === 1;
+        // Check if witch is the victim and rule forbids self-save (entire game, not just first night)
         const witchIsVictim = victimId === witchId;
-        const canSaveSelfFirstNight = gameState.gameRules?.witchCanSaveSelfFirstNight !== false;
+        const canSaveSelf = gameState.gameRules?.witchCanSaveSelfFirstNight !== false;
 
-        if (isFirstNight && witchIsVictim && !canSaveSelfFirstNight) {
+        if (witchIsVictim && !canSaveSelf) {
             return await interaction.reply({
-                content: `❌ **遊戲規則禁止女巫在第一夜自救！**\n\n今晚被狼人殺死的是：${victimDisplay}`,
+                content: `❌ **遊戲規則禁止女巫自救！**\n\n今晚被狼人殺死的是：${victimDisplay}`,
                 flags: MessageFlags.Ephemeral
             });
         }

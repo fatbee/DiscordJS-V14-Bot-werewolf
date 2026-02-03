@@ -20,15 +20,6 @@ module.exports = new Component({
         const playerCount = parseInt(parts.pop());
         const messageId = parts.pop();
 
-        // Get player list from database
-        const players = GameState.getPlayers(messageId);
-        let playerListText = '';
-        let index = 1;
-        for (const playerId of players) {
-            playerListText += `${index}. <@${playerId}>\n`;
-            index++;
-        }
-
         // Get current selections from database
         const selections = GameState.getCharacterSelections(messageId);
 
@@ -40,7 +31,7 @@ module.exports = new Component({
         // Send new message to channel (appears at bottom)
         // Page 1: Werewolf roles (狼王, 狼人, 隱狼) + button
         await interaction.channel.send({
-            content: `✅ 玩家數量: **${playerCount}** 人\n\n**玩家列表：**\n${playerListText}\n請選擇角色配置：`,
+            content: `✅ 玩家數量: **${playerCount}** 人\n\n請選擇角色配置：`,
             components: [
                 {
                     type: 1,

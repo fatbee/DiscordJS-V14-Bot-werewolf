@@ -3,6 +3,7 @@ const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
 const { isWerewolf } = require("../../utils/WerewolfRoles");
+const PlayerStats = require("../../utils/PlayerStats");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -83,6 +84,11 @@ module.exports = new Component({
         gameState.nightActions.seerCheck = targetId;
         gameState.nightActions.seerResult = isWerewolfTeam ? 'werewolf' : 'villager';
         WerewolfGame.saveGame(messageId, gameState, client.database);
+
+        // Record seer check statistics (skip test players)
+        if (!userId.startsWith('test-')) {
+            PlayerStats.recordSeerCheck(userId);
+        }
 
         // Don't disable dropdown or update message - let timer handle it
         // This keeps the screen unchanged until timer expires

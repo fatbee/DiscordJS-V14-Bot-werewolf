@@ -4,6 +4,7 @@ const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
 const SpeakingTimer = require("../../utils/SpeakingTimer");
 const config = require("../../config");
+const { hasHostPermission } = require("../../utils/WerewolfPermissions");
 
 module.exports = new Component({
     customId: 'skip-speaker',
@@ -27,19 +28,32 @@ module.exports = new Component({
             });
         }
 
-        // Check if user is bot owner (only owner can skip speakers)
-        const userId = interaction.user.id;
-        if (userId !== config.users.ownerId) {
+        // Check if user has host permission (bot owner, admin, or 狼GM role)
+        if (!hasHostPermission(interaction)) {
             return await interaction.reply({
-                content: '❌ 只有主持人可以跳過發言者！',
+                content: '❌ 只有主持人、管理員或擁有「狼GM」身份組可以跳過發言者！',
                 flags: MessageFlags.Ephemeral
             });
         }
 
-        // Get current speaker
-        const currentSpeakerId = gameState.speaking.order[gameState.speaking.current];
-        const isTestPlayer = currentSpeakerId.startsWith('test-');
+        // Check if this is PK speaking phase or normal speaking phase
+        const isPKPhase = gameState.pkSpeaking && gameState.pkSpeaking.current >= 0;
+
+        let currentSpeakerId;
         let currentSpeakerDisplay;
+
+        if (isPKPhase) {
+            // PK speaking phase
+            const pkOrder = gameState.pkSpeaking.order;
+            const currentIndex = gameState.pkSpeaking.current;
+            currentSpeakerId = pkOrder[currentIndex];
+        } else {
+            // Normal speaking phase
+            currentSpeakerId = gameState.speaking.order[gameState.speaking.current];
+        }
+
+        // Build speaker display
+        const isTestPlayer = currentSpeakerId.startsWith('test-');
         if (isTestPlayer) {
             const testNumber = currentSpeakerId.split('-')[2];
             currentSpeakerDisplay = `測試玩家 ${testNumber}`;
@@ -56,14 +70,21 @@ module.exports = new Component({
             flags: MessageFlags.Ephemeral
         });
 
-        // Remove buttons from current message
-        await interaction.message.edit({
-            components: []
-        });
+        // Delete the speaking message
+        try {
+            await interaction.message.delete();
+        } catch (error) {
+            console.error('Failed to delete speaking message:', error);
+        }
 
-        // Use the auto-advance function to move to next speaker
-        const { autoAdvanceToNextSpeaker } = require('./finish-speaking');
-        await autoAdvanceToNextSpeaker(client, interaction.channel, messageId);
+        // Use the appropriate auto-advance function
+        if (isPKPhase) {
+            const { autoAdvanceToNextPKSpeaker } = require('./finish-pk-speaking');
+            await autoAdvanceToNextPKSpeaker(client, interaction.channel, messageId);
+        } else {
+            const { autoAdvanceToNextSpeaker } = require('./finish-speaking');
+            await autoAdvanceToNextSpeaker(client, interaction.channel, messageId);
+        }
     }
 }).toJSON();
 

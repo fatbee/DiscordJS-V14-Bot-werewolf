@@ -5,6 +5,7 @@ const WerewolfGame = require("../../utils/WerewolfGame");
 const SpeakingTimer = require("../../utils/SpeakingTimer");
 const { triggerShootAbility } = require("../../utils/HunterShootHelper");
 const { getRoleDisplay } = require("../../utils/WerewolfRoles");
+const PlayerStats = require("../../utils/PlayerStats");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -92,6 +93,11 @@ module.exports = new Component({
             components: []
         });
 
+        // Record knight duel statistics (skip test players)
+        if (!currentSpeakerId.startsWith('test-')) {
+            PlayerStats.recordKnightDuel(currentSpeakerId);
+        }
+
         if (isWerewolf) {
             // Knight wins - target dies
             await interaction.channel.send({
@@ -103,7 +109,7 @@ module.exports = new Component({
                 playerId: targetId,
                 reason: '被騎士決鬥'
             }];
-            WerewolfGame.killPlayer(gameState, targetId, '被騎士決鬥');
+            WerewolfGame.killPlayer(gameState, targetId, '被騎士決鬥', interaction.guild);
             WerewolfGame.saveGame(messageId, gameState, client.database);
 
             // Check if target is wolf king - trigger shoot ability
@@ -137,7 +143,7 @@ module.exports = new Component({
             });
 
             // Kill knight
-            WerewolfGame.killPlayer(gameState, currentSpeakerId, '決鬥失敗');
+            WerewolfGame.killPlayer(gameState, currentSpeakerId, '決鬥失敗', interaction.guild);
             WerewolfGame.saveGame(messageId, gameState, client.database);
 
             // Check win condition

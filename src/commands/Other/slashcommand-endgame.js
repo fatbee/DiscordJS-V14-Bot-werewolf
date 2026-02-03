@@ -4,6 +4,7 @@ const ApplicationCommand = require("../../structure/ApplicationCommand");
 const WerewolfGame = require("../../utils/WerewolfGame");
 const GameState = require("../../utils/GameState");
 const config = require("../../config");
+const { hasHostPermission } = require("../../utils/WerewolfPermissions");
 
 module.exports = new ApplicationCommand({
     command: {
@@ -57,15 +58,13 @@ module.exports = new ApplicationCommand({
             });
         }
 
-        // Check if user is bot owner, admin, has "狼來了" role, or a player in the game
-        const isOwner = userId === config.users.ownerId;
-        const isAdmin = interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
-        const hasWerewolfRole = interaction.member.roles.cache.some(role => role.name === '狼來了');
+        // Check if user has host permission or is a player in the game
+        const isHost = hasHostPermission(interaction);
         const isPlayer = gameState.players && gameState.players[userId];
 
-        if (!isOwner && !isAdmin && !hasWerewolfRole && !isPlayer) {
+        if (!isHost && !isPlayer) {
             return await interaction.reply({
-                content: '❌ 只有管理員、Bot Owner、擁有「狼來了」身份組或遊戲中的玩家可以使用此指令！',
+                content: '❌ 只有主持人、管理員、擁有「狼GM」身份組或遊戲中的玩家可以使用此指令！',
                 flags: MessageFlags.Ephemeral
             });
         }
@@ -160,6 +159,18 @@ module.exports = new ApplicationCommand({
                             custom_id: 'start-game-button',
                             label: '開始遊戲',
                             style: 3 // Green button (Success style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'refresh-player-list-button',
+                            label: '🔄 刷新列表',
+                            style: 2 // Gray button (Secondary style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'kick-afk-player',
+                            label: '👢 踢AFK',
+                            style: 4 // Red button (Danger style)
                         }
                     ]
                 }

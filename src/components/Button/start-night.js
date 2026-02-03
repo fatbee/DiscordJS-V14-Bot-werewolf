@@ -4,6 +4,7 @@ const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
 const { getRoleDisplay } = require("../../utils/WerewolfRoles");
 const config = require("../../config");
+const { hasHostPermission } = require("../../utils/WerewolfPermissions");
 
 module.exports = new Component({
     customId: 'start-night',
@@ -27,8 +28,17 @@ module.exports = new Component({
             });
         }
 
-        // Update game phase to night
+        // Check if user has host permission (bot owner, admin, or 狼GM role)
+        if (!hasHostPermission(interaction)) {
+            return await interaction.reply({
+                content: '❌ 只有主持人、管理員或擁有「狼GM」身份組可以開始夜晚！',
+                flags: MessageFlags.Ephemeral
+            });
+        }
+
+        // Update game phase to night and increment round
         gameState.phase = 'night';
+        gameState.round++; // Increment day/round counter
         gameState.nightActions = {}; // Reset night actions
         WerewolfGame.saveGame(messageId, gameState, client.database);
 
@@ -65,6 +75,24 @@ module.exports = new Component({
             }
         } 
 
+        // Send DM to all players notifying night has started
+        for (const [playerId, player] of Object.entries(gameState.players)) {
+            const isTestPlayer = playerId.startsWith('test-');
+            if (!isTestPlayer) {
+                try {
+                    const user = await client.users.fetch(playerId);
+                    const statusEmoji = player.alive ? '✅' : '💀';
+                    const statusText = player.alive ? '存活' : '已死亡';
+
+                    await user.send({
+                        content: `🌙 **第 ${gameState.round} 夜降臨...**\n\n天黑請閉眼，所有玩家請停止發言。\n\n你的角色：**${player.role}**\n狀態：${statusEmoji} **${statusText}**\n\n各角色請開始行動...`
+                    });
+                } catch (error) {
+                    console.error(`Failed to send night DM to player ${playerId}:`, error);
+                }
+            }
+        }
+
         // Send night announcement to main channel
         await interaction.channel.send({
             content: `🌙 **第 ${gameState.round} 夜降臨...**\n\n天黑請閉眼，所有玩家請停止發言。\n\n**存活玩家：** (${alivePlayers.length} 人)\n${aliveListText}\n各角色請開始行動...`
@@ -98,10 +126,11 @@ module.exports = new Component({
         }
 
         // Check if we should use hidden werewolf or normal werewolves
-        if ((aliveWerewolves.length > 0 || hiddenWerewolfActivated) && aliveVillagers.length > 0) {
+        if ((aliveWerewolves.length > 0 || hiddenWerewolfActivated) && alivePlayers.length > 0) {
             // Build target selection options with speaking order numbers
+            // Include ALL alive players (werewolves can kill each other)
             const targetOptions = [];
-            for (const player of aliveVillagers) {
+            for (const player of alivePlayers) {
                 const isTestPlayer = player.id.startsWith('test-');
 
                 // Find player's position in fixed speaking order
@@ -240,8 +269,8 @@ module.exports = new Component({
 
                 // Update message
                 const completionMessage = hiddenWerewolfActivated
-                    ? `🌑🐺 **隱狼已選擇目標！**\n\n目標：${victimDisplay}\n\n✅ 隱狼請閉眼，等待其他角色行動...`
-                    : `🐺 **狼人已選擇目標！**\n\n目標：${victimDisplay}\n\n✅ 狼人請閉眼，等待其他角色行動...`;
+                    ? `🌑🐺 **隱狼已選擇目標！**\n\n✅ 隱狼請閉眼，等待其他角色行動...`
+                    : `🐺 **狼人已選擇目標！**\n\n✅ 狼人請閉眼，等待其他角色行動...`;
 
                 await werewolfMessage.edit({
                     content: completionMessage,
