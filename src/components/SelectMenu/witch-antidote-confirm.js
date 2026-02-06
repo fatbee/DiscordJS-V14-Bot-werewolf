@@ -48,15 +48,28 @@ module.exports = new Component({
         // Get selected action
         const action = interaction.values[0];
 
-        // Build victim display
+        // Build victim display with speaking order number
         const victimId = gameState.nightActions.werewolfKill;
         let victimDisplay;
         const isTestPlayer = victimId.startsWith('test-');
+
+        // Find victim's position in fixed speaking order
+        const speakingOrderIndex = gameState.fixedSpeakingOrder.indexOf(victimId);
+        const orderNumber = speakingOrderIndex !== -1 ? speakingOrderIndex + 1 : 0;
+
         if (isTestPlayer) {
             const testNumber = victimId.split('-')[2];
-            victimDisplay = `測試玩家 ${testNumber}`;
+            victimDisplay = `${orderNumber}號 - 測試玩家 ${testNumber}`;
         } else {
-            victimDisplay = `<@${victimId}>`;
+            // Try to get nickname (or username if no nickname)
+            let displayName = `玩家${orderNumber}`;
+            try {
+                const member = await interaction.guild.members.fetch(victimId);
+                displayName = member.displayName;
+            } catch (error) {
+                console.error(`Failed to fetch member ${victimId}:`, error);
+            }
+            victimDisplay = `${orderNumber}號 - ${displayName}`;
         }
 
         if (action === 'save') {

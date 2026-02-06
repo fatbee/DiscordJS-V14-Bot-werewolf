@@ -69,7 +69,7 @@ module.exports = new Component({
 
         // Send message to return to registration phase
         const newMessage = await interaction.channel.send({
-            content: `❌ **遊戲設置已取消！${testModeText}**\n\n返回報名階段...\n\n**玩家列表：** (${players.size} 人)\n${playerListText}`,
+            content: `準備開始遊戲！\n\n**玩家列表：** (${players.size} 人)\n${playerListText}`,
             components: [
                 {
                     type: 1,
@@ -91,6 +91,18 @@ module.exports = new Component({
                             custom_id: 'start-game-button',
                             label: '開始遊戲',
                             style: 3 // Green button (Success style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'refresh-player-list-button',
+                            label: '🔄 刷新列表',
+                            style: 2 // Gray button (Secondary style)
+                        },
+                        {
+                            type: 2, // Button
+                            custom_id: 'kick-afk-player',
+                            label: '👢 踢AFK',
+                            style: 4 // Red button (Danger style)
                         }
                     ]
                 }

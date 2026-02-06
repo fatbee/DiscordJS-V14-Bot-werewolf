@@ -1,0 +1,4444 @@
+game-players-1464153357450084496:
+  - '951505820514926613'
+  - test-1769151781824-1
+  - test-1769151781824-2
+  - test-1769151781824-3
+  - test-1769151781824-4
+game-characters-1464153357450084496:
+  狼王: 1
+  狼人: 0
+  預言家: 0
+  女巫: 1
+  獵人: 1
+  村民: 2
+game-speaking-order-1464153357450084496:
+  - test-1769151781824-1
+  - test-1769151781824-3
+  - '951505820514926613'
+  - test-1769151781824-4
+  - test-1769151781824-2
+game-werewolf-channel-1464153357450084496: '1464153537431994379'
+werewolf-game-1464153357450084496:
+  messageId: '1464153357450084496'
+  phase: night
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769151781824-1:
+      id: test-1769151781824-1
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769151781824-2:
+      id: test-1769151781824-2
+      role: 獵人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769151781824-3:
+      id: test-1769151781824-3
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769151781824-4:
+      id: test-1769151781824-4
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 狼王
+    test-1769151781824-1: 女巫
+    test-1769151781824-2: 獵人
+    test-1769151781824-3: 村民
+    test-1769151781824-4: 村民
+  nightActions: {}
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - test-1769151781824-1
+    - test-1769151781824-3
+    - '951505820514926613'
+    - test-1769151781824-4
+    - test-1769151781824-2
+  witchPotions:
+    test-1769151781824-1:
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769151806798
+game-channel-1464153357450084496: '1025454737069449269'
+game-speaking-order-1464155034706247822:
+  - '951505820514926613'
+  - test-1769152172365-2
+  - test-1769152172365-3
+  - test-1769152172365-1
+  - test-1769152172365-4
+werewolf-game-1464155034706247822:
+  messageId: '1464155034706247822'
+  phase: ended
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769152172365-1:
+      id: test-1769152172365-1
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769152172365-2:
+      id: test-1769152172365-2
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769152172365-3:
+      id: test-1769152172365-3
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769152172365-4:
+      id: test-1769152172365-4
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被射殺
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 狼王
+    test-1769152172365-1: 村民
+    test-1769152172365-2: 村民
+    test-1769152172365-3: 獵人
+    test-1769152172365-4: 女巫
+  nightActions:
+    werewolfKill: test-1769152172365-3
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - test-1769152172365-2
+    - test-1769152172365-3
+    - test-1769152172365-1
+    - test-1769152172365-4
+  witchPotions:
+    test-1769152172365-4:
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769152218590
+  werewolfTimer:
+    messageId: '1464155325212000523'
+    channelId: '1464155264046338283'
+game-channel-1464155034706247822: '1025454737069449269'
+game-speaking-order-1464161936316039271:
+  - '1071325874474975323'
+  - '398120590898364417'
+  - '603152898318139394'
+  - '853248277721382923'
+  - '951505820514926613'
+werewolf-game-1464161936316039271:
+  messageId: '1464161936316039271'
+  phase: ended
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    '853248277721382923':
+      id: '853248277721382923'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被女巫毒死
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被放逐
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '853248277721382923': 女巫
+    '1071325874474975323': 獵人
+    '398120590898364417': 村民
+    '603152898318139394': 狼人
+  nightActions:
+    werewolfKill: '853248277721382923'
+  dayVotes:
+    '853248277721382923': '398120590898364417'
+  deathQueue: []
+  speaking:
+    order:
+      - '398120590898364417'
+      - '603152898318139394'
+      - '853248277721382923'
+    current: 3
+  fixedSpeakingOrder:
+    - '1071325874474975323'
+    - '398120590898364417'
+    - '603152898318139394'
+    - '853248277721382923'
+    - '951505820514926613'
+  witchPotions:
+    '853248277721382923':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769154063798
+  werewolfVotes:
+    '603152898318139394': '853248277721382923'
+game-channel-1464161936316039271: '1032834989622054994'
+game-speaking-order-1464173842841862154:
+  - '951505820514926613'
+  - '398120590898364417'
+werewolf-game-1464173842841862154:
+  messageId: '1464173842841862154'
+  phase: night
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 狼王
+    '398120590898364417': 狼王
+  nightActions: {}
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '398120590898364417'
+  witchPotions: {}
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769156705430
+  werewolfVotes: {}
+game-channel-1464173842841862154: '1032834989622054994'
+game-players-1464174771448189051:
+  - '951505820514926613'
+  - '398120590898364417'
+game-speaking-order-1464174771448189051:
+  - '398120590898364417'
+  - '951505820514926613'
+game-speaking-order-1464177087341396010:
+  - '398120590898364417'
+  - '853248277721382923'
+  - '974328298211520572'
+  - '951505820514926613'
+werewolf-game-1464177087341396010:
+  messageId: '1464177087341396010'
+  phase: night
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被放逐
+      lastWords: null
+    '974328298211520572':
+      id: '974328298211520572'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被射殺
+      lastWords: null
+    '853248277721382923':
+      id: '853248277721382923'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 女巫
+    '398120590898364417': 獵人
+    '974328298211520572': 狼人
+    '853248277721382923': 村民
+  nightActions: {}
+  dayVotes:
+    '398120590898364417': '974328298211520572'
+    '853248277721382923': '398120590898364417'
+    '974328298211520572': '398120590898364417'
+  deathQueue: []
+  speaking:
+    order:
+      - '398120590898364417'
+      - '853248277721382923'
+      - '974328298211520572'
+    current: 3
+  fixedSpeakingOrder:
+    - '398120590898364417'
+    - '853248277721382923'
+    - '974328298211520572'
+    - '951505820514926613'
+  witchPotions:
+    '951505820514926613':
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769157588250
+  werewolfVotes: {}
+game-channel-1464177087341396010: '1032834989622054994'
+game-players-1464182396596519051:
+  - '398120590898364417'
+  - '951505820514926613'
+  - '974328298211520572'
+game-speaking-order-1464182396596519051:
+  - '951505820514926613'
+  - '398120590898364417'
+game-speaking-order-1464188121552785481:
+  - '1351089902330056788'
+  - '853248277721382923'
+  - '951505820514926613'
+  - '269117113497550848'
+werewolf-game-1464188121552785481:
+  messageId: '1464188121552785481'
+  phase: ended
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被放逐
+      lastWords: null
+    '853248277721382923':
+      id: '853248277721382923'
+      role: 獵人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '269117113497550848':
+      id: '269117113497550848'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1351089902330056788':
+      id: '1351089902330056788'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '853248277721382923': 獵人
+    '269117113497550848': 女巫
+    '1351089902330056788': 狼人
+  nightActions:
+    werewolfKill: '951505820514926613'
+    witchAction: antidote
+    witchAntidoteTarget: '951505820514926613'
+  dayVotes:
+    '951505820514926613': '853248277721382923'
+    '853248277721382923': '951505820514926613'
+    '269117113497550848': '951505820514926613'
+  deathQueue: []
+  speaking:
+    order:
+      - '1351089902330056788'
+      - '853248277721382923'
+      - '951505820514926613'
+      - '269117113497550848'
+    current: 4
+  fixedSpeakingOrder:
+    - '1351089902330056788'
+    - '853248277721382923'
+    - '951505820514926613'
+    - '269117113497550848'
+  witchPotions:
+    '269117113497550848':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769160098106
+  werewolfVotes:
+    '1351089902330056788': '951505820514926613'
+game-channel-1464188121552785481: '1032834989622054994'
+game-players-1464854245701324974:
+  - '951505820514926613'
+  - '853248277721382923'
+game-speaking-order-1464854245701324974:
+  - '951505820514926613'
+game-players-1465169020746465442: []
+game-players-1465195133195784352:
+  - '1071325874474975323'
+  - '1100241276286275594'
+  - '398120590898364417'
+  - '976524333893697606'
+  - '693738310782418987'
+  - '951505820514926613'
+game-characters-1465195133195784352: {}
+game-players-1465203501272666269:
+  - '1071325874474975323'
+  - '1100241276286275594'
+  - '951505820514926613'
+game-speaking-order-1465203501272666269:
+  - '1100241276286275594'
+  - '951505820514926613'
+  - '1071325874474975323'
+  - '693738310782418987'
+game-characters-1465203501272666269: {}
+game-speaking-order-1465252790098985010:
+  - test-1769413885633-9
+  - test-1769413885633-6
+  - test-1769413885633-2
+  - test-1769413885633-3
+  - test-1769413885633-5
+  - '951505820514926613'
+  - test-1769413885633-7
+  - test-1769413885633-1
+  - test-1769413885633-8
+  - test-1769413885633-4
+werewolf-game-1465252790098985010:
+  messageId: '1465252790098985010'
+  phase: day
+  round: 1
+  players:
+    test-1769413885633-1:
+      id: test-1769413885633-1
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769413885633-2:
+      id: test-1769413885633-2
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769413885633-3:
+      id: test-1769413885633-3
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769413885633-4:
+      id: test-1769413885633-4
+      role: 隱狼
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769413885633-5:
+      id: test-1769413885633-5
+      role: 騎士
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769413885633-6:
+      id: test-1769413885633-6
+      role: 熊
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769413885633-7:
+      id: test-1769413885633-7
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769413885633-8:
+      id: test-1769413885633-8
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769413885633-9:
+      id: test-1769413885633-9
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    test-1769413885633-1: 村民
+    test-1769413885633-2: 村民
+    test-1769413885633-3: 狼王
+    test-1769413885633-4: 隱狼
+    test-1769413885633-5: 騎士
+    test-1769413885633-6: 熊
+    test-1769413885633-7: 村民
+    test-1769413885633-8: 狼人
+    test-1769413885633-9: 村民
+    '951505820514926613': 女巫
+  nightActions:
+    werewolfKill: test-1769413885633-7
+    witchAction: antidote
+    witchAntidoteTarget: test-1769413885633-7
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order:
+      - '951505820514926613'
+      - test-1769413885633-5
+      - test-1769413885633-3
+      - test-1769413885633-2
+      - test-1769413885633-6
+      - test-1769413885633-9
+      - test-1769413885633-4
+      - test-1769413885633-8
+      - test-1769413885633-1
+    current: 3
+  fixedSpeakingOrder:
+    - test-1769413885633-9
+    - test-1769413885633-6
+    - test-1769413885633-2
+    - test-1769413885633-3
+    - test-1769413885633-5
+    - '951505820514926613'
+    - test-1769413885633-7
+    - test-1769413885633-1
+    - test-1769413885633-8
+    - test-1769413885633-4
+  witchPotions:
+    '951505820514926613':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769413961987
+  werewolfVotes: {}
+game-channel-1465252790098985010: '1025454737069449269'
+player-stats-951505820514926613:
+  totalGames: 18
+  wins: 10
+  losses: 8
+  survived: 9
+  werewolfWins: 5
+  villagerWins: 5
+  roles:
+    狼王: 3
+    狼人: 3
+    隱狼: 0
+    預言家: 3
+    女巫: 1
+    獵人: 0
+    騎士: 1
+    熊: 0
+    村民: 7
+  deaths:
+    被狼人殺死: 3
+    被女巫毒死: 4
+    被放逐: 1
+    被射殺: 1
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 5
+    witchSaves: 3
+    witchPoisons: 2
+    hunterShoots: 0
+    wolfKingShoots: 1
+    knightDuels: 1
+    votesGiven: 23
+    votesReceived: 13
+  firstGame: 1769417771043
+  lastGame: 1770300174328
+game-speaking-order-1465310552959094900:
+  - '398120590898364417'
+  - '1100241276286275594'
+  - '951505820514926613'
+werewolf-game-1465310552959094900:
+  messageId: '1465310552959094900'
+  phase: ended
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被女巫毒死
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '1100241276286275594': 預言家
+    '398120590898364417': 狼王
+    '1071325874474975323': 女巫
+    '603152898318139394': 村民
+  nightActions:
+    werewolfKill: '603152898318139394'
+    witchAction: poison
+    witchPoisonTarget: '1100241276286275594'
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order:
+      - '1100241276286275594'
+      - '398120590898364417'
+    current: 2
+  fixedSpeakingOrder:
+    - '398120590898364417'
+    - '1100241276286275594'
+    - '951505820514926613'
+  witchPotions:
+    '1071325874474975323':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769427830601
+  werewolfVotes:
+    '398120590898364417': '603152898318139394'
+  pkRound: 1
+  pkPlayers:
+    - '1100241276286275594'
+    - '398120590898364417'
+game-channel-1465310552959094900: '1035471834579206294'
+player-stats-1071325874474975323:
+  totalGames: 12
+  wins: 7
+  losses: 5
+  survived: 7
+  werewolfWins: 3
+  villagerWins: 4
+  roles:
+    狼王: 2
+    狼人: 2
+    隱狼: 0
+    預言家: 3
+    女巫: 1
+    獵人: 2
+    騎士: 0
+    熊: 0
+    村民: 2
+  deaths:
+    被狼人殺死: 1
+    被女巫毒死: 2
+    被放逐: 1
+    被射殺: 0
+    被騎士決鬥: 1
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 4
+    witchSaves: 1
+    witchPoisons: 1
+    hunterShoots: 0
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 11
+    votesReceived: 6
+  firstGame: 1769427947421
+  lastGame: 1770284296747
+player-stats-1100241276286275594:
+  totalGames: 14
+  wins: 7
+  losses: 7
+  survived: 3
+  werewolfWins: 3
+  villagerWins: 4
+  roles:
+    狼王: 2
+    狼人: 2
+    隱狼: 0
+    預言家: 3
+    女巫: 5
+    獵人: 0
+    騎士: 0
+    熊: 0
+    村民: 2
+  deaths:
+    被狼人殺死: 4
+    被女巫毒死: 1
+    被放逐: 3
+    被射殺: 1
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 2
+  actions:
+    werewolfKills: 0
+    seerChecks: 3
+    witchSaves: 3
+    witchPoisons: 5
+    hunterShoots: 0
+    wolfKingShoots: 2
+    knightDuels: 0
+    votesGiven: 10
+    votesReceived: 13
+  firstGame: 1769428094544
+  lastGame: 1770284305164
+player-stats-398120590898364417:
+  totalGames: 14
+  wins: 9
+  losses: 5
+  survived: 7
+  werewolfWins: 7
+  villagerWins: 2
+  roles:
+    狼王: 2
+    狼人: 7
+    隱狼: 1
+    預言家: 1
+    女巫: 1
+    獵人: 1
+    騎士: 0
+    熊: 0
+    村民: 1
+  deaths:
+    被狼人殺死: 1
+    被女巫毒死: 1
+    被放逐: 3
+    被射殺: 1
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 1
+  actions:
+    werewolfKills: 0
+    seerChecks: 2
+    witchSaves: 2
+    witchPoisons: 1
+    hunterShoots: 0
+    wolfKingShoots: 1
+    knightDuels: 0
+    votesGiven: 20
+    votesReceived: 10
+  firstGame: 1769428095365
+  lastGame: 1770301081030
+player-stats-603152898318139394:
+  totalGames: 7
+  wins: 1
+  losses: 6
+  survived: 0
+  werewolfWins: 1
+  villagerWins: 0
+  roles:
+    狼王: 2
+    狼人: 0
+    隱狼: 0
+    預言家: 0
+    女巫: 2
+    獵人: 0
+    騎士: 1
+    熊: 0
+    村民: 2
+  deaths:
+    被狼人殺死: 3
+    被女巫毒死: 1
+    被放逐: 0
+    被射殺: 2
+    被騎士決鬥: 0
+    決鬥失敗: 1
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 0
+    witchSaves: 1
+    witchPoisons: 2
+    hunterShoots: 0
+    wolfKingShoots: 0
+    knightDuels: 1
+    votesGiven: 3
+    votesReceived: 5
+  firstGame: 1769428095396
+  lastGame: 1770199475970
+game-players-1465315379021742210: []
+game-players-1465321307569787027:
+  - test-1769429834292-1
+  - test-1769429834292-2
+  - test-1769429834292-3
+  - test-1769429834292-4
+  - test-1769429834292-5
+  - test-1769429834292-6
+  - test-1769429834292-7
+  - test-1769429834292-8
+  - test-1769429834292-9
+  - '951505820514926613'
+game-characters-1465321307569787027:
+  狼王: 1
+  狼人: 2
+  隱狼: 0
+  預言家: 1
+  女巫: 1
+  獵人: 1
+  騎士: 0
+  熊: 0
+  村民: 4
+game-speaking-order-1465321307569787027:
+  - test-1769429834292-1
+  - test-1769429834292-8
+  - test-1769429834292-7
+  - test-1769429834292-5
+  - test-1769429834292-4
+  - '951505820514926613'
+  - test-1769429834292-3
+  - test-1769429834292-9
+  - test-1769429834292-2
+  - test-1769429834292-6
+game-speaking-order-1465349762340487504:
+  - test-1769436991044-3
+  - '951505820514926613'
+  - test-1769436991044-5
+  - test-1769436991044-8
+  - test-1769436991044-4
+  - '398120590898364417'
+  - test-1769436991044-9
+  - test-1769436991044-6
+  - test-1769436991044-1
+  - test-1769436991044-2
+  - test-1769436991044-7
+werewolf-game-1465349762340487504:
+  messageId: '1465349762340487504'
+  phase: ended
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769436991044-1:
+      id: test-1769436991044-1
+      role: 熊
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769436991044-2:
+      id: test-1769436991044-2
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被放逐
+      lastWords: null
+    test-1769436991044-3:
+      id: test-1769436991044-3
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769436991044-4:
+      id: test-1769436991044-4
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769436991044-5:
+      id: test-1769436991044-5
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769436991044-6:
+      id: test-1769436991044-6
+      role: 騎士
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769436991044-7:
+      id: test-1769436991044-7
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被放逐
+      lastWords: null
+    test-1769436991044-8:
+      id: test-1769436991044-8
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769436991044-9:
+      id: test-1769436991044-9
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 狼王
+    '398120590898364417': 狼人
+    test-1769436991044-1: 熊
+    test-1769436991044-2: 村民
+    test-1769436991044-3: 狼人
+    test-1769436991044-4: 女巫
+    test-1769436991044-5: 村民
+    test-1769436991044-6: 騎士
+    test-1769436991044-7: 村民
+    test-1769436991044-8: 村民
+    test-1769436991044-9: 村民
+  nightActions:
+    werewolfKill: test-1769436991044-8
+  dayVotes:
+    '951505820514926613': test-1769436991044-7
+  deathQueue: []
+  speaking:
+    order:
+      - test-1769436991044-7
+      - '398120590898364417'
+      - test-1769436991044-4
+      - test-1769436991044-8
+      - test-1769436991044-5
+      - '951505820514926613'
+    current: 6
+  fixedSpeakingOrder:
+    - test-1769436991044-3
+    - '951505820514926613'
+    - test-1769436991044-5
+    - test-1769436991044-8
+    - test-1769436991044-4
+    - '398120590898364417'
+    - test-1769436991044-9
+    - test-1769436991044-6
+    - test-1769436991044-1
+    - test-1769436991044-2
+    - test-1769436991044-7
+  witchPotions:
+    test-1769436991044-4:
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769437064678
+  werewolfVotes:
+    '951505820514926613': test-1769436991044-8
+game-channel-1465349762340487504: '1035471834579206294'
+game-speaking-order-1465513700428480589:
+  - '1071325874474975323'
+  - '848805580172165120'
+  - '951505820514926613'
+werewolf-game-1465513700428480589:
+  messageId: '1465513700428480589'
+  phase: ended
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 預言家
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 狼人
+    '848805580172165120': 村民
+    '1071325874474975323': 預言家
+  nightActions:
+    werewolfKill: '848805580172165120'
+    seerCheck: '848805580172165120'
+    seerResult: villager
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '1071325874474975323'
+    - '848805580172165120'
+    - '951505820514926613'
+  witchPotions: {}
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769484511796
+  werewolfVotes: {}
+game-channel-1465513700428480589: '1035471834579206294'
+player-stats-848805580172165120:
+  totalGames: 9
+  wins: 2
+  losses: 7
+  survived: 4
+  werewolfWins: 0
+  villagerWins: 2
+  roles:
+    狼王: 0
+    狼人: 1
+    隱狼: 0
+    預言家: 1
+    女巫: 0
+    獵人: 1
+    騎士: 0
+    熊: 0
+    村民: 6
+  deaths:
+    被狼人殺死: 3
+    被女巫毒死: 0
+    被放逐: 2
+    被射殺: 0
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 3
+    witchSaves: 1
+    witchPoisons: 0
+    hunterShoots: 1
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 13
+    votesReceived: 11
+  firstGame: 1769484574288
+  lastGame: 1770284294623
+game-speaking-order-1465570562322727023:
+  - '951505820514926613'
+  - '848805580172165120'
+  - '398120590898364417'
+  - '693738310782418987'
+  - '603152898318139394'
+  - '1100241276286275594'
+werewolf-game-1465570562322727023:
+  messageId: '1465570562322727023'
+  phase: night
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 預言家
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 預言家
+    '398120590898364417': 狼人
+    '848805580172165120': 女巫
+    '1100241276286275594': 狼人
+    '693738310782418987': 村民
+    '603152898318139394': 村民
+  nightActions: {}
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '848805580172165120'
+    - '398120590898364417'
+    - '693738310782418987'
+    - '603152898318139394'
+    - '1100241276286275594'
+  witchPotions:
+    '848805580172165120':
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1769489866722
+game-channel-1465570562322727023: '1035471834579206294'
+game-speaking-order-1465572336928297020:
+  - '1100241276286275594'
+  - '848805580172165120'
+  - '693738310782418987'
+  - '951505820514926613'
+  - '398120590898364417'
+  - '603152898318139394'
+  - '976524333893697606'
+werewolf-game-1465572336928297020:
+  messageId: '1465572336928297020'
+  phase: ended
+  round: 1
+  players:
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 自爆
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被射殺
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 獵人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 1
+      deathReason: 被狼人殺死
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 1
+      deathReason: 被放逐
+      lastWords: null
+  roleAssignments:
+    '398120590898364417': 狼王
+    '951505820514926613': 狼人
+    '1100241276286275594': 預言家
+    '603152898318139394': 女巫
+    '976524333893697606': 獵人
+    '693738310782418987': 村民
+    '848805580172165120': 村民
+  nightActions:
+    werewolfKill: '603152898318139394'
+  dayVotes:
+    '951505820514926613': '848805580172165120'
+    '976524333893697606': '848805580172165120'
+    '848805580172165120': '976524333893697606'
+  deathQueue: []
+  speaking:
+    order:
+      - '848805580172165120'
+      - '976524333893697606'
+      - '951505820514926613'
+    current: 3
+  fixedSpeakingOrder:
+    - '1100241276286275594'
+    - '848805580172165120'
+    - '693738310782418987'
+    - '951505820514926613'
+    - '398120590898364417'
+    - '603152898318139394'
+    - '976524333893697606'
+  witchPotions:
+    '603152898318139394':
+      antidote: true
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1769490124566
+  werewolfVotes:
+    '951505820514926613': '603152898318139394'
+game-channel-1465572336928297020: '1035471834579206294'
+player-stats-976524333893697606:
+  totalGames: 10
+  wins: 3
+  losses: 7
+  survived: 2
+  werewolfWins: 0
+  villagerWins: 3
+  roles:
+    狼王: 0
+    狼人: 0
+    隱狼: 0
+    預言家: 1
+    女巫: 2
+    獵人: 2
+    騎士: 0
+    熊: 0
+    村民: 5
+  deaths:
+    被狼人殺死: 3
+    被女巫毒死: 0
+    被放逐: 3
+    被射殺: 2
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 1
+    witchSaves: 2
+    witchPoisons: 1
+    hunterShoots: 0
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 9
+    votesReceived: 17
+  firstGame: 1769491213446
+  lastGame: 1770284305185
+player-stats-693738310782418987:
+  totalGames: 11
+  wins: 5
+  losses: 6
+  survived: 4
+  werewolfWins: 1
+  villagerWins: 4
+  roles:
+    狼王: 1
+    狼人: 0
+    隱狼: 0
+    預言家: 2
+    女巫: 2
+    獵人: 0
+    騎士: 0
+    熊: 0
+    村民: 6
+  deaths:
+    被狼人殺死: 3
+    被女巫毒死: 0
+    被放逐: 2
+    被射殺: 2
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 4
+    witchSaves: 2
+    witchPoisons: 1
+    hunterShoots: 0
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 8
+    votesReceived: 6
+  firstGame: 1769491240116
+  lastGame: 1770199475933
+game-speaking-order-1465587672553881775:
+  - test-1769493706470-4
+  - test-1769493706470-2
+  - test-1769493706470-3
+  - '951505820514926613'
+  - test-1769493706470-1
+  - test-1769493706470-5
+werewolf-game-1465587672553881775:
+  messageId: '1465587672553881775'
+  phase: day
+  round: 2
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769493706470-1:
+      id: test-1769493706470-1
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769493706470-2:
+      id: test-1769493706470-2
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769493706470-3:
+      id: test-1769493706470-3
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被女巫毒死
+      lastWords: null
+    test-1769493706470-4:
+      id: test-1769493706470-4
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769493706470-5:
+      id: test-1769493706470-5
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 女巫
+    test-1769493706470-1: 村民
+    test-1769493706470-2: 村民
+    test-1769493706470-3: 村民
+    test-1769493706470-4: 狼王
+    test-1769493706470-5: 村民
+  nightActions:
+    werewolfKill: test-1769493706470-2
+    witchAction: poison
+    witchPoisonTarget: test-1769493706470-3
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - test-1769493706470-4
+    - test-1769493706470-2
+    - test-1769493706470-3
+    - '951505820514926613'
+    - test-1769493706470-1
+    - test-1769493706470-5
+  witchPotions:
+    '951505820514926613':
+      antidote: true
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769493883822
+  werewolfVotes:
+    '951505820514926613': test-1769493706470-2
+game-channel-1465587672553881775: '1035471834579206294'
+game-speaking-order-1465589485323554918:
+  - '951505820514926613'
+  - test-1769494163166-1
+  - test-1769494163166-2
+  - '1071325874474975323'
+  - test-1769494163166-3
+werewolf-game-1465589485323554918:
+  messageId: '1465589485323554918'
+  phase: day
+  round: 4
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769494163166-1:
+      id: test-1769494163166-1
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被狼人殺死
+      lastWords: null
+    test-1769494163166-2:
+      id: test-1769494163166-2
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769494163166-3:
+      id: test-1769494163166-3
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 女巫
+    '1071325874474975323': 村民
+    test-1769494163166-1: 村民
+    test-1769494163166-2: 村民
+    test-1769494163166-3: 狼王
+  nightActions:
+    werewolfKill: test-1769494163166-1
+    witchAction: skip
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order:
+      - test-1769494163166-2
+      - test-1769494163166-3
+      - '951505820514926613'
+    current: 3
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - test-1769494163166-1
+    - test-1769494163166-2
+    - '1071325874474975323'
+    - test-1769494163166-3
+  witchPotions:
+    '951505820514926613':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769494188440
+  werewolfVotes:
+    '951505820514926613': test-1769494163166-1
+game-channel-1465589485323554918: '1035471834579206294'
+game-speaking-order-1465604491935088857:
+  - '1100241276286275594'
+  - '1071325874474975323'
+  - '398120590898364417'
+  - '976524333893697606'
+  - '951505820514926613'
+  - '979358314729181204'
+werewolf-game-1465604491935088857:
+  messageId: '1465604491935088857'
+  phase: ended
+  round: 3
+  players:
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被女巫毒死
+      lastWords: null
+  roleAssignments:
+    '1071325874474975323': 預言家
+    '1100241276286275594': 狼人
+    '951505820514926613': 女巫
+    '398120590898364417': 狼人
+    '976524333893697606': 村民
+    '979358314729181204': 村民
+  nightActions:
+    werewolfKill: '1071325874474975323'
+    seerCheck: '976524333893697606'
+    seerResult: villager
+    witchAction: poison
+    witchPoisonTarget: '979358314729181204'
+  dayVotes:
+    '951505820514926613': '398120590898364417'
+    '398120590898364417': '976524333893697606'
+    '976524333893697606': '398120590898364417'
+  deathQueue: []
+  speaking:
+    order:
+      - '951505820514926613'
+      - '398120590898364417'
+      - '976524333893697606'
+    current: 3
+  fixedSpeakingOrder:
+    - '1100241276286275594'
+    - '1071325874474975323'
+    - '398120590898364417'
+    - '976524333893697606'
+    - '951505820514926613'
+    - '979358314729181204'
+  witchPotions:
+    '951505820514926613':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769498428132
+  werewolfVotes:
+    '398120590898364417': '1071325874474975323'
+game-channel-1465604491935088857: '1035471834579206294'
+player-stats-979358314729181204:
+  totalGames: 11
+  wins: 2
+  losses: 9
+  survived: 0
+  werewolfWins: 1
+  villagerWins: 1
+  roles:
+    狼王: 2
+    狼人: 3
+    隱狼: 0
+    預言家: 1
+    女巫: 2
+    獵人: 2
+    騎士: 0
+    熊: 0
+    村民: 1
+  deaths:
+    被狼人殺死: 5
+    被女巫毒死: 1
+    被放逐: 4
+    被射殺: 0
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 1
+  actions:
+    werewolfKills: 0
+    seerChecks: 1
+    witchSaves: 0
+    witchPoisons: 0
+    hunterShoots: 1
+    wolfKingShoots: 2
+    knightDuels: 0
+    votesGiven: 8
+    votesReceived: 13
+  firstGame: 1769499385912
+  lastGame: 1770199475890
+game-speaking-order-1465617692915535873:
+  - '951505820514926613'
+  - '979358314729181204'
+  - '1100241276286275594'
+  - '398120590898364417'
+  - '1071325874474975323'
+  - '848805580172165120'
+werewolf-game-1465617692915535873:
+  messageId: '1465617692915535873'
+  phase: ended
+  round: 3
+  players:
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被女巫毒死
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 預言家
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '1100241276286275594': 女巫
+    '979358314729181204': 狼人
+    '848805580172165120': 村民
+    '1071325874474975323': 村民
+    '398120590898364417': 狼人
+    '951505820514926613': 預言家
+  nightActions:
+    werewolfKill: '1100241276286275594'
+    seerCheck: '398120590898364417'
+    seerResult: werewolf
+    witchAction: poison
+    witchPoisonTarget: '398120590898364417'
+  dayVotes:
+    '1100241276286275594': '979358314729181204'
+    '848805580172165120': '979358314729181204'
+    '1071325874474975323': abstain
+    '398120590898364417': '951505820514926613'
+  deathQueue: []
+  speaking:
+    order:
+      - '848805580172165120'
+      - '1071325874474975323'
+      - '398120590898364417'
+      - '1100241276286275594'
+      - '979358314729181204'
+      - '951505820514926613'
+    current: 6
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '979358314729181204'
+    - '1100241276286275594'
+    - '398120590898364417'
+    - '1071325874474975323'
+    - '848805580172165120'
+  witchPotions:
+    '1100241276286275594':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769500927535
+  werewolfVotes:
+    '398120590898364417': '1100241276286275594'
+game-channel-1465617692915535873: '1035471834579206294'
+game-speaking-order-1465624545867075669:
+  - '848805580172165120'
+  - '398120590898364417'
+  - '976524333893697606'
+  - '979358314729181204'
+  - '893548520097857596'
+  - '951505820514926613'
+  - '1100241276286275594'
+werewolf-game-1465624545867075669:
+  messageId: '1465624545867075669'
+  phase: ended
+  round: 3
+  players:
+    '893548520097857596':
+      id: '893548520097857596'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被射殺
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 自爆
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 獵人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+  roleAssignments:
+    '893548520097857596': 村民
+    '976524333893697606': 預言家
+    '951505820514926613': 狼人
+    '979358314729181204': 女巫
+    '1100241276286275594': 狼王
+    '398120590898364417': 獵人
+    '848805580172165120': 村民
+  nightActions:
+    werewolfKill: '848805580172165120'
+  dayVotes:
+    '951505820514926613': '893548520097857596'
+    '398120590898364417': '893548520097857596'
+  deathQueue: []
+  speaking:
+    order:
+      - '398120590898364417'
+      - '893548520097857596'
+      - '951505820514926613'
+    current: 3
+  fixedSpeakingOrder:
+    - '848805580172165120'
+    - '398120590898364417'
+    - '976524333893697606'
+    - '979358314729181204'
+    - '893548520097857596'
+    - '951505820514926613'
+    - '1100241276286275594'
+  witchPotions:
+    '979358314729181204':
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1769502687337
+  werewolfVotes:
+    '951505820514926613': '848805580172165120'
+game-channel-1465624545867075669: '1035471834579206294'
+player-stats-893548520097857596:
+  totalGames: 4
+  wins: 3
+  losses: 1
+  survived: 2
+  werewolfWins: 2
+  villagerWins: 1
+  roles:
+    狼王: 0
+    狼人: 1
+    隱狼: 1
+    預言家: 1
+    女巫: 0
+    獵人: 0
+    騎士: 0
+    熊: 0
+    村民: 1
+  deaths:
+    被狼人殺死: 1
+    被女巫毒死: 0
+    被放逐: 1
+    被射殺: 0
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 2
+    witchSaves: 0
+    witchPoisons: 0
+    hunterShoots: 0
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 3
+    votesReceived: 4
+  firstGame: 1769503778065
+  lastGame: 1770102160300
+game-players-1465888413478686774:
+  - '951505820514926613'
+  - '893548520097857596'
+  - '1071325874474975323'
+  - '1100241276286275594'
+  - '974328298211520572'
+  - '693738310782418987'
+game-speaking-order-1465912936366342259:
+  - '979358314729181204'
+  - '976524333893697606'
+  - '1071325874474975323'
+  - '1100241276286275594'
+  - '951505820514926613'
+  - '693738310782418987'
+werewolf-game-1465912936366342259:
+  messageId: '1465912936366342259'
+  phase: ended
+  round: 3
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被女巫毒死
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被射殺
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '1100241276286275594': 預言家
+    '693738310782418987': 女巫
+    '979358314729181204': 狼王
+    '1071325874474975323': 狼人
+    '976524333893697606': 村民
+  nightActions:
+    werewolfKill: '1100241276286275594'
+    seerCheck: '951505820514926613'
+    seerResult: villager
+    witchAction: poison
+    witchPoisonTarget: '1071325874474975323'
+  dayVotes:
+    '1071325874474975323': '979358314729181204'
+  deathQueue: []
+  speaking:
+    order:
+      - '976524333893697606'
+      - '979358314729181204'
+      - '693738310782418987'
+      - '951505820514926613'
+      - '1100241276286275594'
+      - '1071325874474975323'
+    current: 6
+  fixedSpeakingOrder:
+    - '979358314729181204'
+    - '976524333893697606'
+    - '1071325874474975323'
+    - '1100241276286275594'
+    - '951505820514926613'
+    - '693738310782418987'
+  witchPotions:
+    '693738310782418987':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769571373943
+  werewolfVotes:
+    '1071325874474975323': '1100241276286275594'
+  hunterShootTarget:
+    shooterIndex: 0
+    targetId: '976524333893697606'
+game-channel-1465912936366342259: '1035471834579206294'
+game-speaking-order-1465956232136233054:
+  - '951505820514926613'
+  - '848805580172165120'
+  - '603152898318139394'
+  - '974328298211520572'
+  - '398120590898364417'
+  - '1071325874474975323'
+  - '693738310782418987'
+  - '893548520097857596'
+  - '1100241276286275594'
+  - '979358314729181204'
+werewolf-game-1465956232136233054:
+  messageId: '1465956232136233054'
+  phase: night
+  round: 1
+  players:
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '893548520097857596':
+      id: '893548520097857596'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '974328298211520572':
+      id: '974328298211520572'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 獵人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 預言家
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '1071325874474975323': 狼人
+    '893548520097857596': 村民
+    '979358314729181204': 狼王
+    '974328298211520572': 女巫
+    '1100241276286275594': 村民
+    '398120590898364417': 獵人
+    '693738310782418987': 村民
+    '848805580172165120': 狼人
+    '603152898318139394': 村民
+    '951505820514926613': 預言家
+  nightActions: {}
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '848805580172165120'
+    - '603152898318139394'
+    - '974328298211520572'
+    - '398120590898364417'
+    - '1071325874474975323'
+    - '693738310782418987'
+    - '893548520097857596'
+    - '1100241276286275594'
+    - '979358314729181204'
+  witchPotions:
+    '974328298211520572':
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1769581670597
+game-channel-1465956232136233054: '1035471834579206294'
+game-speaking-order-1465958452223279145:
+  - '1100241276286275594'
+  - '893548520097857596'
+  - '951505820514926613'
+  - '693738310782418987'
+  - '848805580172165120'
+  - '603152898318139394'
+  - '974328298211520572'
+  - '1071325874474975323'
+  - '398120590898364417'
+werewolf-game-1465958452223279145:
+  messageId: '1465958452223279145'
+  phase: ended
+  round: 3
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 3
+      deathReason: 被女巫毒死
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 預言家
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被射殺
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 自爆
+      lastWords: null
+    '893548520097857596':
+      id: '893548520097857596'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '974328298211520572':
+      id: '974328298211520572'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 3
+      deathReason: 被射殺
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '1071325874474975323': 預言家
+    '693738310782418987': 村民
+    '1100241276286275594': 狼王
+    '893548520097857596': 狼人
+    '974328298211520572': 村民
+    '398120590898364417': 狼人
+    '848805580172165120': 獵人
+    '603152898318139394': 女巫
+  nightActions:
+    werewolfKill: '848805580172165120'
+    seerCheck: '848805580172165120'
+    seerResult: villager
+    witchAction: poison
+    witchPoisonTarget: '951505820514926613'
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order:
+      - '893548520097857596'
+      - '1100241276286275594'
+      - '398120590898364417'
+      - '1071325874474975323'
+      - '974328298211520572'
+      - '603152898318139394'
+      - '848805580172165120'
+      - '693738310782418987'
+      - '951505820514926613'
+    current: 1
+  fixedSpeakingOrder:
+    - '1100241276286275594'
+    - '893548520097857596'
+    - '951505820514926613'
+    - '693738310782418987'
+    - '848805580172165120'
+    - '603152898318139394'
+    - '974328298211520572'
+    - '1071325874474975323'
+    - '398120590898364417'
+  witchPotions:
+    '603152898318139394':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1769582170529
+  werewolfVotes:
+    '893548520097857596': '848805580172165120'
+    '398120590898364417': '974328298211520572'
+  hunterShootTarget:
+    shooterIndex: 0
+    targetId: '603152898318139394'
+game-channel-1465958452223279145: '1035471834579206294'
+player-stats-974328298211520572:
+  totalGames: 3
+  wins: 1
+  losses: 2
+  survived: 2
+  werewolfWins: 0
+  villagerWins: 1
+  roles:
+    狼王: 0
+    狼人: 0
+    隱狼: 0
+    預言家: 0
+    女巫: 0
+    獵人: 1
+    騎士: 0
+    熊: 0
+    村民: 2
+  deaths:
+    被狼人殺死: 1
+    被女巫毒死: 0
+    被放逐: 0
+    被射殺: 0
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 0
+    witchSaves: 0
+    witchPoisons: 0
+    hunterShoots: 1
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 4
+    votesReceived: 0
+  firstGame: 1769582478661
+  lastGame: 1770007139763
+game-speaking-order-1465963193133432874:
+  - '398120590898364417'
+  - '974328298211520572'
+  - '603152898318139394'
+  - '693738310782418987'
+  - '848805580172165120'
+  - '893548520097857596'
+  - '1100241276286275594'
+  - '951505820514926613'
+werewolf-game-1465963193133432874:
+  messageId: '1465963193133432874'
+  phase: ended
+  round: 4
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被女巫毒死
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '893548520097857596':
+      id: '893548520097857596'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '974328298211520572':
+      id: '974328298211520572'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被狼人殺死
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被射殺
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '1100241276286275594': 村民
+    '693738310782418987': 村民
+    '893548520097857596': 預言家
+    '974328298211520572': 獵人
+    '398120590898364417': 女巫
+    '603152898318139394': 狼王
+    '848805580172165120': 狼人
+  nightActions:
+    werewolfKill: '974328298211520572'
+    witchAction: poison
+    witchPoisonTarget: '951505820514926613'
+  dayVotes:
+    '951505820514926613': '1100241276286275594'
+    '398120590898364417': '1100241276286275594'
+  deathQueue: []
+  speaking:
+    order:
+      - '1100241276286275594'
+      - '951505820514926613'
+      - '398120590898364417'
+      - '974328298211520572'
+      - '603152898318139394'
+      - '693738310782418987'
+    current: 6
+  fixedSpeakingOrder:
+    - '398120590898364417'
+    - '974328298211520572'
+    - '603152898318139394'
+    - '693738310782418987'
+    - '848805580172165120'
+    - '893548520097857596'
+    - '1100241276286275594'
+    - '951505820514926613'
+  witchPotions:
+    '398120590898364417':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1769583298369
+  werewolfVotes:
+    '603152898318139394': '974328298211520572'
+  hunterShootTarget:
+    shooterIndex: 0
+    targetId: '603152898318139394'
+game-channel-1465963193133432874: '1035471834579206294'
+game-speaking-order-1465986882176417947:
+  - '1100241276286275594'
+  - '951505820514926613'
+werewolf-game-1465986882176417947:
+  messageId: '1465986882176417947'
+  phase: ended
+  round: 2
+  players:
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被女巫毒死
+      lastWords: null
+  roleAssignments:
+    '1100241276286275594': 女巫
+    '951505820514926613': 狼王
+  nightActions:
+    werewolfKill: '1100241276286275594'
+    witchAction: poison
+    witchPoisonTarget: '951505820514926613'
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '1100241276286275594'
+    - '951505820514926613'
+  witchPotions:
+    '1100241276286275594':
+      antidote: true
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769590356783
+  werewolfVotes:
+    '951505820514926613': '1100241276286275594'
+game-channel-1465986882176417947: '1035471834579206294'
+player-stats-1030374663622250506:
+  totalGames: 0
+  wins: 0
+  losses: 0
+  survived: 0
+  werewolfWins: 0
+  villagerWins: 0
+  roles:
+    狼王: 0
+    狼人: 0
+    隱狼: 0
+    預言家: 0
+    女巫: 0
+    獵人: 0
+    騎士: 0
+    熊: 0
+    村民: 0
+  deaths:
+    被狼人殺死: 0
+    被女巫毒死: 0
+    被放逐: 0
+    被射殺: 0
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 0
+    witchSaves: 0
+    witchPoisons: 0
+    hunterShoots: 0
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 0
+    votesReceived: 0
+  firstGame: 1769757173780
+  lastGame: 1769757173780
+game-players-1466709924175417444:
+  - '951505820514926613'
+game-speaking-order-1466726499422830705:
+  - test-1769765237598-3
+  - test-1769765237598-6
+  - test-1769765237598-5
+  - test-1769765237598-8
+  - test-1769765237598-7
+  - test-1769765237598-1
+  - '951505820514926613'
+  - test-1769765237598-4
+  - test-1769765237598-2
+  - test-1769765237598-9
+werewolf-game-1466726499422830705:
+  messageId: '1466726499422830705'
+  phase: night
+  round: 1
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-1:
+      id: test-1769765237598-1
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-2:
+      id: test-1769765237598-2
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-3:
+      id: test-1769765237598-3
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-4:
+      id: test-1769765237598-4
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-5:
+      id: test-1769765237598-5
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-6:
+      id: test-1769765237598-6
+      role: 預言家
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-7:
+      id: test-1769765237598-7
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-8:
+      id: test-1769765237598-8
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    test-1769765237598-9:
+      id: test-1769765237598-9
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    test-1769765237598-1: 村民
+    test-1769765237598-2: 村民
+    test-1769765237598-3: 女巫
+    test-1769765237598-4: 狼王
+    test-1769765237598-5: 村民
+    test-1769765237598-6: 預言家
+    test-1769765237598-7: 村民
+    test-1769765237598-8: 村民
+    test-1769765237598-9: 村民
+  nightActions: {}
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - test-1769765237598-3
+    - test-1769765237598-6
+    - test-1769765237598-5
+    - test-1769765237598-8
+    - test-1769765237598-7
+    - test-1769765237598-1
+    - '951505820514926613'
+    - test-1769765237598-4
+    - test-1769765237598-2
+    - test-1769765237598-9
+  witchPotions:
+    test-1769765237598-3:
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1769765334694
+game-channel-1466726499422830705: '1025454737069449269'
+game-speaking-order-1467725240317513782:
+  - '976524333893697606'
+  - '398120590898364417'
+  - '951505820514926613'
+  - '1100241276286275594'
+  - '693738310782418987'
+  - '979358314729181204'
+  - '603152898318139394'
+  - '811300657272324116'
+  - '1071325874474975323'
+  - '974328298211520572'
+werewolf-game-1467725240317513782:
+  messageId: '1467725240317513782'
+  phase: ended
+  round: 4
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被女巫毒死
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 騎士
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 決鬥失敗
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '811300657272324116':
+      id: '811300657272324116'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被放逐
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 隱狼
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被射殺
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '974328298211520572':
+      id: '974328298211520572'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被狼人殺死
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '1100241276286275594': 村民
+    '603152898318139394': 騎士
+    '1071325874474975323': 狼人
+    '811300657272324116': 狼王
+    '979358314729181204': 獵人
+    '398120590898364417': 隱狼
+    '693738310782418987': 預言家
+    '974328298211520572': 村民
+    '976524333893697606': 女巫
+  nightActions:
+    werewolfKill: '976524333893697606'
+    witchAction: poison
+    witchPoisonTarget: '951505820514926613'
+  dayVotes:
+    '811300657272324116': '979358314729181204'
+    '398120590898364417': '979358314729181204'
+    '974328298211520572': '979358314729181204'
+    '979358314729181204': '398120590898364417'
+  deathQueue: []
+  speaking:
+    order:
+      - '398120590898364417'
+      - '974328298211520572'
+      - '811300657272324116'
+      - '979358314729181204'
+    current: 4
+  fixedSpeakingOrder:
+    - '976524333893697606'
+    - '398120590898364417'
+    - '951505820514926613'
+    - '1100241276286275594'
+    - '693738310782418987'
+    - '979358314729181204'
+    - '603152898318139394'
+    - '811300657272324116'
+    - '1071325874474975323'
+    - '974328298211520572'
+  witchPotions:
+    '976524333893697606':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770003432297
+  werewolfVotes:
+    '811300657272324116': '976524333893697606'
+  hunterShootTarget:
+    shooterIndex: 0
+    targetId: '398120590898364417'
+game-channel-1467725240317513782: '1035471834579206294'
+player-stats-811300657272324116:
+  totalGames: 3
+  wins: 2
+  losses: 1
+  survived: 2
+  werewolfWins: 1
+  villagerWins: 1
+  roles:
+    狼王: 1
+    狼人: 0
+    隱狼: 0
+    預言家: 0
+    女巫: 0
+    獵人: 1
+    騎士: 0
+    熊: 0
+    村民: 1
+  deaths:
+    被狼人殺死: 0
+    被女巫毒死: 0
+    被放逐: 1
+    被射殺: 0
+    被騎士決鬥: 0
+    決鬥失敗: 0
+    自爆: 0
+  actions:
+    werewolfKills: 0
+    seerChecks: 0
+    witchSaves: 1
+    witchPoisons: 0
+    hunterShoots: 0
+    wolfKingShoots: 0
+    knightDuels: 0
+    votesGiven: 6
+    votesReceived: 4
+  firstGame: 1770005145100
+  lastGame: 1770301621623
+game-speaking-order-1467808195870457986:
+  - '1100241276286275594'
+  - '976524333893697606'
+  - '979358314729181204'
+  - '398120590898364417'
+  - '951505820514926613'
+  - '1071325874474975323'
+  - '693738310782418987'
+werewolf-game-1467808195870457986:
+  messageId: '1467808195870457986'
+  phase: ended
+  round: 3
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '979358314729181204': 女巫
+    '976524333893697606': 獵人
+    '398120590898364417': 村民
+    '1100241276286275594': 狼人
+    '693738310782418987': 預言家
+    '1071325874474975323': 狼王
+  nightActions:
+    werewolfKill: '693738310782418987'
+    seerCheck: '1100241276286275594'
+    seerResult: werewolf
+  dayVotes:
+    '1071325874474975323': '976524333893697606'
+    '951505820514926613': '976524333893697606'
+    '976524333893697606': '1100241276286275594'
+    '398120590898364417': '976524333893697606'
+  deathQueue: []
+  speaking:
+    order:
+      - '1100241276286275594'
+      - '976524333893697606'
+      - '398120590898364417'
+      - '951505820514926613'
+      - '1071325874474975323'
+    current: 5
+  fixedSpeakingOrder:
+    - '1100241276286275594'
+    - '976524333893697606'
+    - '979358314729181204'
+    - '398120590898364417'
+    - '951505820514926613'
+    - '1071325874474975323'
+    - '693738310782418987'
+  witchPotions:
+    '979358314729181204':
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770023386024
+  werewolfVotes:
+    '1100241276286275594': '693738310782418987'
+    '1071325874474975323': '693738310782418987'
+game-channel-1467808195870457986: '1035471834579206294'
+game-speaking-order-1468124882993942622:
+  - '1071325874474975323'
+  - '603152898318139394'
+  - '976524333893697606'
+  - '979358314729181204'
+  - '693738310782418987'
+  - '811300657272324116'
+  - '848805580172165120'
+  - '951505820514926613'
+  - '893548520097857596'
+werewolf-game-1468124882993942622:
+  messageId: '1468124882993942622'
+  phase: ended
+  round: 5
+  players:
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被騎士決鬥
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 騎士
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被狼人殺死
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 5
+      deathReason: 被狼人殺死
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 預言家
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '893548520097857596':
+      id: '893548520097857596'
+      role: 隱狼
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '811300657272324116':
+      id: '811300657272324116'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被放逐
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+  roleAssignments:
+    '1071325874474975323': 狼王
+    '951505820514926613': 騎士
+    '976524333893697606': 女巫
+    '603152898318139394': 村民
+    '848805580172165120': 預言家
+    '893548520097857596': 隱狼
+    '811300657272324116': 村民
+    '693738310782418987': 村民
+    '979358314729181204': 狼人
+  nightActions:
+    werewolfKill: '603152898318139394'
+    seerCheck: '893548520097857596'
+    seerResult: werewolf
+  dayVotes:
+    '893548520097857596': '603152898318139394'
+    '693738310782418987': '893548520097857596'
+    '603152898318139394': '693738310782418987'
+    '848805580172165120': '693738310782418987'
+  deathQueue: []
+  speaking:
+    order:
+      - '603152898318139394'
+      - '893548520097857596'
+      - '951505820514926613'
+      - '848805580172165120'
+      - '693738310782418987'
+    current: 5
+  fixedSpeakingOrder:
+    - '1071325874474975323'
+    - '603152898318139394'
+    - '976524333893697606'
+    - '979358314729181204'
+    - '693738310782418987'
+    - '811300657272324116'
+    - '848805580172165120'
+    - '951505820514926613'
+    - '893548520097857596'
+  witchPotions:
+    '976524333893697606':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770098859346
+  werewolfVotes: {}
+  pendingShooters:
+    - playerId: '1071325874474975323'
+      reason: 被騎士決鬥
+  currentShooterIndex: 0
+  shootOnComplete: stored
+game-channel-1468124882993942622: '1035471834579206294'
+game-speaking-order-1468154647167504476:
+  - '398120590898364417'
+  - '1071325874474975323'
+  - '951505820514926613'
+  - '811300657272324116'
+  - '979358314729181204'
+  - '693738310782418987'
+  - '848805580172165120'
+werewolf-game-1468154647167504476:
+  messageId: '1468154647167504476'
+  phase: ended
+  round: 3
+  players:
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被射殺
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '811300657272324116':
+      id: '811300657272324116'
+      role: 獵人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '693738310782418987': 女巫
+    '951505820514926613': 狼王
+    '848805580172165120': 村民
+    '1071325874474975323': 村民
+    '398120590898364417': 預言家
+    '979358314729181204': 狼人
+    '811300657272324116': 獵人
+  nightActions:
+    werewolfKill: '398120590898364417'
+    seerCheck: '979358314729181204'
+    seerResult: werewolf
+  dayVotes:
+    '1071325874474975323': '979358314729181204'
+    '848805580172165120': abstain
+  deathQueue: []
+  speaking:
+    order:
+      - '1071325874474975323'
+      - '811300657272324116'
+      - '979358314729181204'
+      - '848805580172165120'
+    current: 4
+  fixedSpeakingOrder:
+    - '398120590898364417'
+    - '1071325874474975323'
+    - '951505820514926613'
+    - '811300657272324116'
+    - '979358314729181204'
+    - '693738310782418987'
+    - '848805580172165120'
+  witchPotions:
+    '693738310782418987':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770105811451
+  werewolfVotes:
+    '979358314729181204': '398120590898364417'
+  hunterShootTarget:
+    shooterIndex: 0
+    targetId: '693738310782418987'
+game-channel-1468154647167504476: '1035471834579206294'
+game-speaking-order-1468454059903287470:
+  - '1071325874474975323'
+  - '979358314729181204'
+  - '1100241276286275594'
+  - '693738310782418987'
+  - '976524333893697606'
+  - '398120590898364417'
+  - '951505820514926613'
+werewolf-game-1468454059903287470:
+  messageId: '1468454059903287470'
+  phase: ended
+  round: 3
+  players:
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被射殺
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 自爆
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被女巫毒死
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+  roleAssignments:
+    '1100241276286275594': 女巫
+    '951505820514926613': 預言家
+    '979358314729181204': 狼王
+    '1071325874474975323': 獵人
+    '398120590898364417': 狼人
+    '693738310782418987': 村民
+    '976524333893697606': 村民
+  nightActions:
+    werewolfKill: '976524333893697606'
+    witchAction: poison
+    witchPoisonTarget: '1071325874474975323'
+  dayVotes:
+    '398120590898364417': '693738310782418987'
+    '693738310782418987': '398120590898364417'
+    '1100241276286275594': '398120590898364417'
+  deathQueue: []
+  speaking:
+    order:
+      - '1100241276286275594'
+      - '398120590898364417'
+      - '693738310782418987'
+    current: 3
+  fixedSpeakingOrder:
+    - '1071325874474975323'
+    - '979358314729181204'
+    - '1100241276286275594'
+    - '693738310782418987'
+    - '976524333893697606'
+    - '398120590898364417'
+    - '951505820514926613'
+  witchPotions:
+    '1100241276286275594':
+      antidote: false
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770177173624
+  werewolfVotes:
+    '398120590898364417': '976524333893697606'
+  hunterShootTarget:
+    shooterIndex: 0
+    targetId: '951505820514926613'
+game-channel-1468454059903287470: '1035471834579206294'
+game-speaking-order-1468497775862878341:
+  - '693738310782418987'
+  - '976524333893697606'
+  - '398120590898364417'
+  - '951505820514926613'
+  - '1071325874474975323'
+  - '1100241276286275594'
+  - '979358314729181204'
+werewolf-game-1468497775862878341:
+  messageId: '1468497775862878341'
+  phase: ended
+  round: 4
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被狼人殺死
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 獵人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 村民
+    '979358314729181204': 預言家
+    '1100241276286275594': 女巫
+    '1071325874474975323': 獵人
+    '398120590898364417': 狼人
+    '976524333893697606': 村民
+    '693738310782418987': 狼王
+  nightActions:
+    werewolfKill: '951505820514926613'
+  dayVotes:
+    '1100241276286275594': '976524333893697606'
+  deathQueue: []
+  speaking:
+    order:
+      - '693738310782418987'
+      - '976524333893697606'
+      - '951505820514926613'
+      - '1071325874474975323'
+      - '1100241276286275594'
+    current: 5
+  fixedSpeakingOrder:
+    - '693738310782418987'
+    - '976524333893697606'
+    - '398120590898364417'
+    - '951505820514926613'
+    - '1071325874474975323'
+    - '1100241276286275594'
+    - '979358314729181204'
+  witchPotions:
+    '1100241276286275594':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770187651239
+  werewolfVotes:
+    '693738310782418987': '951505820514926613'
+game-channel-1468497775862878341: '1035471834579206294'
+game-speaking-order-1468538304604409909:
+  - '848805580172165120'
+  - '603152898318139394'
+  - '976524333893697606'
+  - '693738310782418987'
+  - '979358314729181204'
+  - '398120590898364417'
+  - '951505820514926613'
+  - '1100241276286275594'
+werewolf-game-1468538304604409909:
+  messageId: '1468538304604409909'
+  phase: ended
+  round: 4
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 預言家
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被狼人殺死
+      lastWords: null
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 獵人
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被狼人殺死
+      lastWords: null
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 村民
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '693738310782418987':
+      id: '693738310782418987'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 2
+      deathReason: 被放逐
+      lastWords: null
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼人
+      alive: true
+      canSpeak: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+    '603152898318139394':
+      id: '603152898318139394'
+      role: 狼王
+      alive: false
+      canSpeak: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被女巫毒死
+      lastWords: null
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 村民
+      alive: false
+      canSpeak: true
+      hasSpoken: true
+      deathRound: 3
+      deathReason: 被放逐
+      lastWords: null
+  roleAssignments:
+    '951505820514926613': 預言家
+    '1100241276286275594': 女巫
+    '979358314729181204': 獵人
+    '848805580172165120': 村民
+    '693738310782418987': 村民
+    '398120590898364417': 狼人
+    '603152898318139394': 狼王
+    '976524333893697606': 村民
+  nightActions:
+    werewolfKill: '979358314729181204'
+  dayVotes:
+    '848805580172165120': '976524333893697606'
+    '979358314729181204': '976524333893697606'
+    '398120590898364417': '848805580172165120'
+  deathQueue: []
+  speaking:
+    order:
+      - '848805580172165120'
+      - '976524333893697606'
+      - '979358314729181204'
+      - '398120590898364417'
+    current: 4
+  fixedSpeakingOrder:
+    - '848805580172165120'
+    - '603152898318139394'
+    - '976524333893697606'
+    - '693738310782418987'
+    - '979358314729181204'
+    - '398120590898364417'
+    - '951505820514926613'
+    - '1100241276286275594'
+  witchPotions:
+    '1100241276286275594':
+      antidote: true
+      poison: false
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770197569987
+  werewolfVotes:
+    '398120590898364417': '979358314729181204'
+game-channel-1468538304604409909: '1035471834579206294'
+game-players-1468887959234416846:
+  - '951505820514926613'
+game-characters-1468887959234416846: {}
+game-speaking-order-1468896674330968117:
+  - '951505820514926613'
+  - '976524333893697606'
+  - '979358314729181204'
+  - '1100241276286275594'
+  - '848805580172165120'
+werewolf-game-1468896674330968117:
+  messageId: '1468896674330968117'
+  phase: night
+  round: 1
+  players:
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 白痴
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '979358314729181204':
+      id: '979358314729181204'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 守衛
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 村民
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+  roleAssignments:
+    '1100241276286275594': 白痴
+    '979358314729181204': 狼王
+    '976524333893697606': 守衛
+    '951505820514926613': 女巫
+    '848805580172165120': 村民
+  nightActions: {}
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '976524333893697606'
+    - '979358314729181204'
+    - '1100241276286275594'
+    - '848805580172165120'
+  witchPotions:
+    '951505820514926613':
+      antidote: true
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: false
+  createdAt: 1770283407364
+role-history-1100241276286275594:
+  - role: 白痴
+    team: villager
+    timestamp: 1770283407389
+  - role: 村民
+    team: villager
+    timestamp: 1770284088586
+  - role: 狼王
+    team: werewolf
+    timestamp: 1770300953985
+role-history-979358314729181204:
+  - role: 狼王
+    team: werewolf
+    timestamp: 1770283407413
+role-history-976524333893697606:
+  - role: 守衛
+    team: villager
+    timestamp: 1770283407435
+  - role: 白痴
+    team: villager
+    timestamp: 1770284088513
+role-history-951505820514926613:
+  - role: 女巫
+    team: villager
+    timestamp: 1770283407456
+  - role: 守衛
+    team: villager
+    timestamp: 1770284088567
+  - role: 女巫
+    team: villager
+    timestamp: 1770300047817
+  - role: 村民
+    team: villager
+    timestamp: 1770300953942
+  - role: 狼王
+    team: werewolf
+    timestamp: 1770301549080
+role-history-848805580172165120:
+  - role: 村民
+    team: villager
+    timestamp: 1770283407476
+  - role: 女巫
+    team: villager
+    timestamp: 1770284088493
+  - role: 守衛
+    team: villager
+    timestamp: 1770300047877
+teammate-history-1100241276286275594-976524333893697606:
+  - team: villager
+    timestamp: 1770283407494
+teammate-history-1100241276286275594-951505820514926613:
+  - team: villager
+    timestamp: 1770283407510
+teammate-history-951505820514926613-976524333893697606:
+  - team: villager
+    timestamp: 1770283407528
+  - team: villager
+    timestamp: 1770284088637
+game-channel-1468896674330968117: '1035471834579206294'
+game-speaking-order-1468902467889659966:
+  - '951505820514926613'
+  - '1100241276286275594'
+  - '848805580172165120'
+  - '1071325874474975323'
+  - '976524333893697606'
+werewolf-game-1468902467889659966:
+  messageId: '1468902467889659966'
+  phase: day
+  round: 2
+  players:
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '976524333893697606':
+      id: '976524333893697606'
+      role: 白痴
+      alive: true
+      canSpeak: true
+      canVote: false
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: true
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 守衛
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 村民
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+  roleAssignments:
+    '1071325874474975323': 狼王
+    '848805580172165120': 女巫
+    '976524333893697606': 白痴
+    '951505820514926613': 守衛
+    '1100241276286275594': 村民
+  nightActions:
+    werewolfKill: '951505820514926613'
+    witchAction: antidote
+    witchAntidoteTarget: '951505820514926613'
+  dayVotes:
+    '848805580172165120': '976524333893697606'
+    '951505820514926613': '976524333893697606'
+    '1071325874474975323': '976524333893697606'
+    '976524333893697606': '976524333893697606'
+    '1100241276286275594': '976524333893697606'
+  deathQueue: []
+  speaking:
+    order:
+      - '951505820514926613'
+      - '1100241276286275594'
+      - '848805580172165120'
+      - '1071325874474975323'
+      - '976524333893697606'
+    current: 5
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '1100241276286275594'
+    - '848805580172165120'
+    - '1071325874474975323'
+    - '976524333893697606'
+  witchPotions:
+    '848805580172165120':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1770284088450
+  werewolfVotes:
+    '1071325874474975323': '951505820514926613'
+role-history-1071325874474975323:
+  - role: 狼王
+    team: werewolf
+    timestamp: 1770284088474
+  - role: 村民
+    team: villager
+    timestamp: 1770300047850
+  - role: 村民
+    team: villager
+    timestamp: 1770301549122
+teammate-history-848805580172165120-976524333893697606:
+  - team: villager
+    timestamp: 1770284088602
+teammate-history-848805580172165120-951505820514926613:
+  - team: villager
+    timestamp: 1770284088617
+  - team: villager
+    timestamp: 1770300047933
+game-channel-1468902467889659966: '1035471834579206294'
+game-speaking-order-1468969440585584722:
+  - '398120590898364417'
+  - '1071325874474975323'
+  - '848805580172165120'
+  - '951505820514926613'
+werewolf-game-1468969440585584722:
+  messageId: '1468969440585584722'
+  phase: day
+  round: 4
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: 4
+      deathReason: 被狼人殺死
+      lastWords: null
+      idiotRevealed: false
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 村民
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '848805580172165120':
+      id: '848805580172165120'
+      role: 守衛
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: true
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+  roleAssignments:
+    '951505820514926613': 女巫
+    '1071325874474975323': 村民
+    '848805580172165120': 守衛
+    '398120590898364417': 狼王
+  nightActions:
+    guardProtect: '398120590898364417'
+    werewolfKill: '951505820514926613'
+  dayVotes:
+    '398120590898364417': abstain
+  deathQueue: []
+  speaking:
+    order:
+      - '951505820514926613'
+      - '848805580172165120'
+      - '1071325874474975323'
+      - '398120590898364417'
+    current: 4
+  fixedSpeakingOrder:
+    - '398120590898364417'
+    - '1071325874474975323'
+    - '848805580172165120'
+    - '951505820514926613'
+  witchPotions:
+    '951505820514926613':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1770300047786
+  werewolfVotes:
+    '398120590898364417': '951505820514926613'
+  guardLastProtect: '398120590898364417'
+role-history-398120590898364417:
+  - role: 狼王
+    team: werewolf
+    timestamp: 1770300047900
+  - role: 女巫
+    team: villager
+    timestamp: 1770300953961
+game-channel-1468969440585584722: '1035471834579206294'
+game-speaking-order-1468973271608328435:
+  - '951505820514926613'
+  - '398120590898364417'
+  - '811300657272324116'
+  - '1100241276286275594'
+werewolf-game-1468973271608328435:
+  messageId: '1468973271608328435'
+  phase: day
+  round: 2
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 村民
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '398120590898364417':
+      id: '398120590898364417'
+      role: 女巫
+      alive: false
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: 2
+      deathReason: 被狼人殺死
+      lastWords: null
+      idiotRevealed: false
+    '1100241276286275594':
+      id: '1100241276286275594'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '811300657272324116':
+      id: '811300657272324116'
+      role: 守衛
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+  roleAssignments:
+    '951505820514926613': 村民
+    '398120590898364417': 女巫
+    '1100241276286275594': 狼王
+    '811300657272324116': 守衛
+  nightActions:
+    guardProtect: '398120590898364417'
+    werewolfKill: '398120590898364417'
+    witchAction: antidote
+    witchAntidoteTarget: '398120590898364417'
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '398120590898364417'
+    - '811300657272324116'
+    - '1100241276286275594'
+  witchPotions:
+    '398120590898364417':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1770300953914
+  werewolfVotes:
+    '1100241276286275594': '398120590898364417'
+  guardLastProtect: '398120590898364417'
+role-history-811300657272324116:
+  - role: 守衛
+    team: villager
+    timestamp: 1770300954002
+  - role: 女巫
+    team: villager
+    timestamp: 1770301549101
+teammate-history-398120590898364417-811300657272324116:
+  - team: villager
+    timestamp: 1770300954027
+game-channel-1468973271608328435: '1035471834579206294'
+game-speaking-order-1468975816170934368:
+  - '951505820514926613'
+  - '811300657272324116'
+  - '1071325874474975323'
+werewolf-game-1468975816170934368:
+  messageId: '1468975816170934368'
+  phase: day
+  round: 2
+  players:
+    '951505820514926613':
+      id: '951505820514926613'
+      role: 狼王
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '811300657272324116':
+      id: '811300657272324116'
+      role: 女巫
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+    '1071325874474975323':
+      id: '1071325874474975323'
+      role: 村民
+      alive: true
+      canSpeak: true
+      canVote: true
+      hasSpoken: false
+      deathRound: null
+      deathReason: null
+      lastWords: null
+      idiotRevealed: false
+  roleAssignments:
+    '951505820514926613': 狼王
+    '811300657272324116': 女巫
+    '1071325874474975323': 村民
+  nightActions:
+    werewolfKill: '1071325874474975323'
+    witchAction: antidote
+    witchAntidoteTarget: '1071325874474975323'
+  dayVotes: {}
+  deathQueue: []
+  speaking:
+    order: []
+    current: -1
+  fixedSpeakingOrder:
+    - '951505820514926613'
+    - '811300657272324116'
+    - '1071325874474975323'
+  witchPotions:
+    '811300657272324116':
+      antidote: false
+      poison: true
+  hunterAlive: true
+  gameRules:
+    witchCanSaveSelfFirstNight: true
+  createdAt: 1770301549056
+  werewolfVotes:
+    '951505820514926613': '1071325874474975323'
+game-channel-1468975816170934368: '1035471834579206294'
+game-players-1468979956305367084:
+  - '951505820514926613'

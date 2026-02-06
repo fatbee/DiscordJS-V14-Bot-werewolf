@@ -8,21 +8,39 @@ async function triggerDayPhase(client, channel, messageId, gameState) {
     // Process deaths from night actions
     const deathList = [];
 
-    // Check werewolf kill
+    // Check night actions
     const werewolfKillTarget = gameState.nightActions.werewolfKill;
+    const guardProtectTarget = gameState.nightActions.guardProtect;
     const witchAction = gameState.nightActions.witchAction;
     const witchAntidoteTarget = gameState.nightActions.witchAntidoteTarget;
     const witchPoisonTarget = gameState.nightActions.witchPoisonTarget;
 
-    // If witch used antidote on werewolf kill victim, they survive
-    if (werewolfKillTarget && witchAction !== 'antidote') {
-        deathList.push({
-            playerId: werewolfKillTarget,
-            reason: '被狼人殺死'
-        });
+    // Process werewolf kill with guard and witch interactions
+    if (werewolfKillTarget) {
+        const isGuarded = guardProtectTarget === werewolfKillTarget;
+        const isAntidoted = witchAction === 'antidote';
+
+        // Special case: Both guard and witch protect the same person
+        // According to rules: 守衛守護 + 女巫解藥 = 兩者都失效，玩家死亡
+        if (isGuarded && isAntidoted) {
+            // Both protections cancel out, player dies
+            deathList.push({
+                playerId: werewolfKillTarget,
+                reason: '被狼人殺死'
+            });
+        } else if (isGuarded || isAntidoted) {
+            // Either guard or witch (but not both) protected, player survives
+            // Don't add to death list
+        } else {
+            // No protection, player dies
+            deathList.push({
+                playerId: werewolfKillTarget,
+                reason: '被狼人殺死'
+            });
+        }
     }
 
-    // If witch used poison, add to death list
+    // If witch used poison, add to death list (poison ignores guard protection)
     if (witchAction === 'poison' && witchPoisonTarget) {
         deathList.push({
             playerId: witchPoisonTarget,
@@ -33,6 +51,11 @@ async function triggerDayPhase(client, channel, messageId, gameState) {
     // Process deaths
     for (const death of deathList) {
         WerewolfGame.killPlayer(gameState, death.playerId, death.reason, channel.guild);
+    }
+
+    // Save guard's last protection target for next night (cannot protect same person 2 nights in a row)
+    if (guardProtectTarget) {
+        gameState.guardLastProtect = guardProtectTarget;
     }
 
     // Update game phase to day

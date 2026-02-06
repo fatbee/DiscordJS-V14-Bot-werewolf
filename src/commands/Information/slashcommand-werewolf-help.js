@@ -33,6 +33,9 @@ module.exports = new ApplicationCommand({
      * @param {ChatInputCommandInteraction} interaction
      */
     run: async (client, interaction) => {
+        // Defer reply to prevent interaction timeout (3 seconds limit)
+        await interaction.deferReply();
+
         const category = interaction.options.getString('category') || 'all';
 
         const embeds = [];
@@ -77,6 +80,7 @@ module.exports = new ApplicationCommand({
                     {
                         name: '🌙 夜晚行動',
                         value:
+                            '**守衛守護** - 守衛選擇守護一名玩家（25秒）\n' +
                             '**狼人投票** - 狼人在主頻道投票殺人（25秒）\n' +
                             '**預言家查驗** - 預言家查驗一名玩家身份（25秒）\n' +
                             '**女巫行動** - 女巫選擇使用解藥或毒藥（25秒）'
@@ -125,7 +129,7 @@ module.exports = new ApplicationCommand({
                     {
                         name: '⏱️ 計時器設定',
                         value:
-                            '• **夜晚行動**：25秒（狼人投票、預言家查驗、女巫行動）\n' +
+                            '• **夜晚行動**：25秒（守衛守護、狼人投票、預言家查驗、女巫行動）\n' +
                             '• **白天發言**：5分鐘\n' +
                             '• **投票階段**：25秒（永遠等待25秒，不提前結束）\n' +
                             '• **遺言時間**：3分鐘（被放逐玩家的遺言）'
@@ -138,7 +142,10 @@ module.exports = new ApplicationCommand({
                             '• **投票進度隱藏**（防止資訊洩漏）\n' +
                             '• **死亡玩家不顯示角色**（放逐時不顯示角色）\n' +
                             '• **統計系統**（自動記錄玩家遊戲數據，測試玩家除外）\n' +
-                            '• **決鬥按鈕顯示**（只在遊戲有騎士角色時顯示，不論死活）'
+                            '• **決鬥按鈕顯示**（只在遊戲有騎士角色時顯示，不論死活）\n' +
+                            '• **白痴自動翻牌**（被放逐時自動翻牌存活，失去投票權）\n' +
+                            '• **守衛連續限制**（不能連續2晚守護同一人）\n' +
+                            '• **守衛女巫衝突**（同時保護同一人則兩者失效，玩家死亡）'
                     }
                 );
             embeds.push(settingsEmbed);
@@ -163,6 +170,10 @@ module.exports = new ApplicationCommand({
                     {
                         name: '2️⃣ 第一夜（夜晚階段）',
                         value:
+                            '**守衛守護**（25秒）\n' +
+                            '• 守衛選擇一名玩家進行守護（可守護自己）\n' +
+                            '• 被守護的玩家不會被狼人殺死\n' +
+                            '• 不能連續2晚守護同一人\n\n' +
                             '**狼人行動**（25秒）\n' +
                             '• 所有狼人在主頻道投票選擇殺人目標\n' +
                             '• 其他狼人會收到私訊通知誰投了票\n' +
@@ -173,7 +184,8 @@ module.exports = new ApplicationCommand({
                             '**女巫行動**（25秒）\n' +
                             '• 女巫得知今晚被狼人殺死的玩家\n' +
                             '• 可選擇使用解藥救人或毒藥毒人\n' +
-                            '• 解藥和毒藥各只能使用一次'
+                            '• 解藥和毒藥各只能使用一次\n' +
+                            '• ⚠️ 守衛守護 + 女巫解藥同時保護同一人 = 兩者失效，玩家死亡'
                     },
                     {
                         name: '3️⃣ 黎明公告',
@@ -336,8 +348,8 @@ module.exports = new ApplicationCommand({
             embeds.push(victoryEmbed);
         }
 
-        // Send embeds
-        await interaction.reply({
+        // Send embeds (use editReply because we deferred)
+        await interaction.editReply({
             embeds: embeds
             // Public message (no flags needed for non-ephemeral)
         });

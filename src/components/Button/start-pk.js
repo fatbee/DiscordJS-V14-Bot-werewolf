@@ -3,6 +3,7 @@ const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const WerewolfGame = require("../../utils/WerewolfGame");
 const SpeakingTimer = require("../../utils/SpeakingTimer");
+const { hasHostPermission } = require("../../utils/WerewolfPermissions");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -27,14 +28,15 @@ module.exports = new Component({
             });
         }
 
-        // Check if user is bot owner in test mode or any alive player
+        // Check if user has host permission OR is an alive player
         const userId = interaction.user.id;
         const userPlayer = gameState.players[userId];
         const isOwner = config.werewolf.testMode && userId === config.users.ownerId;
-        
-        if (!isOwner && (!userPlayer || !userPlayer.alive)) {
+        const hasGMPerm = hasHostPermission(interaction);
+
+        if (!isOwner && !hasGMPerm && (!userPlayer || !userPlayer.alive)) {
             return await interaction.reply({
-                content: '❌ 你不是存活的玩家！',
+                content: '❌ 只有主持人、管理員、擁有「狼GM」身份組或存活的玩家可以開始PK發言！',
                 flags: MessageFlags.Ephemeral
             });
         }

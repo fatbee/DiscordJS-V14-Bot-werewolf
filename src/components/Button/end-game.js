@@ -42,11 +42,7 @@ module.exports = new Component({
             components: []
         });
 
-        // Send confirmation message
-        await interaction.channel.send({
-            content: `🏁 **遊戲已結束！**\n\n${channelDeleted ? '✅ 狼人頻道已刪除\n' : ''}感謝各位的參與！`
-        });
-
+        
         // Auto-start new game (like /startgame)
         const GameState = require("../../utils/GameState");
         const newGameMessage = await interaction.channel.send({

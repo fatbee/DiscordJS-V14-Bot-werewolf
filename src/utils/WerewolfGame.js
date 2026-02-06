@@ -22,9 +22,11 @@ class WerewolfGame {
         // Get the pre-shuffled speaking order from database
         const fixedSpeakingOrder = GameState.getSpeakingOrder(messageId);
 
-        console.log(`[DEBUG] initializeGame: messageId=${messageId}`);
-        console.log(`[DEBUG] initializeGame: fixedSpeakingOrder=`, fixedSpeakingOrder);
-        console.log(`[DEBUG] initializeGame: roleAssignments=`, roleAssignments);
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] initializeGame: messageId=${messageId}`);
+            console.log(`[DEBUG] initializeGame: fixedSpeakingOrder=`, fixedSpeakingOrder);
+            console.log(`[DEBUG] initializeGame: roleAssignments=`, roleAssignments);
+        }
 
         const gameState = {
             messageId: messageId,
@@ -53,10 +55,12 @@ class WerewolfGame {
                 role: role,
                 alive: true,
                 canSpeak: true,
+                canVote: true, // For 白痴 (Idiot) role
                 hasSpoken: false,
                 deathRound: null,
                 deathReason: null,
-                lastWords: null
+                lastWords: null,
+                idiotRevealed: false // Track if 白痴 has revealed their card
             };
         }
 
@@ -201,20 +205,26 @@ class WerewolfGame {
         const alivePlayers = this.getAlivePlayers(gameState);
         const alivePlayerIds = new Set(alivePlayers.map(p => p.id));
 
-        console.log(`[DEBUG] initializeSpeakingOrder: alivePlayers.length=${alivePlayers.length}`);
-        console.log(`[DEBUG] initializeSpeakingOrder: alivePlayerIds=`, Array.from(alivePlayerIds));
-        console.log(`[DEBUG] initializeSpeakingOrder: fixedSpeakingOrder=`, gameState.fixedSpeakingOrder);
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] initializeSpeakingOrder: alivePlayers.length=${alivePlayers.length}`);
+            console.log(`[DEBUG] initializeSpeakingOrder: alivePlayerIds=`, Array.from(alivePlayerIds));
+            console.log(`[DEBUG] initializeSpeakingOrder: fixedSpeakingOrder=`, gameState.fixedSpeakingOrder);
+        }
 
         // Get the fixed speaking order from game state (set during game initialization)
         // Filter to only include alive players, maintaining the original order
         let baseOrder = [];
         if (gameState.fixedSpeakingOrder && gameState.fixedSpeakingOrder.length > 0) {
             baseOrder = gameState.fixedSpeakingOrder.filter(id => alivePlayerIds.has(id));
-            console.log(`[DEBUG] initializeSpeakingOrder: baseOrder (from fixedSpeakingOrder)=`, baseOrder);
+            if (config.werewolf.testMode) {
+                console.log(`[DEBUG] initializeSpeakingOrder: baseOrder (from fixedSpeakingOrder)=`, baseOrder);
+            }
         } else {
             // Fallback: if no fixed order exists, use alive players in their current order
             baseOrder = alivePlayers.map(p => p.id);
-            console.log(`[DEBUG] initializeSpeakingOrder: baseOrder (fallback)=`, baseOrder);
+            if (config.werewolf.testMode) {
+                console.log(`[DEBUG] initializeSpeakingOrder: baseOrder (fallback)=`, baseOrder);
+            }
         }
 
         // Get last night's deaths (players who died this round)

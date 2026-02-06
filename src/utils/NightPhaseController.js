@@ -59,6 +59,9 @@ class NightPhaseController {
 
         // Trigger the appropriate action based on role type
         switch (role.nightActionType) {
+            case 'guard-protect':
+                await this.handleGuardProtect(client, channel, messageId, gameState, onComplete);
+                break;
             case 'werewolf-kill':
                 await this.handleWerewolfKill(client, channel, messageId, gameState, onComplete);
                 break;
@@ -76,15 +79,211 @@ class NightPhaseController {
     }
 
     /**
+     * Handle guard protect action
+     */
+    static async handleGuardProtect(client, channel, messageId, gameState, onComplete) {
+        const guardPlayer = Object.values(gameState.players).find(p => p.role === '守衛');
+
+        // If guard is not in the game, skip this phase entirely
+        if (!guardPlayer) {
+            await onComplete();
+            return;
+        }
+
+        const guardIsAlive = guardPlayer.alive;
+
+        // If guard is dead, show action phase but skip (to hide guard's death)
+        if (!guardIsAlive) {
+            const skipMessage = await channel.send({
+                content: `🛡️ **守衛請睜眼！**\n\n⏱️ **剩餘時間：25 秒**`
+            });
+
+            NightActionTimer.startTimer(
+                skipMessage,
+                `🛡️ **守衛請睜眼！**`,
+                25,
+                async () => {
+                    await skipMessage.edit({
+                        content: `🛡️ **守衛已完成守護**\n\n✅ 守衛請閉眼...`
+                    });
+                    await onComplete();
+                },
+                `guard-${messageId}`
+            );
+            return;
+        }
+
+        // Guard is alive, show action menu
+        const components = [];
+        const testModeText = config.werewolf.testMode ? '\n\n🎮 **測試模式**' : '';
+
+        // Add protect button
+        const buttons = [];
+        buttons.push({
+            type: 2,
+            custom_id: `guard-protect-${messageId}`,
+            label: '🛡️ 選擇守護對象',
+            style: 1 // Blue
+        });
+        components.push({ type: 1, components: buttons });
+
+        const guardMessage = await channel.send({
+            content: `🛡️ **守衛請睜眼！**\n\n守衛請選擇你要守護的玩家：${testModeText}\n\n⏱️ **剩餘時間：25 秒**`,
+            components: components
+        });
+
+        NightActionTimer.startTimer(
+            guardMessage,
+            `🛡️ **守衛請睜眼！**\n\n守衛請選擇你要守護的玩家：${testModeText}`,
+            25,
+            async () => {
+                await guardMessage.edit({
+                    content: `🛡️ **守衛已完成守護**\n\n✅ 守衛請閉眼...`,
+                    components: []
+                });
+                await onComplete();
+            },
+            `guard-${messageId}`
+        );
+    }
+
+    /**
      * Handle werewolf kill action
-     * Note: This is triggered from start-night button, not here
-     * This method is a placeholder for future refactoring
      */
     static async handleWerewolfKill(client, channel, messageId, gameState, onComplete) {
-        // Werewolf kill is handled in start-night.js
-        // This is called after werewolf makes selection in werewolf-kill.js
-        // Just call onComplete to proceed to next role
-        await onComplete();
+        const aliveWerewolves = WerewolfGame.getAliveWerewolves(gameState);
+        const alivePlayers = WerewolfGame.getAlivePlayers(gameState);
+
+        // Check if hidden werewolf should be activated
+        const hiddenWerewolf = Object.values(gameState.players).find(p => p.role === '隱狼' && p.alive);
+        const otherWerewolves = Object.values(gameState.players).filter(p =>
+            (p.role === '狼王' || p.role === '狼人') && p.alive
+        );
+        const hiddenWerewolfActivated = hiddenWerewolf && otherWerewolves.length === 0;
+
+        // If no werewolves alive, skip this phase
+        if (aliveWerewolves.length === 0 && !hiddenWerewolfActivated) {
+            await onComplete();
+            return;
+        }
+
+        // Build target selection options with speaking order numbers
+        const targetOptions = [];
+        for (const player of alivePlayers) {
+            const isTestPlayer = player.id.startsWith('test-');
+            const speakingOrderIndex = gameState.fixedSpeakingOrder.indexOf(player.id);
+            const orderNumber = speakingOrderIndex !== -1 ? speakingOrderIndex + 1 : 0;
+
+            if (isTestPlayer) {
+                const testNumber = player.id.split('-')[2];
+                targetOptions.push({
+                    label: `${orderNumber}號 - 測試玩家 ${testNumber}`,
+                    value: player.id,
+                    description: config.werewolf.testMode ? `角色：${player.role}` : `選擇此玩家`
+                });
+            } else {
+                let displayName = `玩家${orderNumber}`;
+                try {
+                    const member = await channel.guild.members.fetch(player.id);
+                    displayName = member.displayName;
+                } catch (error) {
+                    console.error(`Failed to fetch member ${player.id}:`, error);
+                }
+
+                targetOptions.push({
+                    label: `${orderNumber}號 - ${displayName}`,
+                    value: player.id,
+                    description: config.werewolf.testMode ? `角色：${player.role}` : `選擇此玩家`,
+                    emoji: '👤'
+                });
+            }
+        }
+
+        const testModeText = config.werewolf.testMode ? '\n\n🎮 **測試模式**' : '';
+        const customId = hiddenWerewolfActivated ? `hidden-werewolf-kill-${messageId}` : `werewolf-kill-${messageId}`;
+        const messageContent = hiddenWerewolfActivated
+            ? `🌑🐺 **隱狼請睜眼！**\n\n隱狼請選擇今晚要殺死的目標：${testModeText}\n\n⏱️ **剩餘時間：25 秒**`
+            : `🐺 **狼人請睜眼！**\n\n狼人請投票選擇今晚要殺死的目標：${testModeText}\n\n⏱️ **剩餘時間：25 秒**`;
+
+        const werewolfMessage = await channel.send({
+            content: messageContent,
+            components: [{
+                type: 1,
+                components: [{
+                    type: 3,
+                    custom_id: customId,
+                    placeholder: '選擇要殺死的玩家',
+                    min_values: 1,
+                    max_values: 1,
+                    options: targetOptions.slice(0, 25)
+                }]
+            }]
+        });
+
+        const baseMessage = hiddenWerewolfActivated
+            ? `🌑🐺 **隱狼請睜眼！**\n\n隱狼請選擇今晚要殺死的目標：${testModeText}`
+            : `🐺 **狼人請睜眼！**\n\n狼人請投票選擇今晚要殺死的目標：${testModeText}`;
+
+        NightActionTimer.startTimer(
+            werewolfMessage,
+            baseMessage,
+            25,
+            async () => {
+                // Process werewolf votes
+                const currentGameState = WerewolfGame.getGame(messageId, client.database);
+                const votes = currentGameState.werewolfVotes || {};
+                const aliveVillagers = WerewolfGame.getAliveVillagers(currentGameState);
+
+                let targetId = null;
+
+                if (Object.keys(votes).length === 0) {
+                    // No votes, randomly select a victim
+                    if (aliveVillagers.length > 0) {
+                        const randomVictim = aliveVillagers[Math.floor(Math.random() * aliveVillagers.length)];
+                        targetId = randomVictim.id;
+                    }
+                } else {
+                    // Count votes
+                    const voteCounts = {};
+                    const voteOrder = [];
+
+                    for (const [voter, target] of Object.entries(votes)) {
+                        if (!voteCounts[target]) {
+                            voteCounts[target] = 0;
+                            voteOrder.push(target);
+                        }
+                        voteCounts[target]++;
+                    }
+
+                    const maxVotes = Math.max(...Object.values(voteCounts));
+                    const topTargets = Object.keys(voteCounts).filter(t => voteCounts[t] === maxVotes);
+
+                    if (topTargets.length > 1) {
+                        targetId = voteOrder.find(t => topTargets.includes(t));
+                    } else {
+                        targetId = topTargets[0];
+                    }
+                }
+
+                // Save kill action
+                if (targetId) {
+                    currentGameState.nightActions.werewolfKill = targetId;
+                    WerewolfGame.saveGame(messageId, currentGameState, client.database);
+                }
+
+                const completionMessage = hiddenWerewolfActivated
+                    ? `🌑🐺 **隱狼已選擇目標！**\n\n✅ 隱狼請閉眼，等待其他角色行動...`
+                    : `🐺 **狼人已選擇目標！**\n\n✅ 狼人請閉眼，等待其他角色行動...`;
+
+                await werewolfMessage.edit({
+                    content: completionMessage,
+                    components: []
+                });
+
+                await onComplete();
+            },
+            `werewolf-${messageId}`
+        );
     }
 
     /**

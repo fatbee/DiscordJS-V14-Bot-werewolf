@@ -83,6 +83,22 @@ const ROLES = {
         description: '普通村民，沒有特殊能力',
         nightAction: false,
         emoji: '👨‍🌾'
+    },
+    '白痴': {
+        name: '白痴',
+        team: 'villager',
+        description: '白天被放逐時可以翻牌免死，但之後失去投票權',
+        nightAction: false,
+        exileAbility: 'reveal', // Can reveal card when exiled
+        emoji: '🃏'
+    },
+    '守衛': {
+        name: '守衛',
+        team: 'villager',
+        description: '每晚可以守護一名玩家，被守護的玩家不會被狼人殺死（但仍會被毒死）',
+        nightAction: true,
+        nightActionType: 'guard-protect',
+        emoji: '🛡️'
     }
 };
 
@@ -126,13 +142,14 @@ function hasNightAction(roleName) {
 /**
  * Get night action order
  * Returns roles in the order they should act during night
+ * Note: Only include one werewolf role since all werewolves act together
  */
 function getNightActionOrder() {
     return [
-        '狼王',      // Werewolves act first
-        '狼人',      // Werewolves act first
-        '預言家',    // Seer acts second
-        '女巫'       // Witch acts third (needs to know who died)
+        '守衛',      // Guard acts first (protects before werewolf kill)
+        '狼人',      // Werewolves act second (狼王, 狼人, 隱狼 all use same handler)
+        '預言家',    // Seer acts third
+        '女巫'       // Witch acts fourth (needs to know who died)
     ];
 }
 

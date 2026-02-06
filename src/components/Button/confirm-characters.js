@@ -32,7 +32,9 @@ module.exports = new Component({
             '女巫': selections['女巫'] || 0,
             '獵人': selections['獵人'] || 0,
             '騎士': selections['騎士'] || 0,
-            '熊': selections['熊'] || 0
+            '熊': selections['熊'] || 0,
+            '白痴': selections['白痴'] || 0,
+            '守衛': selections['守衛'] || 0
         };
 
         // Calculate total special characters
@@ -54,15 +56,19 @@ module.exports = new Component({
         const players = GameState.getPlayers(messageId);
 
         // Debug: Log player count
-        console.log(`[DEBUG] confirm-characters: messageId=${messageId}, players.size=${players.size}, playerCount=${playerCount}`);
-        console.log(`[DEBUG] confirm-characters: players=`, Array.from(players));
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] confirm-characters: messageId=${messageId}, players.size=${players.size}, playerCount=${playerCount}`);
+            console.log(`[DEBUG] confirm-characters: players=`, Array.from(players));
+        }
 
         // Shuffle player order for speaking order (only if not already shuffled)
         const speakingOrder = GameState.getSpeakingOrder(messageId);
         if (!speakingOrder || speakingOrder.length === 0) {
             // Convert Set to Array and shuffle
             const playerArray = Array.from(players);
-            console.log(`[DEBUG] confirm-characters: Creating new speaking order, playerArray.length=${playerArray.length}`);
+            if (config.werewolf.testMode) {
+                console.log(`[DEBUG] confirm-characters: Creating new speaking order, playerArray.length=${playerArray.length}`);
+            }
             for (let i = playerArray.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [playerArray[i], playerArray[j]] = [playerArray[j], playerArray[i]];
@@ -73,7 +79,9 @@ module.exports = new Component({
 
         // Get the shuffled speaking order for display
         const displayOrder = GameState.getSpeakingOrder(messageId);
-        console.log(`[DEBUG] confirm-characters: displayOrder.length=${displayOrder.length}`, displayOrder);
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] confirm-characters: displayOrder.length=${displayOrder.length}`, displayOrder);
+        }
 
         let playerListText = '';
         let index = 1;

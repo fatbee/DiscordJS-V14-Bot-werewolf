@@ -34,7 +34,9 @@ class PlayerStats {
                     '獵人': 0,
                     '騎士': 0,
                     '熊': 0,
-                    '村民': 0
+                    '村民': 0,
+                    '白痴': 0,
+                    '守衛': 0
                 },
                 
                 // Death statistics
@@ -290,6 +292,143 @@ class PlayerStats {
         if (Object.values(stats.actions).every(v => v === 0)) {
             display += `_尚無數據_\n`;
         }
+
+        return display;
+    }
+
+    /**
+     * Get role usage statistics (who used this role the most)
+     * @param {string} roleName - Role to check
+     * @param {DiscordBot} client - Discord client
+     * @param {Guild} guild - Discord guild
+     * @returns {Promise<string>} Formatted display
+     */
+    static async getRoleStats(roleName, client, guild) {
+        const allPlayerStats = [];
+
+        // Get all player stats from database
+        for (const [key, value] of client.database.entries()) {
+            if (key.startsWith('player-stats-')) {
+                const playerId = key.replace('player-stats-', '');
+                const roleCount = value.roles[roleName] || 0;
+
+                if (roleCount > 0) {
+                    allPlayerStats.push({
+                        playerId,
+                        count: roleCount,
+                        totalGames: value.totalGames,
+                        wins: value.wins
+                    });
+                }
+            }
+        }
+
+        // Sort by count (descending)
+        allPlayerStats.sort((a, b) => b.count - a.count);
+
+        let display = `📊 **${roleName} 角色統計**\n\n`;
+
+        if (allPlayerStats.length === 0) {
+            display += `_尚無玩家使用過此角色_`;
+            return display;
+        }
+
+        display += `**使用次數排行：**\n\n`;
+
+        // Show top 10 players
+        const topPlayers = allPlayerStats.slice(0, 10);
+
+        for (let i = 0; i < topPlayers.length; i++) {
+            const playerData = topPlayers[i];
+            const rank = i + 1;
+            const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `${rank}.`;
+
+            // Try to get player display name
+            let playerDisplay = `<@${playerData.playerId}>`;
+            try {
+                const member = await guild.members.fetch(playerData.playerId);
+                playerDisplay = member.displayName;
+            } catch (error) {
+                // Keep mention format if fetch fails
+            }
+
+            const winRate = playerData.totalGames > 0 ? ((playerData.wins / playerData.totalGames) * 100).toFixed(1) : 0;
+
+            display += `${medal} **${playerDisplay}**\n`;
+            display += `   使用次數：${playerData.count} 次 | 總勝率：${winRate}%\n\n`;
+        }
+
+        if (allPlayerStats.length > 10) {
+            display += `_...還有 ${allPlayerStats.length - 10} 位玩家_\n`;
+        }
+
+        return display;
+    }
+
+    /**
+     * Get all role usage statistics
+     * @param {DiscordBot} client - Discord client
+     * @param {Guild} guild - Discord guild
+     * @returns {Promise<string>} Formatted display
+     */
+    static async getAllRoleStats(client, guild) {
+        const roleUsage = {
+            '狼王': [],
+            '狼人': [],
+            '隱狼': [],
+            '預言家': [],
+            '女巫': [],
+            '獵人': [],
+            '騎士': [],
+            '熊': [],
+            '村民': [],
+            '白痴': [],
+            '守衛': []
+        };
+
+        // Collect all player stats
+        for (const [key, value] of client.database.entries()) {
+            if (key.startsWith('player-stats-')) {
+                const playerId = key.replace('player-stats-', '');
+
+                for (const [roleName, count] of Object.entries(value.roles)) {
+                    if (count > 0 && roleUsage[roleName]) {
+                        roleUsage[roleName].push({
+                            playerId,
+                            count
+                        });
+                    }
+                }
+            }
+        }
+
+        let display = `📊 **所有角色使用統計**\n\n`;
+        display += `_顯示每個角色使用次數最多的玩家_\n\n`;
+
+        for (const [roleName, players] of Object.entries(roleUsage)) {
+            if (players.length === 0) {
+                display += `**${roleName}**：_尚無數據_\n`;
+                continue;
+            }
+
+            // Sort by count (descending)
+            players.sort((a, b) => b.count - a.count);
+            const topCount = players[0].count;
+
+            // Find all players with the same top count
+            const topPlayers = players.filter(p => p.count === topCount);
+
+            if (topPlayers.length > 1) {
+                // Multiple players tied for first place
+                display += `**${roleName}**：多名玩家 (${topCount} 次)\n`;
+            } else {
+                // Single top player
+                const topPlayer = topPlayers[0];
+                display += `**${roleName}**：<@${topPlayer.playerId}> (${topCount} 次)\n`;
+            }
+        }
+
+        display += `\n💡 _使用 \`/role-stats role:角色名\` 查看詳細排行_`;
 
         return display;
     }

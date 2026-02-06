@@ -2,6 +2,7 @@ const { ButtonInteraction, MessageFlags } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const GameState = require("../../utils/GameState");
+const config = require("../../config");
 
 // Initialize game state
 GameState.initialize();
@@ -21,8 +22,10 @@ module.exports = new Component({
         const players = GameState.getPlayers(messageId);
         const userId = interaction.user.id;
 
-        console.log(`[DEBUG] join-game: userId=${userId}, messageId=${messageId}, players.size BEFORE=${players.size}`);
-        console.log(`[DEBUG] join-game: players BEFORE=`, Array.from(players));
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] join-game: userId=${userId}, messageId=${messageId}, players.size BEFORE=${players.size}`);
+            console.log(`[DEBUG] join-game: players BEFORE=`, Array.from(players));
+        }
 
         // Check if player already joined
         if (players.has(userId)) {
@@ -35,8 +38,10 @@ module.exports = new Component({
         // Add player to the list
         players.add(userId);
 
-        console.log(`[DEBUG] join-game: players.size AFTER=${players.size}`);
-        console.log(`[DEBUG] join-game: players AFTER=`, Array.from(players));
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] join-game: players.size AFTER=${players.size}`);
+            console.log(`[DEBUG] join-game: players AFTER=`, Array.from(players));
+        }
 
         // Add "狼來了" role to the player
         try {
@@ -118,20 +123,26 @@ module.exports = new Component({
         // Save player list to new message ID
         GameState.savePlayers(newMessage.id, players);
 
-        console.log(`[DEBUG] join-game: Saved players to newMessage.id=${newMessage.id}, players.size=${players.size}`);
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] join-game: Saved players to newMessage.id=${newMessage.id}, players.size=${players.size}`);
+        }
 
         // Transfer speaking order if it exists
         const speakingOrder = GameState.getSpeakingOrder(messageId);
         if (speakingOrder && speakingOrder.length > 0) {
             GameState.saveSpeakingOrder(newMessage.id, speakingOrder);
-            console.log(`[DEBUG] join-game: Transferred speaking order, length=${speakingOrder.length}`);
+            if (config.werewolf.testMode) {
+                console.log(`[DEBUG] join-game: Transferred speaking order, length=${speakingOrder.length}`);
+            }
         }
 
         // Delete old data
         client.database.delete(`game-players-${messageId}`);
         client.database.delete(`game-speaking-order-${messageId}`);
 
-        console.log(`[DEBUG] join-game: Deleted old data for messageId=${messageId}`);
+        if (config.werewolf.testMode) {
+            console.log(`[DEBUG] join-game: Deleted old data for messageId=${messageId}`);
+        }
 
         // Reply to acknowledge (ephemeral)
         await interaction.reply({

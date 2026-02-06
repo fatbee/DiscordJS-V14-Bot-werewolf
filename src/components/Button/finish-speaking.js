@@ -203,8 +203,9 @@ async function startVoting(client, interaction, messageId, gameState) {
     gameState.dayVotes = {};
     WerewolfGame.saveGame(messageId, gameState, client.database);
 
-    // Get alive players
+    // Get alive players who can vote (exclude revealed 白痴)
     const alivePlayers = WerewolfGame.getAlivePlayers(gameState);
+    const votingPlayers = alivePlayers.filter(p => p.canVote !== false);
 
     // Build voting options
     const voteOptions = alivePlayers.map(player => {

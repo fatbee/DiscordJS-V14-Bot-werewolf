@@ -74,7 +74,7 @@ module.exports = new Component({
                     components: [
                         {
                             type: 2,
-                            custom_id: `show-more-characters-${messageId}-${playerCount}`,
+                            custom_id: `show-more-characters-3-${messageId}-${playerCount}`,
                             label: '◀ 返回角色配置',
                             style: 2 // Gray
                         },

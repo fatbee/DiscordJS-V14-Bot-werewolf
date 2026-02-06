@@ -3,6 +3,7 @@ const DiscordBot = require("../../client/DiscordBot");
 const Component = require("../../structure/Component");
 const GameState = require("../../utils/GameState");
 const WerewolfGame = require("../../utils/WerewolfGame");
+const RoleAssignmentHelper = require("../../utils/RoleAssignmentHelper");
 const config = require("../../config");
 
 module.exports = new Component({
@@ -41,7 +42,7 @@ module.exports = new Component({
 
         // Use the character selections directly from database (already includes villagers)
         const characters = selections;
-        
+
         // Create role pool
         const rolePool = [];
         for (const [role, count] of Object.entries(characters)) {
@@ -49,16 +50,10 @@ module.exports = new Component({
                 rolePool.push(role);
             }
         }
-        
-        // Shuffle roles
-        for (let i = rolePool.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [rolePool[i], rolePool[j]] = [rolePool[j], rolePool[i]];
-        }
 
-        // Assign roles to players
+        // Assign roles to players using balanced assignment
         const playerArray = Array.from(players);
-        const roleAssignments = {};
+        let roleAssignments = {};
 
         // TEST MODE: Always assign bot owner as 女巫 if test mode is enabled
         if (config.werewolf.testMode) {
@@ -66,23 +61,24 @@ module.exports = new Component({
             const hasWitch = rolePool.includes('女巫');
 
             if (ownerInGame && hasWitch) {
-                // Find 女巫 in rolePool and assign to owner
-                const witchIndex = rolePool.indexOf('女巫');
+                // Assign 女巫 to owner
                 roleAssignments[config.users.ownerId] = '女巫';
 
                 // Remove 女巫 from rolePool
+                const witchIndex = rolePool.indexOf('女巫');
                 rolePool.splice(witchIndex, 1);
 
-                // Remove owner from playerArray for normal assignment
+                // Remove owner from playerArray for balanced assignment
                 const ownerIndex = playerArray.indexOf(config.users.ownerId);
                 playerArray.splice(ownerIndex, 1);
             }
         }
 
-        // Assign remaining roles to remaining players
-        playerArray.forEach((playerId, index) => {
-            roleAssignments[playerId] = rolePool[index];
-        });
+        // Use balanced assignment for remaining players
+        const balancedAssignments = RoleAssignmentHelper.assignRolesBalanced(playerArray, rolePool);
+
+        // Merge test mode assignment with balanced assignments
+        roleAssignments = { ...roleAssignments, ...balancedAssignments };
         
         // Get werewolf players for DM notification
         const werewolfPlayers = [];
@@ -99,6 +95,17 @@ module.exports = new Component({
 
         // Initialize complete game state BEFORE sending DMs
         const gameState = WerewolfGame.initializeGame(messageId, roleAssignments, client.database);
+
+        // Save role assignments to player history for balanced future assignments
+        for (const [playerId, role] of Object.entries(roleAssignments)) {
+            // Skip test players (they have "test-" prefix)
+            if (!playerId.startsWith('test-')) {
+                RoleAssignmentHelper.saveRoleToHistory(playerId, role);
+            }
+        }
+
+        // Save teammate pairings for future balancing
+        RoleAssignmentHelper.saveTeammatePairings(roleAssignments);
 
         // Save main game channel ID for later use
         client.database.set(`game-channel-${messageId}`, interaction.channel.id);

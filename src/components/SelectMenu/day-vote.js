@@ -40,6 +40,14 @@ module.exports = new Component({
             });
         }
 
+        // Check if user can vote (白痴 who revealed cannot vote)
+        if (!isOwner && userPlayer.canVote === false) {
+            return await interaction.reply({
+                content: '❌ 你已經失去投票權！（白痴翻牌後無法投票）',
+                flags: MessageFlags.Ephemeral
+            });
+        }
+
         // Check if this is PK voting phase
         const isPKPhase = gameState.pkPlayers && gameState.pkPlayers.length > 0;
 
@@ -300,7 +308,33 @@ async function processVotingResults(client, channel, messageId, gameState) {
     delete gameState.pkRound;
     delete gameState.pkPlayers;
 
-    // Kill the exiled player FIRST
+    // Check if exiled player is 白痴 (Idiot) and hasn't revealed yet
+    if (exiledPlayer.role === '白痴' && !exiledPlayer.idiotRevealed) {
+        // Automatically reveal the idiot card
+        exiledPlayer.idiotRevealed = true;
+        exiledPlayer.canVote = false; // Lose voting rights
+        // Player stays alive (don't kill them)
+
+        WerewolfGame.saveGame(messageId, gameState, client.database);
+
+        // Announce the reveal
+        await channel.send({
+            content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n🃏 **${exiledDisplay} 大喊：「我是白痴！」**\n\n✅ ${exiledDisplay} 翻開了白痴牌，存活下來，但從此失去投票權！\n\n🌙 **準備進入夜晚...**`,
+            components: [{
+                type: 1,
+                components: [{
+                    type: 2,
+                    custom_id: `start-night-${messageId}`,
+                    label: '🌙 開始夜晚',
+                    style: 1 // Blue
+                }]
+            }]
+        });
+
+        return; // Exit here, no death, no last words, proceed to night
+    }
+
+    // Normal exile (not 白痴 or already revealed)
     const deathList = [{
         playerId: exiledPlayerId,
         reason: '被放逐'
@@ -324,7 +358,7 @@ async function processVotingResults(client, channel, messageId, gameState) {
 
     // Game continues, show last words
     const lastWordsMessage = await channel.send({
-        content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：180 秒**`,
+        content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：3 分鐘**`,
         components: [{
             type: 1,
             components: [{
@@ -340,14 +374,20 @@ async function processVotingResults(client, channel, messageId, gameState) {
     gameState.pendingExileShoot = deathList;
     WerewolfGame.saveGame(messageId, gameState, client.database);
 
-    // Start 180 second timer for last words
+    // Start 180 second (3 minute) timer for last words
     let timeLeft = 180;
     const timerInterval = setInterval(async () => {
         timeLeft -= 1;
         if (timeLeft > 0) {
             try {
+                const minutesLeft = Math.floor(timeLeft / 60);
+                const secondsLeft = timeLeft % 60;
+                const timeDisplay = minutesLeft > 0
+                    ? `${minutesLeft} 分 ${secondsLeft} 秒`
+                    : `${secondsLeft} 秒`;
+
                 await lastWordsMessage.edit({
-                    content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：${timeLeft} 秒**`
+                    content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：${timeDisplay}**`
                 });
             } catch (error) {
                 clearInterval(timerInterval);
@@ -355,7 +395,7 @@ async function processVotingResults(client, channel, messageId, gameState) {
         }
     }, 1000);
 
-    // Set timeout to auto-finish last words after 180 seconds
+    // Set timeout to auto-finish last words after 180 seconds (3 minutes)
     const timeoutId = setTimeout(async () => {
         clearInterval(timerInterval);
 
@@ -420,5 +460,133 @@ async function processVotingResults(client, channel, messageId, gameState) {
     global.lastWordsTimers.set(messageId, { interval: timerInterval, timeout: timeoutId });
 }
 
-// Export processVotingResults for use in voting timers
+/**
+ * Continue exile flow after 白痴 decision or normal exile
+ */
+async function continueAfterExile(client, channel, messageId, gameState, exiledPlayerId, exiledDisplay, maxVotes, fullVoteSummary) {
+    const deathList = [{
+        playerId: exiledPlayerId,
+        reason: '被放逐'
+    }];
+
+    // Check win condition BEFORE last words
+    const winner = WerewolfGame.checkWinCondition(gameState);
+
+    // If game is over, announce result and end game
+    if (winner) {
+        await channel.send({
+            content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票`
+        });
+
+        const { handleGameEnd } = require('../../utils/DayPhaseHelper');
+        await handleGameEnd(client, channel, messageId, gameState, winner);
+        return;
+    }
+
+    // Game continues, show last words
+    const lastWordsMessage = await channel.send({
+        content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：3 分鐘**`,
+        components: [{
+            type: 1,
+            components: [{
+                type: 2,
+                custom_id: `finish-last-words-${messageId}`,
+                label: '✅ 遺言完畢',
+                style: 3 // Green
+            }]
+        }]
+    });
+
+    // Store death list for later use (for hunter/wolf king shoot)
+    gameState.pendingExileShoot = deathList;
+    WerewolfGame.saveGame(messageId, gameState, client.database);
+
+    // Start 180 second (3 minute) timer for last words
+    let timeLeft = 180;
+    const timerInterval = setInterval(async () => {
+        timeLeft -= 1;
+        if (timeLeft > 0) {
+            try {
+                const minutesLeft = Math.floor(timeLeft / 60);
+                const secondsLeft = timeLeft % 60;
+                const timeDisplay = minutesLeft > 0
+                    ? `${minutesLeft} 分 ${secondsLeft} 秒`
+                    : `${secondsLeft} 秒`;
+
+                await lastWordsMessage.edit({
+                    content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **剩餘時間：${timeDisplay}**`
+                });
+            } catch (error) {
+                clearInterval(timerInterval);
+            }
+        }
+    }, 1000);
+
+    // Set timeout to auto-finish last words after 180 seconds (3 minutes)
+    const timeoutId = setTimeout(async () => {
+        clearInterval(timerInterval);
+
+        // Clear timer from global map
+        if (global.lastWordsTimers) {
+            global.lastWordsTimers.delete(messageId);
+        }
+
+        try {
+            // Update message to remove button
+            await lastWordsMessage.edit({
+                content: `${fullVoteSummary}\n\n🗳️ **${exiledDisplay} 被放逐了！**\n票數：${maxVotes} 票\n\n💬 ${exiledDisplay} 可以發表遺言...\n\n⏱️ **時間到！**`,
+                components: []
+            });
+
+            // Get updated game state
+            const currentGameState = WerewolfGame.getGame(messageId, client.database);
+            if (!currentGameState) return;
+
+            // Get pending exile shoot data
+            const pendingDeathList = currentGameState.pendingExileShoot || [];
+            delete currentGameState.pendingExileShoot;
+            WerewolfGame.saveGame(messageId, currentGameState, client.database);
+
+            // Check if exiled player is hunter/wolf king and can shoot
+            const { triggerShootAbility } = require('../../utils/HunterShootHelper');
+            await triggerShootAbility(client, channel, messageId, currentGameState, pendingDeathList, async () => {
+                // After shooting (or if no shooting), check win condition
+                const latestGameState = WerewolfGame.getGame(messageId, client.database);
+                if (!latestGameState) return;
+
+                const winner = WerewolfGame.checkWinCondition(latestGameState);
+
+                // Check for ANY win condition (villager or werewolf victory)
+                if (winner) {
+                    const { handleGameEnd } = require('../../utils/DayPhaseHelper');
+                    await handleGameEnd(client, channel, messageId, latestGameState, winner);
+                    return;
+                }
+
+                // No winner, proceed to night
+                await channel.send({
+                    content: `🌙 **準備進入夜晚...**`,
+                    components: [{
+                        type: 1,
+                        components: [{
+                            type: 2,
+                            custom_id: `start-night-${messageId}`,
+                            label: '🌙 開始夜晚',
+                            style: 1 // Blue
+                        }]
+                    }]
+                });
+            });
+        } catch (error) {
+            console.error('Error in last words timeout:', error);
+        }
+    }, 180000);
+
+    // Store timer info globally for cancellation
+    if (!global.lastWordsTimers) global.lastWordsTimers = new Map();
+    global.lastWordsTimers.set(messageId, { interval: timerInterval, timeout: timeoutId });
+}
+
+// Export functions for use in other modules
 module.exports.processVotingResults = processVotingResults;
+module.exports.continueAfterExile = continueAfterExile;

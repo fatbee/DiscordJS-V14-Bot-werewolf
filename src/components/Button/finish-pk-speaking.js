@@ -211,8 +211,9 @@ async function startPKVoting(client, interaction, messageId, gameState) {
         emoji: '🚫'
     });
 
-    // Get alive players count
+    // Get alive players who can vote (exclude revealed 白痴)
     const alivePlayers = WerewolfGame.getAlivePlayers(gameState);
+    const votingPlayers = alivePlayers.filter(p => p.canVote !== false);
 
     // Send PK voting message
     const votingMessage = await interaction.channel.send({

@@ -81,9 +81,9 @@ module.exports = new Component({
             components: []
         });
 
-        // Announce self-destruct
+        // Announce self-destruct (don't reveal identity)
         await interaction.channel.send({
-            content: `💣 **${playerDisplay} 自爆了！**\n\n身份：${getRoleDisplay(currentPlayer.role)}\n\n${currentPlayer.role === '狼王' ? '狼王可以開槍！' : '直接進入夜晚...'}`
+            content: `💣 **${playerDisplay} 自爆了！**`
         });
 
         // Kill the player

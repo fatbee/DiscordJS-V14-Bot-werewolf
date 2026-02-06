@@ -101,7 +101,7 @@ module.exports = new Component({
         if (isWerewolf) {
             // Knight wins - target dies
             await interaction.channel.send({
-                content: `⚔️ **${knightDisplay} (騎士) 對 ${targetDisplay} 發起決鬥！**\n\n💀 ${targetDisplay} 是 ${getRoleDisplay(targetPlayer.role)}，被騎士殺死！\n\n🌙 **立即進入黑夜階段...**`
+                content: `⚔️ **${knightDisplay} (騎士) 對 ${targetDisplay} 發起決鬥！**\n\n💀 ${targetDisplay} 被騎士殺死！\n\n🌙 **立即進入黑夜階段...**`
             });
 
             // Kill target
